@@ -26,11 +26,28 @@
             --z-index-menubar: 10;
             --z-index-tooltip: 30;
             --transition-duration: .14s;
+            --accent: 255, 144, 232;
+            --contrast-accent: 0, 0, 0;
+            --filled: 255, 255, 255;
+            --contrast-filled: 0, 0, 0;
+            --color: 0, 0, 0;
+            --parent-color: 0, 0, 0;
+            --primary: 0, 0, 0;
+            --contrast-primary: 255, 255, 255;
+            --info: 144, 168, 237;
+            --success: 35, 160, 148;
+            --warning: 255, 201, 0;
+            --danger: 220, 52, 30;
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
                 --body-bg: #242423;
+                --color: 221, 221, 221;
+                --filled: 0, 0, 0;
+                --contrast-filled: 221, 221, 221;
+                --primary: 221, 221, 221;
+                --contrast-primary: 0, 0, 0;
             }
         }
 
@@ -70,26 +87,20 @@
 
         .accent.button {
             background-color: rgb(var(--accent));
-            --color: var(--contrast-accent);
-            --parent-color: inherit;
-            color: rgb(var(--color));
-            --active-bg: rgb(var(--color)/.1);
+            color: rgb(var(--contrast-accent));
+            --active-bg: rgb(var(--contrast-accent)/.1);
         }
 
         .filled.button {
             background-color: rgb(var(--filled));
-            --color: var(--contrast-filled);
-            --parent-color: inherit;
-            color: rgb(var(--color));
-            --active-bg: rgb(var(--color)/.1);
+            color: rgb(var(--contrast-filled));
+            --active-bg: rgb(var(--contrast-filled)/.1);
         }
 
         .product-cta {
             background-color: rgb(var(--filled));
-            --color: var(--contrast-filled);
-            --parent-color: inherit;
-            color: rgb(var(--color));
-            --active-bg: rgb(var(--color)/.1);
+            color: rgb(var(--contrast-filled));
+            --active-bg: rgb(var(--contrast-filled)/.1);
             justify-content: space-between;
             align-items: center;
             gap: 1rem;
@@ -107,10 +118,8 @@
             text-align: left;
             z-index: var(--z-index-tooltip);
             background-color: rgb(var(--primary));
-            --color: var(--contrast-primary);
-            --parent-color: inherit;
-            color: rgb(var(--color));
-            --active-bg: rgb(var(--color)/.1);
+            color: rgb(var(--contrast-primary));
+            --active-bg: rgb(var(--contrast-primary)/.1);
             border: solid .0625rem rgb(var(--parent-color)/var(--border-alpha));
             width: 10rem;
             max-width: max-content;
@@ -128,10 +137,8 @@
         .pill {
             vertical-align: middle;
             background-color: rgb(var(--filled));
-            --color: var(--contrast-filled);
-            --parent-color: inherit;
-            color: rgb(var(--color));
-            --active-bg: rgb(var(--color)/.1);
+            color: rgb(var(--contrast-filled));
+            --active-bg: rgb(var(--contrast-filled)/.1);
             border: solid .0625rem rgb(var(--parent-color)/var(--border-alpha));
             white-space: nowrap;
             text-overflow: ellipsis;
@@ -189,11 +196,9 @@
             position: relative;
             border: solid .0625rem rgb(var(--parent-color)/var(--border-alpha));
             background-color: rgb(var(--filled));
-            --color: var(--contrast-filled);
-            --parent-color: inherit;
             width: 100%;
-            color: rgb(var(--color));
-            --active-bg: rgb(var(--color)/.1);
+            color: rgb(var(--contrast-filled));
+            --active-bg: rgb(var(--contrast-filled)/.1);
             border-radius: .25rem;
             padding: .75rem 1rem;
             font-family: inherit;
@@ -210,10 +215,8 @@
         .dropdown {
             border: solid .0625rem rgb(var(--parent-color)/var(--border-alpha));
             background-color: rgb(var(--filled));
-            --color: var(--contrast-filled);
-            --parent-color: inherit;
-            color: rgb(var(--color));
-            --active-bg: rgb(var(--color)/.1);
+            color: rgb(var(--contrast-filled));
+            --active-bg: rgb(var(--contrast-filled)/.1);
             border-radius: .25rem;
             max-width: calc(100vw - 2rem);
             margin-top: .5rem;
@@ -328,6 +331,25 @@
             border-top: 1px solid #e5e5e5;
             margin: 3rem 0;
         }
+
+        .header {
+            background-color: rgb(var(--filled));
+            color: rgb(var(--contrast-filled));
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .nav-link {
+            color: inherit;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(var(--contrast-filled), 0.1);
+        }
     </style>
 </head>
 <body id="product_page" class="group/body mac">
@@ -338,6 +360,27 @@
     <div role="alert" class="alert bg-filled px-4 py-2 text-center max-w-md" id="alert-component">
         <!-- Alert content will be inserted here -->
     </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <a href="#" class="logo-full mr-8" aria-label="Soft Tech Solutions"></a>
+                    <nav class="hidden md:flex space-x-4">
+                        <a href="#services" class="nav-link">Services</a>
+                        <a href="#customers" class="nav-link">Customers</a>
+                        <a href="#portfolio" class="nav-link">Portfolio</a>
+                        <a href="#pricing" class="nav-link">Pricing</a>
+                    </nav>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="button filled">Login</button>
+                    <button class="button accent" id="header-subscribe-button">Try It Free</button>
+                </div>
+            </div>
+        </div>
+    </header>
 
     <div class="flex flex-col lg:flex-row h-screen">
         <main class="flex-1 flex flex-col lg:h-screen overflow-y-auto">
@@ -364,8 +407,20 @@
                     </div>
                 </section>
 
+                <!-- Hero Section -->
+                <section class="bg-gradient-to-r from-purple-500 to-pink-500 text-white py-16 lg:py-24">
+                    <div class="container mx-auto px-4 text-center">
+                        <h1 class="text-4xl lg:text-6xl font-bold mb-6">Grow Your Business with Expert Marketing</h1>
+                        <p class="text-xl lg:text-2xl mb-8 max-w-3xl mx-auto">We help startups, small businesses, and medium-sized companies with marketing and brand exposure. Get a free domain and 1 year free with our membership plan.</p>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4">
+                            <button class="button accent text-lg py-3 px-8" style="align-items:unset">Start Your Free Year</button>
+                            <button class="button filled text-lg py-3 px-8" style="align-items:unset">Learn More</button>
+                        </div>
+                    </div>
+                </section>
+
                 <!-- Main Product Section -->
-                <section class="relative border-b border-border px-4 py-8 lg:py-16">
+                <section class="relative border-b border-border px-4 py-8 lg:py-16" id="pricing">
                     <div class="mx-auto grid w-full max-w-6xl gap-6">
                         <div class="mx-auto w-full max-w-6xl">
                             <div style="position:absolute;top:var(--spacer-3);left:var(--spacer-3);z-index:var(--z-index-overlay)">
@@ -418,7 +473,7 @@
                                 </section>
                                 
                                 <!-- What We Offer Section -->
-                                <section class="mt-12">
+                                <section class="mt-12" id="services">
                                     <h2 class="text-3xl font-bold mb-6 text-center">What We Offer</h2>
                                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                         <!-- Service 1 -->
@@ -514,7 +569,7 @@
                                 </section>
                                 
                                 <!-- Recent Customers Section -->
-                                <section class="mt-12">
+                                <section class="mt-12" id="customers">
                                     <h2 class="text-3xl font-bold mb-6 text-center">Recent Customers</h2>
                                     <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                                         <div class="text-center">
@@ -563,7 +618,7 @@
                                 </section>
                                 
                                 <!-- Our Complete Service Portfolio -->
-                                <section class="mt-12">
+                                <section class="mt-12" id="portfolio">
                                     <h2 class="text-3xl font-bold mb-6 text-center">Our Complete Service Portfolio</h2>
                                     <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -718,8 +773,11 @@
                         </div>
                     </div>
                 </section>
-                <footer class="py-8 text-center lg:py-16">
-                    Powered by <a href="#" class="logo-full" aria-label="Gumroad"></a>
+                <footer class="py-8 text-center lg:py-16 bg-gray-100">
+                    <div class="container mx-auto px-4">
+                        <p class="mb-4">Powered by <a href="#" class="logo-full" aria-label="Gumroad"></a></p>
+                        <p>&copy; 2025 Soft Tech Solutions. All rights reserved.</p>
+                    </div>
                 </footer>
             </div>
         </main>
@@ -781,7 +839,7 @@
         // Subscription Management
         const Subscription = {
             init: () => {
-                const subscribeButtons = document.querySelectorAll('#subscribe-button, #main-subscribe-button');
+                const subscribeButtons = document.querySelectorAll('#subscribe-button, #main-subscribe-button, #header-subscribe-button');
                 
                 subscribeButtons.forEach(button => {
                     button.addEventListener('click', () => {
