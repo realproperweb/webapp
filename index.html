@@ -3,941 +3,695 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marketing & Branding Membership | Soft Tech Solutions</title>
+    <title>Business Toolkit | Web Presence & Brand Extension</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Custom CSS based on the provided Gumroad styles */
         :root {
-            --spacing: .25rem;
-            --body-bg: #f4f4f0;
-            --color-pink: #ff90e8;
-            --color-purple: #90a8ed;
-            --color-green: #23a094;
-            --color-orange: #ffc900;
-            --color-red: #dc341e;
-            --color-yellow: #f1f333;
-            --color-gray: #f4f4f0;
-            --color-dark-gray: #242423;
-            --color-black: #000;
-            --color-white: #fff;
-            --font-family: 'ABC Favorit', Avenir, Montserrat, Corbel, 'URW Gothic', source-sans-pro, sans-serif;
-            --border-alpha: 1;
-            --z-index-menubar: 10;
-            --z-index-tooltip: 30;
-            --transition-duration: .14s;
-            --accent: 255, 144, 232;
-            --contrast-accent: 0, 0, 0;
-            --filled: 255, 255, 255;
-            --contrast-filled: 0, 0, 0;
-            --color: 0, 0, 0;
-            --parent-color: 0, 0, 0;
-            --primary: 0, 0, 0;
-            --contrast-primary: 255, 255, 255;
-            --info: 144, 168, 237;
-            --success: 35, 160, 148;
-            --warning: 255, 201, 0;
-            --danger: 220, 52, 30;
+            --theme-color: #f4f4f0;
+            --section-color: #ffffff;
         }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --body-bg: #242423;
-                --color: 221, 221, 221;
-                --filled: 0, 0, 0;
-                --contrast-filled: 221, 221, 221;
-                --primary: 221, 221, 221;
-                --contrast-primary: 0, 0, 0;
-            }
-        }
-
+        
         body {
-            font-family: var(--font-family);
-            background-color: var(--body-bg);
-            color: rgb(var(--color));
-            margin: 0;
-            padding: 0;
-            line-height: 1.4;
+            background-color: var(--theme-color);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
-
-        .button {
-            border: solid .0625rem rgb(var(--parent-color)/var(--border-alpha));
-            color: currentColor;
-            cursor: pointer;
-            transition-timing-function: ease-out;
-            transition-duration: var(--transition-duration);
-            background: transparent;
-            border-radius: .25rem;
-            justify-content: center;
-            align-items: center;
-            gap: .5rem;
-            padding: .75rem 1rem;
-            font-family: inherit;
-            font-size: 1rem;
-            line-height: 1.4;
-            text-decoration: none;
-            transition-property: transform;
-            display: inline-flex;
+        
+        .section-bg {
+            background-color: var(--section-color);
         }
-
-        .button:hover:not(:active):not(:disabled) {
-            box-shadow: .25rem .25rem 0rem rgb(var(--color));
-            transform: translate(-.25rem, -.25rem);
+        
+        .btn-primary {
+            background-color: #000000;
+            color: white;
+            transition: all 0.3s ease;
         }
-
-        .accent.button {
-            background-color: rgb(var(--accent));
-            color: rgb(var(--contrast-accent));
-            --active-bg: rgb(var(--contrast-accent)/.1);
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
-
-        .filled.button {
-            background-color: rgb(var(--filled));
-            color: rgb(var(--contrast-filled));
-            --active-bg: rgb(var(--contrast-filled)/.1);
+        
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid #000000;
+            color: #000000;
+            transition: all 0.3s ease;
         }
-
-        .product-cta {
-            background-color: rgb(var(--filled));
-            color: rgb(var(--contrast-filled));
-            --active-bg: rgb(var(--contrast-filled)/.1);
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            display: flex;
+        
+        .btn-secondary:hover {
+            background-color: #f8f8f8;
         }
-
-        .has-tooltip {
-            display: inline-grid;
-            position: relative;
-        }
-
-        .has-tooltip [role=tooltip] {
-            font-family: var(--font-family);
-            text-align: left;
-            z-index: var(--z-index-tooltip);
-            background-color: rgb(var(--primary));
-            color: rgb(var(--contrast-primary));
-            --active-bg: rgb(var(--contrast-primary)/.1);
-            border: solid .0625rem rgb(var(--parent-color)/var(--border-alpha));
-            width: 10rem;
-            max-width: max-content;
-            bottom: unset;
-            border-radius: .25rem;
-            padding: .75rem;
-            display: none;
-            top: calc(100% + .5rem);
-        }
-
-        .has-tooltip:hover [role=tooltip] {
-            display: block;
-        }
-
-        .pill {
-            vertical-align: middle;
-            background-color: rgb(var(--filled));
-            color: rgb(var(--contrast-filled));
-            --active-bg: rgb(var(--contrast-filled)/.1);
-            border: solid .0625rem rgb(var(--parent-color)/var(--border-alpha));
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            border-radius: 10rem;
-            padding: .5rem .75rem;
-            display: inline-block;
+        
+        .service-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 12px;
             overflow: hidden;
         }
-
-        .radio-buttons[role=radiogroup] {
-            grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
-            gap: 1rem;
-            display: grid;
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
-
-        .radio-buttons[role=radiogroup] button[role=radio] {
-            text-align: initial;
-            align-items: flex-start;
-            justify-content: initial;
-            gap: .75rem;
+        
+        .package-card {
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
-        .radio-buttons[role=radiogroup] button[role=radio][aria-checked=true] {
-            background-color: var(--active-bg);
-            box-shadow: .25rem .25rem 0rem rgb(var(--color));
-            transform: translate(-.25rem, -.25rem);
+        
+        .package-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
-
-        [role=status] {
-            border: solid .0625rem rgb(var(--parent-color)/var(--border-alpha));
-            border-radius: .25rem;
-            grid-template-columns: 1fr;
-            align-items: start;
-            gap: .5rem;
-            padding: .75rem;
-            display: grid;
+        
+        .feature-badge {
+            background-color: #000000;
+            color: white;
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
         }
-
-        [role=status].info {
-            border-color: rgb(var(--info));
-            background-color: rgb(var(--info)/.2);
-        }
-
-        .combobox {
-            position: relative;
-        }
-
-        .input {
-            align-items: center;
-            gap: .5rem;
-            min-height: 3.025rem;
-            padding-top: 0;
-            padding-bottom: 0;
-            display: inline-flex;
-            position: relative;
-            border: solid .0625rem rgb(var(--parent-color)/var(--border-alpha));
-            background-color: rgb(var(--filled));
-            width: 100%;
-            color: rgb(var(--contrast-filled));
-            --active-bg: rgb(var(--contrast-filled)/.1);
-            border-radius: .25rem;
-            padding: .75rem 1rem;
-            font-family: inherit;
-            font-size: 1rem;
-            line-height: 1.4;
-            display: block;
-        }
-
-        .popover {
-            display: inline-block;
-            position: relative;
-        }
-
-        .dropdown {
-            border: solid .0625rem rgb(var(--parent-color)/var(--border-alpha));
-            background-color: rgb(var(--filled));
-            color: rgb(var(--contrast-filled));
-            --active-bg: rgb(var(--contrast-filled)/.1);
-            border-radius: .25rem;
-            max-width: calc(100vw - 2rem);
-            margin-top: .5rem;
-            padding: 1rem;
-            position: relative;
-        }
-
-        .icon {
-            content: "\a0";
-            background: currentColor;
-            flex-shrink: 0;
-            width: 1em;
-            min-height: max(1lh, 1em);
-            display: inline-block;
-            -webkit-mask-position: 50%;
-            mask-position: 50%;
-            -webkit-mask-size: 120%;
-            mask-size: 120%;
-            -webkit-mask-repeat: no-repeat;
-            mask-repeat: no-repeat;
-        }
-
-        .icon-plus {
-            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath d='M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z'/%3E%3C/svg%3E");
-            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath d='M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z'/%3E%3C/svg%3E");
-        }
-
-        .icon-pencil {
-            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z'/%3E%3C/svg%3E");
-            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z'/%3E%3C/svg%3E");
-        }
-
-        .icon-share {
-            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath d='M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z'/%3E%3C/svg%3E");
-            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath d='M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z'/%3E%3C/svg%3E");
-        }
-
-        .icon-link {
-            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath d='M6.354 5.5H4a3 3 0 0 0 0 6h3a3 3 0 0 0 2.83-4H9c-.086 0-.17.01-.25.031A2 2 0 0 1 7 10.5H4a2 2 0 1 1 0-4h1.535c.218-.376.495-.714.82-1z'/%3E%3Cpath d='M9 5.5a3 3 0 0 0-2.83 4h1.098A2 2 0 0 1 9 6.5h3a2 2 0 1 1 0 4h-1.535a4.02 4.02 0 0 1-.82 1H12a3 3 0 1 0 0-6H9z'/%3E%3C/svg%3E");
-            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath d='M6.354 5.5H4a3 3 0 0 0 0 6h3a3 3 0 0 0 2.83-4H9c-.086 0-.17.01-.25.031A2 2 0 0 1 7 10.5H4a2 2 0 1 1 0-4h1.535c.218-.376.495-.714.82-1z'/%3E%3Cpath d='M9 5.5a3 3 0 0 0-2.83 4h1.098A2 2 0 0 1 9 6.5h3a2 2 0 1 1 0 4h-1.535a4.02 4.02 0 0 1-.82 1H12a3 3 0 1 0 0-6H9z'/%3E%3C/svg%3E");
-        }
-
-        .logo-full {
-            content: "\a0";
-            background: currentColor;
-            flex-shrink: 0;
-            width: 1em;
-            min-height: max(1lh, 1em);
-            display: inline-block;
-            -webkit-mask-position: 50%;
-            mask-position: 50%;
-            -webkit-mask-size: 120%;
-            mask-size: 120%;
-            -webkit-mask-repeat: no-repeat;
-            mask-repeat: no-repeat;
-            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='24' viewBox='0 0 96 24'%3E%3Cpath fill='currentColor' d='M24 12c0 6.627-5.373 12-12 12S0 18.627 0 12 5.373 0 12 0s12 5.373 12 12Zm-4.8 0a7.2 7.2 0 1 1-14.4 0 7.2 7.2 0 0 1 14.4 0Z'/%3E%3Cpath fill='currentColor' d='M48 12c0 6.627-5.373 12-12 12s-12-5.373-12-12 5.373-12 12-12 12 5.373 12 12Zm-4.8 0a7.2 7.2 0 1 1-14.4 0 7.2 7.2 0 0 1 14.4 0Z'/%3E%3Cpath fill='currentColor' d='M72 12c0 6.627-5.373 12-12 12s-12-5.373-12-12 5.373-12 12-12 12 5.373 12 12Zm-4.8 0a7.2 7.2 0 1 1-14.4 0 7.2 7.2 0 0 1 14.4 0Z'/%3E%3C/svg%3E");
-            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='24' viewBox='0 0 96 24'%3E%3Cpath fill='currentColor' d='M24 12c0 6.627-5.373 12-12 12S0 18.627 0 12 5.373 0 12 0s12 5.373 12 12Zm-4.8 0a7.2 7.2 0 1 1-14.4 0 7.2 7.2 0 0 1 14.4 0Z'/%3E%3Cpath fill='currentColor' d='M48 12c0 6.627-5.373 12-12 12s-12-5.373-12-12 5.373-12 12-12 12 5.373 12 12Zm-4.8 0a7.2 7.2 0 1 1-14.4 0 7.2 7.2 0 0 1 14.4 0Z'/%3E%3Cpath fill='currentColor' d='M72 12c0 6.627-5.373 12-12 12s-12-5.373-12-12 5.373-12 12-12 12 5.373 12 12Zm-4.8 0a7.2 7.2 0 1 1-14.4 0 7.2 7.2 0 0 1 14.4 0Z'/%3E%3C/svg%3E");
-            width: 6rem;
-            height: 1.5rem;
-        }
-
-        .user-avatar {
-            aspect-ratio: 1;
-            border: solid .0625rem rgb(var(--parent-color)/var(--border-alpha));
-            border-radius: 10rem;
-            flex-shrink: 0;
-            width: 1.25em;
-        }
-
-        .alert {
-            position: fixed;
-            top: 1rem;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: var(--z-index-tooltip);
-            transition: all 0.3s ease-out 0.5s;
-            visibility: hidden;
-            opacity: 0;
-        }
-
-        .alert.show {
-            visibility: visible;
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .user-agent-info, .design-settings {
-            display: none;
-        }
-
-        .service-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: #ff90e8;
-        }
-
-        .customer-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .section-divider {
-            border-top: 1px solid #e5e5e5;
-            margin: 3rem 0;
-        }
-
-        .header {
-            background-color: rgb(var(--filled));
-            color: rgb(var(--contrast-filled));
-            padding: 1rem 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
+        
         .nav-link {
-            color: inherit;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 0.25rem;
-            transition: background-color 0.2s;
+            position: relative;
+            transition: color 0.3s ease;
         }
-
+        
         .nav-link:hover {
-            background-color: rgba(var(--contrast-filled), 0.1);
+            color: #000000;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #000000;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
         }
     </style>
 </head>
-<body id="product_page" class="group/body mac">
-    <div id="design-settings" data-settings='{"font":{"name":"ABC Favorit","url":"https://assets.gumroad.com/assets/ABCFavorit-Regular-26182c8c3addf6e4f8889817249c23b22c93233a8212e5e86574459e4dc926e2.woff2"}}' class="design-settings"></div>
-    <div id="user-agent-info" data-settings='{"is_mobile":false}' class="user-agent-info"></div>
-    
-    <!-- Alert Component -->
-    <div role="alert" class="alert bg-filled px-4 py-2 text-center max-w-md" id="alert-component">
-        <!-- Alert content will be inserted here -->
-    </div>
-
+<body class="min-h-screen">
     <!-- Header -->
-    <header class="header">
-        <div class="container mx-auto px-4">
+    <header class="sticky top-0 z-50 section-bg shadow-sm">
+        <div class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
                 <div class="flex items-center">
-                    <a href="#" class="logo-full mr-8" aria-label="Soft Tech Solutions"></a>
-                    <nav class="hidden md:flex space-x-4">
-                        <a href="#services" class="nav-link">Services</a>
-                        <a href="#customers" class="nav-link">Customers</a>
-                        <a href="#portfolio" class="nav-link">Portfolio</a>
-                        <a href="#pricing" class="nav-link">Pricing</a>
-                    </nav>
+                    <div class="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white font-bold mr-3">BT</div>
+                    <h1 class="text-xl font-bold">Business Toolkit</h1>
                 </div>
+                
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#services" class="nav-link text-gray-600">Services</a>
+                    <a href="#package" class="nav-link text-gray-600">Package</a>
+                    <a href="#process" class="nav-link text-gray-600">Process</a>
+                    <a href="#testimonials" class="nav-link text-gray-600">Testimonials</a>
+                    <a href="#faq" class="nav-link text-gray-600">FAQ</a>
+                </nav>
+                
                 <div class="flex items-center space-x-4">
-                    <button class="button filled">Login</button>
-                    <button class="button accent" id="header-subscribe-button">Try It Free</button>
+                    <button class="btn-secondary px-4 py-2 rounded-lg font-medium">Login</button>
+                    <button class="btn-primary px-4 py-2 rounded-lg font-medium">Get Started</button>
+                    <button class="md:hidden text-gray-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </header>
 
-    <div class="flex flex-col lg:flex-row h-screen">
-        <main class="flex-1 flex flex-col lg:h-screen overflow-y-auto">
-            <div class="flex-1 flex flex-col">
-                <!-- Product Information Bar -->
-                <section aria-label="Product information bar" class="border-0" style="overflow:hidden;padding:0;height:0;transition:var(--transition-duration);flex-shrink:0;position:fixed;top:0;left:0;right:0;z-index:var(--z-index-menubar)" id="product-info-bar">
-                    <div class="product-cta" style="transition:var(--transition-duration);margin-top:0">
-                        <div itemscope itemProp="offers" itemType="https://schema.org/Offer" class="flex items-center">
-                            <div class="has-tooltip right grid-flow-col border border-r-0 border-border" aria-describedby="price-tooltip">
-                                <div class="bg-accent px-2 py-1 text-accent-foreground" itemProp="price" content="119.99">$119.99 a month x 12</div>
-                                <div class="border-border border-r-transparent border-[calc(0.5lh+--spacing(1))] border-l-1"></div>
-                                <div class="absolute top-0 right-px bottom-0 border-accent border-r-transparent border-[calc(0.5lh+--spacing(1))] border-l-1"></div>
-                                <div role="tooltip" id="price-tooltip">$119.99 a month x 12</div>
-                            </div>
-                            <link itemProp="url" href="#"/>
-                            <div itemProp="availability" hidden>https://schema.org/InStock</div>
-                            <div itemProp="priceCurrency" hidden>usd</div>
-                            <div itemProp="seller" itemType="https://schema.org/Person" hidden>
-                                <div itemProp="name" hidden>Soft Tech Solutions</div>
-                            </div>
-                        </div>
-                        <h3>Marketing & Branding Membership</h3>
-                        <button class="button accent" id="subscribe-button" style="align-items:unset">Try It Free</button>
+    <!-- Hero Section -->
+    <section class="py-16 md:py-24 section-bg">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">Build Your Online Presence & Brand Extension</h1>
+                <p class="text-xl text-gray-600 mb-10">We help startups, small and medium businesses establish and grow their digital footprint with affordable, comprehensive solutions.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button class="btn-primary px-8 py-4 rounded-lg text-lg font-semibold">Get Our Package - $119</button>
+                    <button class="btn-secondary px-8 py-4 rounded-lg text-lg font-semibold">View All Services</button>
+                </div>
+                <div class="mt-10 flex flex-wrap justify-center gap-4">
+                    <div class="flex items-center">
+                        <i class="fas fa-check text-green-500 mr-2"></i>
+                        <span class="text-gray-600">Free Domain Name</span>
                     </div>
-                </section>
-
-                <!-- Hero Section -->
-                <section class="bg-gradient-to-r from-purple-500 to-pink-500 text-white py-16 lg:py-24">
-                    <div class="container mx-auto px-4 text-center">
-                        <h1 class="text-4xl lg:text-6xl font-bold mb-6">Grow Your Business with Expert Marketing</h1>
-                        <p class="text-xl lg:text-2xl mb-8 max-w-3xl mx-auto">We help startups, small businesses, and medium-sized companies with marketing and brand exposure. Get a free domain and 1 year free with our membership plan.</p>
-                        <div class="flex flex-col sm:flex-row justify-center gap-4">
-                            <button class="button accent text-lg py-3 px-8" style="align-items:unset">Start Your Free Year</button>
-                            <button class="button filled text-lg py-3 px-8" style="align-items:unset">Learn More</button>
-                        </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-check text-green-500 mr-2"></i>
+                        <span class="text-gray-600">Free 1 Year Hosting</span>
                     </div>
-                </section>
-
-                <!-- Main Product Section -->
-                <section class="relative border-b border-border px-4 py-8 lg:py-16" id="pricing">
-                    <div class="mx-auto grid w-full max-w-6xl gap-6">
-                        <div class="mx-auto w-full max-w-6xl">
-                            <div style="position:absolute;top:var(--spacer-3);left:var(--spacer-3);z-index:var(--z-index-overlay)">
-                                <span class="has-tooltip right">
-                                    <span aria-describedby="edit-tooltip" style="display:contents">
-                                        <button class="button filled" id="edit-button" aria-label="Edit product">
-                                            <span class="icon icon-pencil"></span>
-                                        </button>
-                                    </span>
-                                    <span role="tooltip" id="edit-tooltip">Edit product</span>
-                                </span>
-                            </div>
-                            <article class="product">
-                                <figure class="group relative col-[1/-1] pb-[25%]" aria-label="Product preview">
-                                    <div class="flex h-full snap-x snap-mandatory items-center overflow-x-scroll overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                                        <!-- Product image placeholder -->
-                                        <div class="w-full h-64 bg-gradient-to-r from-purple-400 to-pink-500 flex items-center justify-center text-white text-xl font-bold">
-                                            Marketing & Branding Solutions
-                                        </div>
-                                    </div>
-                                </figure>
-                                <section>
-                                    <header>
-                                        <h1 itemProp="name" class="text-4xl font-bold mb-4">Marketing & Branding Membership</h1>
-                                    </header>
-                                    <section class="details">
-                                        <div style="display:flex;align-items:center;gap:var(--spacer-2);flex-wrap:wrap">
-                                            <div class="user relative">
-                                                <img class="user-avatar" src="https://public-files.gumroad.com/vvs5s9xruuk2v4zcen89p6a0czxk" alt="Soft Tech Solutions"/>
-                                                Soft Tech Solutions
-                                            </div>
-                                        </div>
-                                    </section>
-                                    <section class="mt-6">
-                                        <div class="rich-text">
-                                            <p class="text-lg mb-4">We help startups, small businesses, and medium-sized companies with marketing and brand exposure.</p>
-                                            <ul class="list-disc pl-5 mb-4">
-                                                <li>Free domain name included</li>
-                                                <li>1 year free with our membership plan</li>
-                                                <li>Professional marketing strategy development</li>
-                                                <li>Social media management and content creation</li>
-                                                <li>Brand identity design</li>
-                                                <li>SEO optimization</li>
-                                                <li>Email marketing campaigns</li>
-                                                <li>Analytics and performance tracking</li>
-                                            </ul>
-                                            <p class="font-semibold">Try it for free and see for yourself why it's worth EVERY penny!</p>
-                                        </div>
-                                    </section>
-                                </section>
-                                
-                                <!-- What We Offer Section -->
-                                <section class="mt-12" id="services">
-                                    <h2 class="text-3xl font-bold mb-6 text-center">What We Offer</h2>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                        <!-- Service 1 -->
-                                        <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                                            <div class="service-icon text-center">
-                                                <i class="fas fa-bullseye"></i>
-                                            </div>
-                                            <h3 class="text-xl font-bold mb-3 text-center">Strategic Marketing Planning</h3>
-                                            <ul class="list-disc pl-5">
-                                                <li>Comprehensive market analysis</li>
-                                                <li>Competitor research</li>
-                                                <li>Target audience identification</li>
-                                                <li>Brand positioning strategy</li>
-                                                <li>Marketing funnel development</li>
-                                            </ul>
-                                        </div>
-                                        
-                                        <!-- Service 2 -->
-                                        <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                                            <div class="service-icon text-center">
-                                                <i class="fas fa-palette"></i>
-                                            </div>
-                                            <h3 class="text-xl font-bold mb-3 text-center">Brand Identity Development</h3>
-                                            <ul class="list-disc pl-5">
-                                                <li>Logo design and brand guidelines</li>
-                                                <li>Color palette and typography selection</li>
-                                                <li>Brand voice and messaging</li>
-                                                <li>Visual identity system</li>
-                                                <li>Brand asset creation</li>
-                                            </ul>
-                                        </div>
-                                        
-                                        <!-- Service 3 -->
-                                        <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                                            <div class="service-icon text-center">
-                                                <i class="fas fa-hashtag"></i>
-                                            </div>
-                                            <h3 class="text-xl font-bold mb-3 text-center">Social Media Management</h3>
-                                            <ul class="list-disc pl-5">
-                                                <li>Content strategy development</li>
-                                                <li>Platform-specific content creation</li>
-                                                <li>Community engagement</li>
-                                                <li>Social media advertising</li>
-                                                <li>Performance analytics</li>
-                                            </ul>
-                                        </div>
-                                        
-                                        <!-- Service 4 -->
-                                        <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                                            <div class="service-icon text-center">
-                                                <i class="fas fa-search"></i>
-                                            </div>
-                                            <h3 class="text-xl font-bold mb-3 text-center">SEO & Content Marketing</h3>
-                                            <ul class="list-disc pl-5">
-                                                <li>Keyword research and strategy</li>
-                                                <li>On-page and technical SEO</li>
-                                                <li>Content creation and optimization</li>
-                                                <li>Link building campaigns</li>
-                                                <li>Local SEO optimization</li>
-                                            </ul>
-                                        </div>
-                                        
-                                        <!-- Service 5 -->
-                                        <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                                            <div class="service-icon text-center">
-                                                <i class="fas fa-envelope"></i>
-                                            </div>
-                                            <h3 class="text-xl font-bold mb-3 text-center">Email Marketing</h3>
-                                            <ul class="list-disc pl-5">
-                                                <li>Email list building strategies</li>
-                                                <li>Newsletter design and creation</li>
-                                                <li>Automated email sequences</li>
-                                                <li>Segmentation and personalization</li>
-                                                <li>Performance tracking and optimization</li>
-                                            </ul>
-                                        </div>
-                                        
-                                        <!-- Service 6 -->
-                                        <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                                            <div class="service-icon text-center">
-                                                <i class="fas fa-chart-line"></i>
-                                            </div>
-                                            <h3 class="text-xl font-bold mb-3 text-center">Analytics & Performance</h3>
-                                            <ul class="list-disc pl-5">
-                                                <li>Marketing performance dashboards</li>
-                                                <li>ROI tracking and reporting</li>
-                                                <li>Conversion rate optimization</li>
-                                                <li>Customer journey analysis</li>
-                                                <li>Data-driven strategy adjustments</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </section>
-                                
-                                <!-- Recent Customers Section -->
-                                <section class="mt-12" id="customers">
-                                    <h2 class="text-3xl font-bold mb-6 text-center">Recent Customers</h2>
-                                    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                                        <div class="text-center">
-                                            <div class="customer-icon text-blue-500">
-                                                <i class="fas fa-coffee"></i>
-                                            </div>
-                                            <p class="font-semibold">Brew & Bean</p>
-                                            <p class="text-sm">Coffee Shop</p>
-                                        </div>
-                                        <div class="text-center">
-                                            <div class="customer-icon text-green-500">
-                                                <i class="fas fa-leaf"></i>
-                                            </div>
-                                            <p class="font-semibold">EcoLife</p>
-                                            <p class="text-sm">Sustainable Products</p>
-                                        </div>
-                                        <div class="text-center">
-                                            <div class="customer-icon text-purple-500">
-                                                <i class="fas fa-laptop-code"></i>
-                                            </div>
-                                            <p class="font-semibold">TechNova</p>
-                                            <p class="text-sm">SaaS Platform</p>
-                                        </div>
-                                        <div class="text-center">
-                                            <div class="customer-icon text-red-500">
-                                                <i class="fas fa-utensils"></i>
-                                            </div>
-                                            <p class="font-semibold">FlavorFusion</p>
-                                            <p class="text-sm">Restaurant</p>
-                                        </div>
-                                        <div class="text-center">
-                                            <div class="customer-icon text-yellow-500">
-                                                <i class="fas fa-gem"></i>
-                                            </div>
-                                            <p class="font-semibold">LuxeStyle</p>
-                                            <p class="text-sm">Fashion Brand</p>
-                                        </div>
-                                        <div class="text-center">
-                                            <div class="customer-icon text-indigo-500">
-                                                <i class="fas fa-dumbbell"></i>
-                                            </div>
-                                            <p class="font-semibold">FitLife Gym</p>
-                                            <p class="text-sm">Fitness Center</p>
-                                        </div>
-                                    </div>
-                                </section>
-                                
-                                <!-- Our Complete Service Portfolio -->
-                                <section class="mt-12" id="portfolio">
-                                    <h2 class="text-3xl font-bold mb-6 text-center">Our Complete Service Portfolio</h2>
-                                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div>
-                                                <h3 class="text-xl font-bold mb-3">Marketing Strategy</h3>
-                                                <ul class="list-disc pl-5">
-                                                    <li>Comprehensive market research and analysis</li>
-                                                    <li>Competitive landscape assessment</li>
-                                                    <li>Target audience profiling and segmentation</li>
-                                                    <li>Brand positioning and messaging strategy</li>
-                                                    <li>Marketing funnel development and optimization</li>
-                                                    <li>Budget planning and allocation</li>
-                                                    <li>Performance metrics and KPIs establishment</li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <h3 class="text-xl font-bold mb-3">Brand Development</h3>
-                                                <ul class="list-disc pl-5">
-                                                    <li>Brand identity creation (logo, colors, typography)</li>
-                                                    <li>Brand voice and personality development</li>
-                                                    <li>Brand guidelines and style guide creation</li>
-                                                    <li>Brand storytelling and narrative development</li>
-                                                    <li>Brand asset creation (photography, illustrations)</li>
-                                                    <li>Brand consistency audits and maintenance</li>
-                                                    <li>Rebranding strategy and implementation</li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <h3 class="text-xl font-bold mb-3">Digital Marketing</h3>
-                                                <ul class="list-disc pl-5">
-                                                    <li>Search Engine Optimization (SEO) strategy</li>
-                                                    <li>Pay-Per-Click (PPC) advertising campaigns</li>
-                                                    <li>Social media marketing and management</li>
-                                                    <li>Content marketing strategy and creation</li>
-                                                    <li>Email marketing campaigns and automation</li>
-                                                    <li>Influencer marketing partnerships</li>
-                                                    <li>Video marketing and production</li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <h3 class="text-xl font-bold mb-3">Creative Services</h3>
-                                                <ul class="list-disc pl-5">
-                                                    <li>Graphic design for digital and print materials</li>
-                                                    <li>Website design and user experience optimization</li>
-                                                    <li>Photography and videography production</li>
-                                                    <li>Copywriting for various marketing channels</li>
-                                                    <li>Presentation design and development</li>
-                                                    <li>Packaging design and product branding</li>
-                                                    <li>Trade show and event marketing materials</li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <h3 class="text-xl font-bold mb-3">Analytics & Optimization</h3>
-                                                <ul class="list-disc pl-5">
-                                                    <li>Marketing performance tracking and reporting</li>
-                                                    <li>Conversion rate optimization (CRO)</li>
-                                                    <li>Customer journey mapping and analysis</li>
-                                                    <li>A/B testing and multivariate testing</li>
-                                                    <li>Marketing attribution modeling</li>
-                                                    <li>ROI analysis and performance forecasting</li>
-                                                    <li>Competitive intelligence reporting</li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <h3 class="text-xl font-bold mb-3">Technology Solutions</h3>
-                                                <ul class="list-disc pl-5">
-                                                    <li>Marketing automation platform implementation</li>
-                                                    <li>CRM integration and optimization</li>
-                                                    <li>Marketing technology stack assessment</li>
-                                                    <li>Website and landing page development</li>
-                                                    <li>E-commerce platform optimization</li>
-                                                    <li>Marketing data integration and management</li>
-                                                    <li>Marketing operations and workflow optimization</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
-
-                                <section class="mt-8">
-                                    <section>
-                                        <div class="radio-buttons" role="radiogroup" itemProp="offers" itemType="https://schema.org/AggregateOffer" itemscope>
-                                            <button class="button" type="button" role="radio" aria-checked="true" aria-label="Marketing & Branding Membership" itemProp="offer" itemType="https://schema.org/Offer" itemscope style="flex-direction:column">
-                                                <div class="pill">
-                                                    $119.99 a month
-                                                    <div itemProp="price" hidden>119.99</div>
-                                                    <div itemProp="priceCurrency" hidden>usd</div>
-                                                </div>
-                                                <div>
-                                                    <h4 class="text-xl font-semibold mt-2">Marketing & Branding Membership</h4>
-                                                    <p class="text-sm mt-1">Includes free domain and 1 year free trial</p>
-                                                </div>
-                                            </button>
-                                            <div itemProp="offerCount" hidden>1</div>
-                                            <div itemProp="lowPrice" hidden>119.99</div>
-                                            <div itemProp="priceCurrency" hidden>usd</div>
-                                        </div>
-                                        <div role="status" class="info mt-4">
-                                            All memberships include a 1 year free trial
-                                        </div>
-                                        <div role="status" class="info mt-2">
-                                            This membership will automatically renew after 12 months
-                                        </div>
-                                        <button class="button accent w-full mt-6" id="main-subscribe-button" style="align-items:unset">Try It Free For 1 Year</button>
-                                        <div class="grid grid-cols-[1fr_auto] gap-2 mt-4">
-                                            <div class="combobox">
-                                                <div role="combobox" aria-expanded="false" aria-controls="wishlist-options" tabindex="0" class="input" aria-label="Add to wishlist">
-                                                    <span class="fake-input text-singleline">Add to wishlist</span>
-                                                    <span class="icon icon-plus"></span>
-                                                </div>
-                                                <div hidden>
-                                                    <datalist id="wishlist-options">
-                                                        <div role="option" id="wishlist-option-0" class="">
-                                                            <div><span class="icon icon-plus"></span> New wishlist</div>
-                                                        </div>
-                                                    </datalist>
-                                                </div>
-                                            </div>
-                                            <details class="popover toggle">
-                                                <summary aria-label="Share" aria-haspopup="true" aria-expanded="false">
-                                                    <span class="has-tooltip bottom">
-                                                        <span aria-describedby="share-tooltip" style="display:contents">
-                                                            <button class="button" type="button" aria-label="Share">
-                                                                <span class="icon icon-share"></span>
-                                                            </button>
-                                                        </span>
-                                                        <span role="tooltip" id="share-tooltip">Share</span>
-                                                    </span>
-                                                </summary>
-                                                <div class="dropdown" style="translate:min(0px - 100% - var(--spacer-4), 0px);max-width:calc(0px - 2 * var(--spacer-4))">
-                                                    <div class="grid grid-cols-1 gap-4">
-                                                        <button class="button button-social-twitter button-w-i" id="share-twitter">Share on X</button>
-                                                        <button class="button button-social-facebook button-w-i" id="share-facebook">Share on Facebook</button>
-                                                        <span class="has-tooltip">
-                                                            <span aria-describedby="copy-link-tooltip" style="display:contents">
-                                                                <span class="contents">
-                                                                    <button class="button" type="button" aria-label="Copy product URL" id="copy-link">
-                                                                        <span class="icon icon-link"></span> Copy link
-                                                                    </button>
-                                                                </span>
-                                                            </span>
-                                                            <span role="tooltip" id="copy-link-tooltip">Copy product URL</span>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </details>
-                                        </div>
-                                        <div class="text-center mt-4">30-day money back guarantee</div>
-                                    </section>
-                                </section>
-                            </article>
-                        </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-check text-green-500 mr-2"></i>
+                        <span class="text-gray-600">80% Off Web Development</span>
                     </div>
-                </section>
-                <footer class="py-8 text-center lg:py-16 bg-gray-100">
-                    <div class="container mx-auto px-4">
-                        <p class="mb-4">Powered by <a href="#" class="logo-full" aria-label="Gumroad"></a></p>
-                        <p>&copy; 2025 Soft Tech Solutions. All rights reserved.</p>
+                    <div class="flex items-center">
+                        <i class="fas fa-check text-green-500 mr-2"></i>
+                        <span class="text-gray-600">Cancel Anytime</span>
                     </div>
-                </footer>
+                </div>
             </div>
-        </main>
-    </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Comprehensive Business Services</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">From brand strategy to digital marketing, we offer everything you need to establish and grow your online presence.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service Card 1 -->
+                <div class="service-card section-bg p-6 rounded-xl shadow-sm">
+                    <div class="w-12 h-12 rounded-lg bg-black flex items-center justify-center text-white mb-4">
+                        <i class="fas fa-chess-queen text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Brand Strategy & Identity</h3>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Brand discovery sessions</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Brand positioning & differentiation</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Mission, vision, and values development</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Competitive analysis</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Service Card 2 -->
+                <div class="service-card section-bg p-6 rounded-xl shadow-sm">
+                    <div class="w-12 h-12 rounded-lg bg-black flex items-center justify-center text-white mb-4">
+                        <i class="fas fa-palette text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Creative & Design Services</h3>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Logo design</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Brand identity systems</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Social media branding kits</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Presentation & pitch deck design</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Service Card 3 -->
+                <div class="service-card section-bg p-6 rounded-xl shadow-sm">
+                    <div class="w-12 h-12 rounded-lg bg-black flex items-center justify-center text-white mb-4">
+                        <i class="fas fa-globe text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Website & Digital Presence</h3>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Website design & development</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>SEO-optimized content creation</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>E-commerce store setup</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Website maintenance & analytics</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Service Card 4 -->
+                <div class="service-card section-bg p-6 rounded-xl shadow-sm">
+                    <div class="w-12 h-12 rounded-lg bg-black flex items-center justify-center text-white mb-4">
+                        <i class="fas fa-hashtag text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Social Media Management</h3>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Social media strategy & calendar</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Content creation</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Audience engagement</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Influencer partnerships</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Service Card 5 -->
+                <div class="service-card section-bg p-6 rounded-xl shadow-sm">
+                    <div class="w-12 h-12 rounded-lg bg-black flex items-center justify-center text-white mb-4">
+                        <i class="fas fa-video text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Content Production</h3>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Video production</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Photography</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Copywriting</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Animation & motion graphics</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Service Card 6 -->
+                <div class="service-card section-bg p-6 rounded-xl shadow-sm">
+                    <div class="w-12 h-12 rounded-lg bg-black flex items-center justify-center text-white mb-4">
+                        <i class="fas fa-chart-line text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Digital Marketing & Advertising</h3>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Search Engine Optimization (SEO)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Pay-Per-Click advertising</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Social media advertising</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Email marketing campaigns</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <button class="btn-secondary px-6 py-3 rounded-lg font-medium">View All 10 Service Categories</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Package Section -->
+    <section id="package" class="py-16 section-bg">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Our Complete Business Package</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Everything you need to launch and grow your online presence at an unbeatable price.</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="package-card section-bg border border-gray-200 p-8 md:p-12">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+                        <div>
+                            <h3 class="text-2xl md:text-3xl font-bold mb-2">Complete Business Toolkit</h3>
+                            <p class="text-gray-600">Perfect for startups, small and medium businesses</p>
+                        </div>
+                        <div class="mt-4 md:mt-0">
+                            <div class="flex items-baseline">
+                                <span class="text-4xl font-bold">$119</span>
+                                <span class="text-gray-500 ml-2">one-time</span>
+                            </div>
+                            <div class="text-sm text-gray-500 mt-1">80% off regular price</div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="space-y-4">
+                            <h4 class="font-bold text-lg">What's Included:</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <span class="font-medium">Free Domain Name</span>
+                                        <p class="text-sm text-gray-600">Your custom .com domain for one year</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <span class="font-medium">Free 1 Year Hosting</span>
+                                        <p class="text-sm text-gray-600">Premium hosting with 99.9% uptime</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <span class="font-medium">Web Development at 80% Discount</span>
+                                        <p class="text-sm text-gray-600">Custom website design and development</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <h4 class="font-bold text-lg">Additional Benefits:</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <span class="font-medium">No Startup Fee</span>
+                                        <p class="text-sm text-gray-600">Get started without any hidden costs</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <span class="font-medium">Cancel Anytime</span>
+                                        <p class="text-sm text-gray-600">No long-term contracts or commitments</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <span class="font-medium">First Month Money-Back Guarantee</span>
+                                        <p class="text-sm text-gray-600">Try risk-free for 30 days</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-6 rounded-lg mb-8">
+                        <h4 class="font-bold text-lg mb-3">Plus, you'll get access to:</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <div class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span class="text-sm">Brand Strategy Session</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span class="text-sm">Logo Design</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span class="text-sm">Social Media Setup</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span class="text-sm">SEO Optimization</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button class="btn-primary px-8 py-4 rounded-lg text-lg font-semibold w-full md:w-auto">Get This Package Now</button>
+                        <p class="text-gray-500 text-sm mt-4">Limited time offer. 47 businesses have purchased this week.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process" class="py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Our simple 4-step process to get your business online and growing.</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div class="text-center">
+                        <div class="w-16 h-16 rounded-full bg-black flex items-center justify-center text-white font-bold text-xl mx-auto mb-4">1</div>
+                        <h3 class="text-xl font-bold mb-2">Consultation</h3>
+                        <p class="text-gray-600">We discuss your business goals, target audience, and vision for your online presence.</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 rounded-full bg-black flex items-center justify-center text-white font-bold text-xl mx-auto mb-4">2</div>
+                        <h3 class="text-xl font-bold mb-2">Strategy & Planning</h3>
+                        <p class="text-gray-600">We create a customized plan including brand identity, website structure, and marketing strategy.</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 rounded-full bg-black flex items-center justify-center text-white font-bold text-xl mx-auto mb-4">3</div>
+                        <h3 class="text-xl font-bold mb-2">Implementation</h3>
+                        <p class="text-gray-600">Our team builds your website, creates your branding, and sets up your digital marketing.</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 rounded-full bg-black flex items-center justify-center text-white font-bold text-xl mx-auto mb-4">4</div>
+                        <h3 class="text-xl font-bold mb-2">Launch & Growth</h3>
+                        <p class="text-gray-600">We launch your online presence and continue to optimize for growth and engagement.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-16 section-bg">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">What Our Clients Say</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Hear from businesses that have transformed their online presence with our toolkit.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="service-card section-bg p-6 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gray-300 mr-4"></div>
+                        <div>
+                            <h4 class="font-bold">Sarah Johnson</h4>
+                            <p class="text-sm text-gray-600">Founder, Bloom Cosmetics</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"The Business Toolkit transformed our online presence. Our website traffic increased by 300% in just two months, and our social media engagement is through the roof!"</p>
+                </div>
+                
+                <div class="service-card section-bg p-6 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gray-300 mr-4"></div>
+                        <div>
+                            <h4 class="font-bold">Michael Torres</h4>
+                            <p class="text-sm text-gray-600">CEO, TechSolutions Inc.</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"As a startup, we needed an affordable but professional online presence. The package deal was perfect - we got a beautiful website and branding that rivals big companies."</p>
+                </div>
+                
+                <div class="service-card section-bg p-6 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gray-300 mr-4"></div>
+                        <div>
+                            <h4 class="font-bold">Jessica Williams</h4>
+                            <p class="text-sm text-gray-600">Owner, Urban Cafe</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"The social media management and content creation services have been game-changing. We're connecting with customers in ways we never thought possible."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Get answers to common questions about our services and package.</p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto">
+                <div class="space-y-6">
+                    <div class="section-bg p-6 rounded-xl shadow-sm">
+                        <h3 class="text-xl font-bold mb-2">How long does it take to get my website live?</h3>
+                        <p class="text-gray-600">Typically, we can have a basic website live within 2-3 weeks. More complex projects may take 4-6 weeks. The timeline depends on the scope of work and how quickly we receive content from you.</p>
+                    </div>
+                    
+                    <div class="section-bg p-6 rounded-xl shadow-sm">
+                        <h3 class="text-xl font-bold mb-2">What if I need to cancel my service?</h3>
+                        <p class="text-gray-600">You can cancel anytime with no penalties. We believe in earning your business every month. If you're not satisfied, we'll help transition your domain and hosting to another provider.</p>
+                    </div>
+                    
+                    <div class="section-bg p-6 rounded-xl shadow-sm">
+                        <h3 class="text-xl font-bold mb-2">Do you offer ongoing support after the initial setup?</h3>
+                        <p class="text-gray-600">Yes! We offer various support packages for website maintenance, content updates, and ongoing marketing. Many of our clients choose to continue with our monthly maintenance plans.</p>
+                    </div>
+                    
+                    <div class="section-bg p-6 rounded-xl shadow-sm">
+                        <h3 class="text-xl font-bold mb-2">Can I upgrade my package later?</h3>
+                        <p class="text-gray-600">Absolutely! We offer flexible add-ons and upgrades for all our services. You can start with the basic package and add services as your business grows.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 section-bg">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your Online Presence?</h2>
+                <p class="text-xl text-gray-600 mb-8">Join hundreds of businesses that have elevated their brand with our comprehensive toolkit.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button class="btn-primary px-8 py-4 rounded-lg text-lg font-semibold">Get Started for $119</button>
+                    <button class="btn-secondary px-8 py-4 rounded-lg text-lg font-semibold">Schedule a Consultation</button>
+                </div>
+                <p class="text-gray-500 text-sm mt-6">Free domain & hosting • 80% off web development • No startup fee • Cancel anytime</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-black text-white">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-black font-bold mr-3">BT</div>
+                        <h3 class="text-xl font-bold">Business Toolkit</h3>
+                    </div>
+                    <p class="text-gray-400">Helping businesses establish and grow their online presence since 2020.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Services</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition">Brand Strategy</a></li>
+                        <li><a href="#" class="hover:text-white transition">Web Development</a></li>
+                        <li><a href="#" class="hover:text-white transition">Social Media Management</a></li>
+                        <li><a href="#" class="hover:text-white transition">Digital Marketing</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Company</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition">Careers</a></li>
+                        <li><a href="#" class="hover:text-white transition">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 Business Toolkit. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
-        // Local Storage Management
-        const Storage = {
-            get: (key) => {
-                try {
-                    return JSON.parse(localStorage.getItem(key));
-                } catch {
-                    return localStorage.getItem(key);
+        // Simple JavaScript for interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Package purchase button animation
+            const purchaseButtons = document.querySelectorAll('.btn-primary');
+            purchaseButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.innerHTML = 'Processing...';
+                    setTimeout(() => {
+                        this.innerHTML = 'Redirecting to Checkout';
+                        // In a real application, this would redirect to a payment page
+                    }, 1000);
+                });
+            });
+            
+            // Store user preferences in localStorage
+            const preferredSection = localStorage.getItem('preferredSection');
+            if(preferredSection) {
+                const section = document.querySelector(preferredSection);
+                if(section) {
+                    setTimeout(() => {
+                        section.scrollIntoView({ behavior: 'smooth' });
+                    }, 500);
                 }
-            },
-            set: (key, value) => {
-                localStorage.setItem(key, typeof value === 'object' ? JSON.stringify(value) : value);
-            },
-            remove: (key) => {
-                localStorage.removeItem(key);
-            }
-        };
-
-        // Alert System
-        const Alert = {
-            show: (message, type = 'info', duration = 5000) => {
-                const alert = document.getElementById('alert-component');
-                alert.textContent = message;
-                alert.className = `alert bg-filled px-4 py-2 text-center max-w-md ${type} show`;
-                
-                setTimeout(() => {
-                    alert.classList.remove('show');
-                }, duration);
-            }
-        };
-
-        // Product Info Bar Management
-        const ProductInfoBar = {
-            init: () => {
-                const bar = document.getElementById('product-info-bar');
-                let lastScrollTop = 0;
-                
-                window.addEventListener('scroll', () => {
-                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                    
-                    if (scrollTop > 100) {
-                        bar.style.height = 'auto';
-                        bar.style.padding = '0';
-                    } else {
-                        bar.style.height = '0';
-                        bar.style.padding = '0';
-                    }
-                    
-                    lastScrollTop = scrollTop;
-                });
-            }
-        };
-
-        // Subscription Management
-        const Subscription = {
-            init: () => {
-                const subscribeButtons = document.querySelectorAll('#subscribe-button, #main-subscribe-button, #header-subscribe-button');
-                
-                subscribeButtons.forEach(button => {
-                    button.addEventListener('click', () => {
-                        // Store subscription intent
-                        Storage.set('subscription_intent', 'marketing_membership');
-                        
-                        // Show success message
-                        Alert.show('Starting your 1-year free trial! Redirecting to checkout...', 'success');
-                        
-                        // Simulate checkout process
-                        setTimeout(() => {
-                            window.location.href = '#checkout';
-                        }, 2000);
-                    });
-                });
-            }
-        };
-
-        // Wishlist Management
-        const Wishlist = {
-            init: () => {
-                const wishlistButton = document.querySelector('.combobox [role="combobox"]');
-                
-                wishlistButton.addEventListener('click', () => {
-                    const wishlists = Storage.get('wishlists') || [];
-                    const currentProduct = {
-                        id: 'marketing_membership',
-                        name: 'Marketing & Branding Membership',
-                        price: 119.99
-                    };
-                    
-                    // Check if already in wishlist
-                    const existingIndex = wishlists.findIndex(item => item.id === currentProduct.id);
-                    
-                    if (existingIndex === -1) {
-                        wishlists.push(currentProduct);
-                        Storage.set('wishlists', wishlists);
-                        Alert.show('Added to wishlist!', 'success');
-                    } else {
-                        Alert.show('Already in your wishlist!', 'info');
-                    }
-                });
-            }
-        };
-
-        // Share Functionality
-        const Share = {
-            init: () => {
-                // Twitter Share
-                document.getElementById('share-twitter').addEventListener('click', () => {
-                    const text = 'Check out this Marketing & Branding Membership from Soft Tech Solutions!';
-                    const url = window.location.href;
-                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
-                });
-                
-                // Facebook Share
-                document.getElementById('share-facebook').addEventListener('click', () => {
-                    const url = window.location.href;
-                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
-                });
-                
-                // Copy Link
-                document.getElementById('copy-link').addEventListener('click', () => {
-                    navigator.clipboard.writeText(window.location.href).then(() => {
-                        Alert.show('Link copied to clipboard!', 'success');
-                    });
-                });
-            }
-        };
-
-        // Edit Button (for demo purposes)
-        const EditButton = {
-            init: () => {
-                document.getElementById('edit-button').addEventListener('click', () => {
-                    Alert.show('Edit functionality would open product editor', 'info');
-                });
-            }
-        };
-
-        // Initialize all functionality when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            ProductInfoBar.init();
-            Subscription.init();
-            Wishlist.init();
-            Share.init();
-            EditButton.init();
-            
-            // Check for existing subscription
-            const subscriptionIntent = Storage.get('subscription_intent');
-            if (subscriptionIntent) {
-                console.log('User has subscription intent:', subscriptionIntent);
             }
             
-            // Check for existing wishlists
-            const wishlists = Storage.get('wishlists');
-            if (wishlists && wishlists.length > 0) {
-                console.log('User has wishlists:', wishlists);
-            }
+            // Track which sections users view most
+            const sections = document.querySelectorAll('section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        if(id) {
+                            localStorage.setItem('lastViewedSection', `#${id}`);
+                        }
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
         });
     </script>
 </body>
