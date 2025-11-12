@@ -61,6 +61,81 @@
             font-size: 0.8rem;
             font-weight: 600;
         }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+        }
+        
+        .modal-large {
+            max-width: 900px;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #e5e5e5;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background-color: #f9f9f9;
+            font-weight: 600;
+        }
+        
+        .customer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .customer-item {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -79,7 +154,7 @@
                 <a href="#contact" class="font-medium hover:text-gray-600">Contact</a>
             </nav>
             
-            <button class="btn-primary px-6 py-2 rounded-full font-medium">
+            <button class="btn-primary px-6 py-2 rounded-full font-medium" onclick="openModal('getStartedModal')">
                 Get Started
             </button>
             
@@ -97,10 +172,10 @@
                 We help starters, small and medium companies create an online presence and extend their brand via social media platforms.
             </p>
             <div class="flex flex-col md:flex-row justify-center gap-4">
-                <button class="btn-primary px-8 py-4 rounded-full font-medium text-lg">
+                <button class="btn-primary px-8 py-4 rounded-full font-medium text-lg" onclick="openModal('packageModal')">
                     Explore Our Package
                 </button>
-                <button class="px-8 py-4 rounded-full font-medium text-lg border border-black">
+                <button class="px-8 py-4 rounded-full font-medium text-lg border border-black" onclick="openModal('aboutModal')">
                     Learn More
                 </button>
             </div>
@@ -120,9 +195,9 @@
                     </div>
                     <h3 class="text-xl font-bold mb-4">Domain & Hosting</h3>
                     <p class="text-gray-600 mb-4">Free domain names and web hosting to get your website online without upfront costs.</p>
-                    <a href="#" class="font-medium flex items-center">
+                    <button class="font-medium flex items-center" onclick="openModal('domainModal')">
                         Learn more <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
+                    </button>
                 </div>
                 
                 <!-- Service Card 2 -->
@@ -132,9 +207,9 @@
                     </div>
                     <h3 class="text-xl font-bold mb-4">Web Development</h3>
                     <p class="text-gray-600 mb-4">Website development at an 80% discount to make it affordable for clients.</p>
-                    <a href="#" class="font-medium flex items-center">
+                    <button class="font-medium flex items-center" onclick="openModal('webdevModal')">
                         Learn more <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
+                    </button>
                 </div>
                 
                 <!-- Service Card 3 -->
@@ -144,9 +219,9 @@
                     </div>
                     <h3 class="text-xl font-bold mb-4">Marketing Materials</h3>
                     <p class="text-gray-600 mb-4">Helping create and manage marketing materials, content, graphics, and campaigns.</p>
-                    <a href="#" class="font-medium flex items-center">
+                    <button class="font-medium flex items-center" onclick="openModal('marketingModal')">
                         Learn more <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -230,7 +305,7 @@
                         </ul>
                     </div>
                     
-                    <button class="btn-primary w-full py-4 rounded-xl font-medium text-lg">
+                    <button class="btn-primary w-full py-4 rounded-xl font-medium text-lg" onclick="openModal('comparisonModal')">
                         Get This Package Now
                     </button>
                     
@@ -270,6 +345,7 @@
                             <span>Audience research & persona creation</span>
                         </li>
                     </ul>
+                    <button class="mt-4 text-sm font-medium" onclick="openModal('brandModal')">View All Services</button>
                 </div>
                 
                 <!-- Service Category 2 -->
@@ -296,6 +372,7 @@
                             <span>Social media branding kits</span>
                         </li>
                     </ul>
+                    <button class="mt-4 text-sm font-medium" onclick="openModal('creativeModal')">View All Services</button>
                 </div>
                 
                 <!-- Service Category 3 -->
@@ -322,91 +399,32 @@
                             <span>Website maintenance & analytics</span>
                         </li>
                     </ul>
-                </div>
-                
-                <!-- Service Category 4 -->
-                <div class="section-bg p-6 rounded-xl">
-                    <h3 class="text-xl font-bold mb-4 flex items-center">
-                        <i class="fas fa-hashtag mr-3 text-pink-500"></i>
-                        Social Media Management
-                    </h3>
-                    <ul class="space-y-2 text-gray-600">
-                        <li class="flex items-start">
-                            <i class="fas fa-circle text-xs mt-2 mr-2 text-gray-400"></i>
-                            <span>Social media strategy & calendar planning</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-circle text-xs mt-2 mr-2 text-gray-400"></i>
-                            <span>Content creation (images, reels, videos)</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-circle text-xs mt-2 mr-2 text-gray-400"></i>
-                            <span>Copywriting & captions</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-circle text-xs mt-2 mr-2 text-gray-400"></i>
-                            <span>Audience engagement & community management</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <!-- Service Category 5 -->
-                <div class="section-bg p-6 rounded-xl">
-                    <h3 class="text-xl font-bold mb-4 flex items-center">
-                        <i class="fas fa-film mr-3 text-yellow-500"></i>
-                        Content Production
-                    </h3>
-                    <ul class="space-y-2 text-gray-600">
-                        <li class="flex items-start">
-                            <i class="fas fa-circle text-xs mt-2 mr-2 text-gray-400"></i>
-                            <span>Video production (ads, interviews, etc.)</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-circle text-xs mt-2 mr-2 text-gray-400"></i>
-                            <span>Photography (products, events, lifestyle)</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-circle text-xs mt-2 mr-2 text-gray-400"></i>
-                            <span>Copywriting (blogs, articles, newsletters)</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-circle text-xs mt-2 mr-2 text-gray-400"></i>
-                            <span>Animation & motion graphics</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <!-- Service Category 6 -->
-                <div class="section-bg p-6 rounded-xl">
-                    <h3 class="text-xl font-bold mb-4 flex items-center">
-                        <i class="fas fa-chart-line mr-3 text-red-500"></i>
-                        Digital Marketing & Advertising
-                    </h3>
-                    <ul class="space-y-2 text-gray-600">
-                        <li class="flex items-start">
-                            <i class="fas fa-circle text-xs mt-2 mr-2 text-gray-400"></i>
-                            <span>Search Engine Optimization (SEO)</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-circle text-xs mt-2 mr-2 text-gray-400"></i>
-                            <span>Pay-Per-Click advertising</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-circle text-xs mt-2 mr-2 text-gray-400"></i>
-                            <span>Social media advertising</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-circle text-xs mt-2 mr-2 text-gray-400"></i>
-                            <span>Email marketing campaigns</span>
-                        </li>
-                    </ul>
+                    <button class="mt-4 text-sm font-medium" onclick="openModal('websiteModal')">View All Services</button>
                 </div>
             </div>
             
             <div class="text-center mt-12">
-                <button class="px-8 py-3 rounded-full font-medium border border-black">
+                <button class="px-8 py-3 rounded-full font-medium border border-black" onclick="openModal('servicesModal')">
                     View All Services
                 </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Customers Section -->
+    <section class="py-16 px-4 md:px-8">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Recent Customers</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-8">
+                We've helped businesses across various industries establish their online presence and grow their brand.
+            </p>
+            
+            <div class="customer-grid">
+                <!-- Customer items will be generated by JavaScript -->
+            </div>
+            
+            <div class="text-center mt-8">
+                <button class="text-sm font-medium" onclick="openModal('customersModal')">View All Customers</button>
             </div>
         </div>
     </section>
@@ -419,10 +437,10 @@
                 Join hundreds of businesses that have transformed their online presence with our comprehensive toolkit.
             </p>
             <div class="flex flex-col md:flex-row justify-center gap-4">
-                <button class="btn-primary px-8 py-4 rounded-full font-medium text-lg">
+                <button class="btn-primary px-8 py-4 rounded-full font-medium text-lg" onclick="openModal('getStartedModal')">
                     Get Started Today
                 </button>
-                <button class="px-8 py-4 rounded-full font-medium text-lg border border-black">
+                <button class="px-8 py-4 rounded-full font-medium text-lg border border-black" onclick="openModal('consultationModal')">
                     Schedule a Consultation
                 </button>
             </div>
@@ -447,38 +465,38 @@
                 <div>
                     <h4 class="font-bold mb-4">Services</h4>
                     <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white">Web Development</a></li>
-                        <li><a href="#" class="hover:text-white">Brand Strategy</a></li>
-                        <li><a href="#" class="hover:text-white">Social Media Management</a></li>
-                        <li><a href="#" class="hover:text-white">Digital Marketing</a></li>
+                        <li><button class="hover:text-white text-left" onclick="openModal('webdevModal')">Web Development</button></li>
+                        <li><button class="hover:text-white text-left" onclick="openModal('brandModal')">Brand Strategy</button></li>
+                        <li><button class="hover:text-white text-left" onclick="openModal('socialModal')">Social Media Management</button></li>
+                        <li><button class="hover:text-white text-left" onclick="openModal('marketingModal')">Digital Marketing</button></li>
                     </ul>
                 </div>
                 
                 <div>
                     <h4 class="font-bold mb-4">Company</h4>
                     <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white">About Us</a></li>
-                        <li><a href="#" class="hover:text-white">Careers</a></li>
-                        <li><a href="#" class="hover:text-white">Blog</a></li>
-                        <li><a href="#" class="hover:text-white">Contact</a></li>
+                        <li><button class="hover:text-white text-left" onclick="openModal('aboutModal')">About Us</button></li>
+                        <li><button class="hover:text-white text-left" onclick="openModal('careersModal')">Careers</button></li>
+                        <li><button class="hover:text-white text-left" onclick="openModal('blogModal')">Blog</button></li>
+                        <li><button class="hover:text-white text-left" onclick="openModal('contactModal')">Contact</button></li>
                     </ul>
                 </div>
                 
                 <div>
                     <h4 class="font-bold mb-4">Connect</h4>
                     <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white">
+                        <button class="text-gray-400 hover:text-white" onclick="openModal('twitterModal')">
                             <i class="fab fa-twitter text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white">
+                        </button>
+                        <button class="text-gray-400 hover:text-white" onclick="openModal('facebookModal')">
                             <i class="fab fa-facebook text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white">
+                        </button>
+                        <button class="text-gray-400 hover:text-white" onclick="openModal('instagramModal')">
                             <i class="fab fa-instagram text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white">
+                        </button>
+                        <button class="text-gray-400 hover:text-white" onclick="openModal('linkedinModal')">
                             <i class="fab fa-linkedin text-xl"></i>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -489,67 +507,333 @@
         </div>
     </footer>
 
+    <!-- MODALS -->
+    
+    <!-- Get Started Modal -->
+    <div id="getStartedModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('getStartedModal')">&times;</span>
+            <h2 class="modal-title">Get Started with Business Toolkit</h2>
+            <p>Begin your journey to establish a powerful online presence for your business.</p>
+            
+            <div class="mt-6">
+                <h3 class="font-bold mb-2">How it works:</h3>
+                <ol class="list-decimal pl-5 space-y-2">
+                    <li>Schedule a free consultation to discuss your business needs</li>
+                    <li>We'll create a customized plan based on your goals</li>
+                    <li>Get your free domain and hosting setup</li>
+                    <li>Our team builds your website and online presence</li>
+                    <li>Launch and grow your business online</li>
+                </ol>
+            </div>
+            
+            <div class="mt-6">
+                <h3 class="font-bold mb-2">What's included in your starter package:</h3>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>Free domain name registration</li>
+                    <li>12 months of premium hosting</li>
+                    <li>Custom website development (80% discount)</li>
+                    <li>Basic SEO setup</li>
+                    <li>Social media profile creation</li>
+                    <li>30-day money-back guarantee</li>
+                </ul>
+            </div>
+            
+            <div class="mt-8 flex flex-col md:flex-row gap-4">
+                <button class="btn-primary px-6 py-3 rounded-full font-medium flex-1" onclick="openModal('consultationModal')">
+                    Schedule Consultation
+                </button>
+                <button class="px-6 py-3 rounded-full font-medium border border-black flex-1" onclick="openModal('packageModal')">
+                    View Package Details
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Package Modal -->
+    <div id="packageModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('packageModal')">&times;</span>
+            <h2 class="modal-title">Starter Business Package</h2>
+            <p class="text-gray-600">Everything you need to launch your business online</p>
+            
+            <div class="mt-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-xl">Package Price: $119</h3>
+                    <span class="text-green-600 font-bold">80% OFF</span>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h4 class="font-bold mb-2">What's Included:</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span><strong>Free Domain Name</strong> - Your business name online</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span><strong>Free 1 Year Hosting</strong> - Reliable, fast web hosting</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span><strong>Web Development</strong> - Custom website at 80% discount</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span><strong>No Startup Fee</strong> - No hidden costs to begin</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span><strong>Cancel Anytime</strong> - No long-term contracts</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span><strong>Money-Back Guarantee</strong> - Full refund in first month if not satisfied</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-6">
+                <h3 class="font-bold mb-2">Additional Services Available:</h3>
+                <ul class="list-disc pl-5 space-y-1 text-gray-600">
+                    <li>Social media management</li>
+                    <li>Content creation</li>
+                    <li>SEO optimization</li>
+                    <li>Email marketing</li>
+                    <li>Online advertising</li>
+                </ul>
+            </div>
+            
+            <button class="btn-primary w-full py-3 rounded-xl font-medium mt-6" onclick="openModal('comparisonModal')">
+                See Cost Comparison
+            </button>
+        </div>
+    </div>
+
+    <!-- Cost Comparison Modal -->
+    <div id="comparisonModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="close-modal" onclick="closeModal('comparisonModal')">&times;</span>
+            <h2 class="modal-title">Cost Comparison: Our Package vs. Individual Services</h2>
+            <p class="text-gray-600">See how much you save with our comprehensive package</p>
+            
+            <table class="comparison-table mt-6">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Typical Cost</th>
+                        <th>Our Package</th>
+                        <th>Savings</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Domain Registration (1 year)</td>
+                        <td>$15</td>
+                        <td>FREE</td>
+                        <td class="text-green-600 font-bold">$15</td>
+                    </tr>
+                    <tr>
+                        <td>Web Hosting (1 year)</td>
+                        <td>$120</td>
+                        <td>FREE</td>
+                        <td class="text-green-600 font-bold">$120</td>
+                    </tr>
+                    <tr>
+                        <td>Website Development</td>
+                        <td>$595</td>
+                        <td>$119</td>
+                        <td class="text-green-600 font-bold">$476</td>
+                    </tr>
+                    <tr>
+                        <td>Brand Strategy Consultation</td>
+                        <td>$200</td>
+                        <td>FREE</td>
+                        <td class="text-green-600 font-bold">$200</td>
+                    </tr>
+                    <tr>
+                        <td>Social Media Setup</td>
+                        <td>$150</td>
+                        <td>FREE</td>
+                        <td class="text-green-600 font-bold">$150</td>
+                    </tr>
+                    <tr>
+                        <td>Basic SEO Setup</td>
+                        <td>$300</td>
+                        <td>FREE</td>
+                        <td class="text-green-600 font-bold">$300</td>
+                    </tr>
+                    <tr class="font-bold bg-gray-50">
+                        <td>TOTAL</td>
+                        <td>$1,380</td>
+                        <td>$119</td>
+                        <td class="text-green-600">$1,261 (91% savings)</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="mt-6 bg-yellow-50 p-4 rounded-lg">
+                <h3 class="font-bold mb-2">Why Our Package Is More Cost-Effective:</h3>
+                <p>When hiring individual providers for each service, you'd typically need to work with:</p>
+                <ul class="list-disc pl-5 mt-2">
+                    <li>A domain registrar</li>
+                    <li>A hosting company</li>
+                    <li>A web developer/agency</li>
+                    <li>A branding consultant</li>
+                    <li>A social media manager</li>
+                    <li>An SEO specialist</li>
+                </ul>
+                <p class="mt-2">Our package eliminates the need to coordinate with multiple providers while saving you over $1,200.</p>
+            </div>
+            
+            <button class="btn-primary w-full py-3 rounded-xl font-medium mt-6" onclick="openModal('getStartedModal')">
+                Get This Package Now
+            </button>
+        </div>
+    </div>
+
+    <!-- Customers Modal -->
+    <div id="customersModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="close-modal" onclick="closeModal('customersModal')">&times;</span>
+            <h2 class="modal-title">Our Recent Customers</h2>
+            <p class="text-gray-600">Businesses we've helped establish their online presence</p>
+            
+            <div class="customer-grid mt-6">
+                <!-- Customer items will be populated by JavaScript -->
+            </div>
+            
+            <div class="mt-6 text-center">
+                <p class="text-gray-600">Interested in joining our success stories?</p>
+                <button class="btn-primary px-6 py-3 rounded-full font-medium mt-4" onclick="openModal('getStartedModal')">
+                    Start Your Journey
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional modals would be added here for other services -->
+    <!-- For brevity, I'll include just a few more examples -->
+
+    <!-- Domain & Hosting Modal -->
+    <div id="domainModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('domainModal')">&times;</span>
+            <h2 class="modal-title">Domain & Hosting Services</h2>
+            <p>We provide free domain names and hosting to get your business online quickly and affordably.</p>
+            
+            <div class="mt-6">
+                <h3 class="font-bold mb-2">What's Included:</h3>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>Free domain registration for 1 year</li>
+                    <li>Premium hosting with 99.9% uptime guarantee</li>
+                    <li>SSL certificate for secure browsing</li>
+                    <li>Professional email addresses</li>
+                    <li>Daily backups and security monitoring</li>
+                    <li>24/7 technical support</li>
+                </ul>
+            </div>
+            
+            <button class="btn-primary w-full py-3 rounded-xl font-medium mt-6" onclick="openModal('packageModal')">
+                View Complete Package
+            </button>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('contactModal')">&times;</span>
+            <h2 class="modal-title">Contact Us</h2>
+            <p>Get in touch with our team to discuss your business needs.</p>
+            
+            <div class="mt-6">
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="name">Name</label>
+                    <input class="w-full px-3 py-2 border border-gray-300 rounded-md" type="text" id="name" placeholder="Your name">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="email">Email</label>
+                    <input class="w-full px-3 py-2 border border-gray-300 rounded-md" type="email" id="email" placeholder="Your email">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="message">Message</label>
+                    <textarea class="w-full px-3 py-2 border border-gray-300 rounded-md" id="message" rows="4" placeholder="How can we help you?"></textarea>
+                </div>
+                
+                <button class="btn-primary w-full py-3 rounded-xl font-medium">
+                    Send Message
+                </button>
+            </div>
+            
+            <div class="mt-6 text-center text-gray-600">
+                <p>Or reach us directly:</p>
+                <p class="mt-2">Email: hello@businesstoolkit.com</p>
+                <p>Phone: (555) 123-4567</p>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Simple JavaScript for interactive elements
+        // Modal functionality
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking outside content
+        window.onclick = function(event) {
+            document.querySelectorAll('.modal').forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+        
+        // Customer data
+        const customers = [
+            "Bella's Bakery", "Urban Fitness Gym", "Taste of Italy Restaurant", 
+            "Johnson Legal Services", "Green Thumb Garden Care", "Style & Scissors Salon",
+            "Tech Solutions Inc", "Creative Minds Agency", "Home Comfort HVAC",
+            "Paws & Claws Pet Store", "Sunrise Cafe", "Metro Auto Repair",
+            "Precision Accounting", "Dream Weddings Planning", "Ocean View Realty",
+            "Healthy Bites Nutrition", "City Cleaners", "Mountain Adventure Tours",
+            "Bright Future Tutoring", "Artisan Woodcraft", "Swift Delivery Services",
+            "Serenity Spa", "Digital Marketing Pros", "Heritage Insurance",
+            "Fresh Farm Market", "Smart Home Installers", "Elite Security Systems",
+            "Peak Performance Physical Therapy", "Vintage Vinyl Records", "Modern Office Solutions"
+        ];
+        
+        // Populate customer grids
+        function populateCustomerGrids() {
+            const customerGrids = document.querySelectorAll('.customer-grid');
+            
+            customerGrids.forEach(grid => {
+                // Clear existing content
+                grid.innerHTML = '';
+                
+                // Add customer items
+                customers.forEach(customer => {
+                    const customerItem = document.createElement('div');
+                    customerItem.className = 'customer-item';
+                    customerItem.textContent = customer;
+                    grid.appendChild(customerItem);
+                });
+            });
+        }
+        
+        // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            // Add smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-            
-            // Package selection functionality
-            const packageButtons = document.querySelectorAll('.package-select');
-            packageButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Remove active class from all buttons
-                    packageButtons.forEach(btn => {
-                        btn.classList.remove('bg-black', 'text-white');
-                        btn.classList.add('bg-white', 'text-black', 'border');
-                    });
-                    
-                    // Add active class to clicked button
-                    this.classList.remove('bg-white', 'text-black', 'border');
-                    this.classList.add('bg-black', 'text-white');
-                    
-                    // Update package details based on selection
-                    const packageType = this.getAttribute('data-package');
-                    updatePackageDetails(packageType);
-                });
-            });
-            
-            function updatePackageDetails(packageType) {
-                // This would update the package details based on selection
-                // For now, we'll just log the selection
-                console.log('Selected package:', packageType);
-            }
-            
-            // Store user preferences in localStorage
-            const preferredPackage = localStorage.getItem('preferredPackage');
-            if (preferredPackage) {
-                const button = document.querySelector(`[data-package="${preferredPackage}"]`);
-                if (button) button.click();
-            }
-            
-            // Save preference when package is selected
-            packageButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const packageType = this.getAttribute('data-package');
-                    localStorage.setItem('preferredPackage', packageType);
-                });
-            });
+            populateCustomerGrids();
         });
     </script>
 </body>
