@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1Biz.online - Launch. Engage. Dominate with AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3a86ff;
+            --secondary: #8338ec;
+            --accent: #ff006e;
+            --success: #38b000;
+            --warning: #ff9e00;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --border-radius: 12px;
+            --box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+            --christmas-red: #d90429;
+            --christmas-green: #2d6a4f;
+            --christmas-gold: #ff9e00;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--christmas-green), #1b4332);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            color: var(--christmas-gold);
+            animation: pulse 2s infinite;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--christmas-gold);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--christmas-gold);
+            transition: var(--transition);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: var(--christmas-red);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 10px rgba(217, 4, 41, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(217, 4, 41, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1b4332, var(--christmas-green));
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23ffffff" opacity="0.05"><path d="M50 0 L60 30 L90 30 L65 50 L75 90 L50 70 L25 90 L35 50 L10 30 L40 30 Z"/></svg>');
+            background-size: 100px;
+            animation: float 20s linear infinite;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .secondary-button {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .secondary-button:hover {
+            background: white;
+            color: var(--christmas-green);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 5rem 0;
+            background-color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--christmas-green);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--christmas-red);
+            border-radius: 2px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            border-top: 4px solid var(--christmas-green);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--christmas-green);
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .service-card p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .service-features li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            color: var(--christmas-green);
+        }
+
+        /* Package Section */
+        .package {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+
+        .package-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            box-shadow: var(--box-shadow);
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--christmas-green);
+        }
+
+        .package-badge {
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--christmas-red);
+            color: white;
+            padding: 0.5rem 3rem;
+            transform: rotate(45deg);
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .package-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .package-header h2 {
+            font-size: 2.2rem;
+            color: var(--christmas-green);
+            margin-bottom: 1rem;
+        }
+
+        .package-price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--christmas-red);
+            margin-bottom: 0.5rem;
+        }
+
+        .package-price span {
+            font-size: 1rem;
+            color: var(--gray);
+            font-weight: normal;
+        }
+
+        .package-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--christmas-green);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-column ul {
+            list-style: none;
+        }
+
+        .feature-column li {
+            padding: 0.7rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-column li:last-child {
+            border-bottom: none;
+        }
+
+        .package-cta {
+            text-align: center;
+        }
+
+        /* Process Section */
+        .process {
+            padding: 5rem 0;
+            background-color: white;
+        }
+
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .process-step {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--christmas-green);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
+            position: relative;
+            z-index: 2;
+            animation: pulse 2s infinite;
+        }
+
+        .process-step h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .process-step p {
+            color: var(--gray);
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .faq-question:hover {
+            background: #f8f9fa;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer.active {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--christmas-green), #1b4332);
+            color: white;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--christmas-gold);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 0.7rem;
+        }
+
+        .footer-column a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--christmas-gold);
+            transform: translateY(-3px);
+        }
+
+        .reviews {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .stars {
+            color: var(--christmas-gold);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            animation: twinkle 2s infinite;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #adb5bd;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .process-steps {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-rocket logo-icon"></i>
+                    <span>1Biz.online</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#package">Package</a></li>
+                        <li><a href="#process">How It Works</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+                <button class="cta-button" id="openModal">Get Started</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Launch. Engage. Dominate — with AI</h1>
+                <p>AI that thinks like a CMO, creates like a designer, and scales like an agency.</p>
+                <div class="hero-buttons">
+                    <button class="cta-button" id="heroCta">Get Your Complete Business Package</button>
+                    <button class="secondary-button">Schedule a Consultation</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>AI-Powered Business Services</h2>
+                <p>Comprehensive solutions to launch and grow your online presence</p>
+            </div>
+            <div class="services-grid">
+                <!-- Service Card 1 -->
+                <div class="service-card">
+                    <i class="fas fa-brain service-icon"></i>
+                    <h3>AI-Powered Social Media Strategy</h3>
+                    <p>Custom roadmap creation using predictive AI analytics and competitor analysis.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check feature-icon"></i> Audience segmentation</li>
+                        <li><i class="fas fa-check feature-icon"></i> Trend forecasting</li>
+                        <li><i class="fas fa-check feature-icon"></i> Platform-specific strategies</li>
+                    </ul>
+                    <button class="secondary-button">Learn More</button>
+                </div>
+
+                <!-- Service Card 2 -->
+                <div class="service-card">
+                    <i class="fas fa-robot service-icon"></i>
+                    <h3>Automated Content Creation</h3>
+                    <p>AI-generated captions, hashtags, and visuals tailored to your brand voice.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check feature-icon"></i> Multi-language content</li>
+                        <li><i class="fas fa-check feature-icon"></i> Image & video concepts</li>
+                        <li><i class="fas fa-check feature-icon"></i> Brand voice training</li>
+                    </ul>
+                    <button class="secondary-button">Learn More</button>
+                </div>
+
+                <!-- Service Card 3 -->
+                <div class="service-card">
+                    <i class="fas fa-chart-line service-icon"></i>
+                    <h3>Performance Analytics</h3>
+                    <p>AI-generated insights and monthly growth reports with industry benchmarking.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check feature-icon"></i> White-labeled dashboard</li>
+                        <li><i class="fas fa-check feature-icon"></i> Real-time monitoring</li>
+                        <li><i class="fas fa-check feature-icon"></i> Competitor analysis</li>
+                    </ul>
+                    <button class="secondary-button">Learn More</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Package Section -->
+    <section class="package" id="package">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Complete Business Package</h2>
+                <p>Everything you need to launch and grow your online presence at an unbeatable price</p>
+            </div>
+            <div class="package-card">
+                <div class="package-badge">Christmas Special</div>
+                <div class="package-header">
+                    <h2>Complete Business Toolkit</h2>
+                    <p>Perfect for startups, small and medium businesses</p>
+                    <div class="package-price">$119 <span>one-time</span></div>
+                    <p>80% off regular price</p>
+                </div>
+                <div class="package-features">
+                    <div class="feature-column">
+                        <h3><i class="fas fa-gift"></i> What's Included</h3>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Free Domain Name (.com for one year)</li>
+                            <li><i class="fas fa-check"></i> Free 1 Year Hosting (99.9% uptime)</li>
+                            <li><i class="fas fa-check"></i> Web Development at 80% Discount</li>
+                        </ul>
+                    </div>
+                    <div class="feature-column">
+                        <h3><i class="fas fa-star"></i> Additional Benefits</h3>
+                        <ul>
+                            <li><i class="fas fa-check"></i> No Startup Fee</li>
+                            <li><i class="fas fa-check"></i> Cancel Anytime</li>
+                            <li><i class="fas fa-check"></i> First Month Money-Back Guarantee</li>
+                        </ul>
+                    </div>
+                    <div class="feature-column">
+                        <h3><i class="fas fa-plus-circle"></i> Plus, You'll Get</h3>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Brand Strategy Session</li>
+                            <li><i class="fas fa-check"></i> Logo Design</li>
+                            <li><i class="fas fa-check"></i> Social Media Setup</li>
+                            <li><i class="fas fa-check"></i> SEO Optimization</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="package-cta">
+                    <button class="cta-button">Get Started for $119</button>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--gray);">
+                        Free domain & hosting • 80% off web development • No startup fee • Cancel anytime
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process" id="process">
+        <div class="container">
+            <div class="section-title">
+                <h2>How It Works</h2>
+                <p>Our simple 4-step process to get your business online and growing</p>
+            </div>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3>Consultation</h3>
+                    <p>We discuss your business goals, target audience, and vision for your online presence.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3>Strategy & Planning</h3>
+                    <p>We create a customized plan including brand identity, website structure, and marketing strategy.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3>Implementation</h3>
+                    <p>Our team builds your website, creates your branding, and sets up your digital marketing.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h3>Launch & Growth</h3>
+                    <p>We launch your online presence and continue to optimize for growth and engagement.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-title">
+                <h2>Frequently Asked Questions</h2>
+                <p>Get answers to common questions about our services and package</p>
+            </div>
+            <div class="faq-container">
+                <!-- FAQ Item 1 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How long does it take to get my website live?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Typically, we can have a basic website live within 2-3 weeks. More complex projects may take 4-6 weeks. The timeline depends on the scope of work and how quickly we receive content from you.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What if I need to cancel my service?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You can cancel anytime with no penalties. We believe in earning your business every month. If you're not satisfied, we'll help transition your domain and hosting to another provider.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do you offer ongoing support after the initial setup?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! We offer various support packages for website maintenance, content updates, and ongoing marketing. Many of our clients choose to continue with our monthly maintenance plans.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I upgrade my package later?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutely! We offer flexible add-ons and upgrades for all our services. You can start with the basic package and add services as your business grows.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Transform Your Online Presence?</h2>
+            <p>Join hundreds of businesses that have elevated their brand with our comprehensive toolkit.</p>
+            <div class="hero-buttons">
+                <button class="cta-button">Get Started for $119</button>
+                <button class="secondary-button">Schedule a Consultation</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>1Biz.online</h3>
+                    <p>Helping businesses establish and grow their online presence since 2020.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#">Brand Strategy</a></li>
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">Social Media Management</a></li>
+                        <li><a href="#">Digital Marketing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Connect</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> hello@1biz.online</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Business Ave, Suite 100</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="reviews">
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p>"1Biz.online transformed our online presence. Their AI tools helped us triple our social media engagement in just 2 months!"</p>
+                <p>- Sarah Johnson, Founder of Bloom Cosmetics</p>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 1Biz.online. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Get Started Today</h2>
+            <p>Fill out the form below and we'll contact you within 24 hours to discuss your business needs.</p>
+            <form style="margin-top: 1.5rem;">
+                <div style="margin-bottom: 1rem;">
+                    <input type="text" placeholder="Your Name" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: var(--border-radius);">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <input type="email" placeholder="Your Email" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: var(--border-radius);">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <input type="tel" placeholder="Your Phone" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: var(--border-radius);">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <textarea placeholder="Tell us about your business" rows="4" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: var(--border-radius);"></textarea>
+                </div>
+                <button type="submit" class="cta-button" style="width: 100%;">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                answer.classList.toggle('active');
+                
+                const icon = question.querySelector('i');
+                if (answer.classList.contains('active')) {
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            });
+        });
+
+        // Modal Functionality
+        const modal = document.getElementById('contactModal');
+        const openModalBtn = document.getElementById('openModal');
+        const heroCtaBtn = document.getElementById('heroCta');
+        const closeModalBtn = document.querySelector('.close-modal');
+
+        openModalBtn.addEventListener('click', () => {
+            modal.style.display = 'flex';
+        });
+
+        heroCtaBtn.addEventListener('click', () => {
+            modal.style.display = 'flex';
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.8s ease forwards';
+                }
+            });
+        }, observerOptions);
+
+        // Observe service cards and process steps
+        document.querySelectorAll('.service-card, .process-step').forEach(el => {
+            el.style.opacity = '0';
+            observer.observe(el);
+        });
+
+        // Christmas theme animation
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.innerHTML = '❄';
+            snowflake.style.position = 'fixed';
+            snowflake.style.top = '-20px';
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.opacity = Math.random();
+            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+            snowflake.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+            document.body.appendChild(snowflake);
+            
+            setTimeout(() => {
+                snowflake.remove();
+            }, 5000);
+        }
+
+        // Add snowflake animation style
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Create snowflakes periodically
+        setInterval(createSnowflake, 100);
+    </script>
+</body>
+</html>
