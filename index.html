@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1biz · hosting reimagined</title>
+    <style>
+        /* RESET & BASE — full bleed, no scroll, video back */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;           /* one static page – no scroll */
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: white;
+        }
+
+        /* VIDEO BACKGROUND – covers entire viewport */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;           /* ensures video covers whole area (like cover) */
+            z-index: -2;                 /* behind overlay & content */
+            pointer-events: none;         /* video doesn't block any interaction */
+        }
+
+        /* DARK SOFT OVERLAY – improves text readability without hiding video */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 40%, rgba(0,10,20,0.3) 0%, rgba(0,5,15,0.65) 100%);
+            z-index: -1;                  /* between video and content */
+            backdrop-filter: blur(1px);    /* subtle dreaminess, keeps focus */
+        }
+
+        /* STATIC HEADER - NEW */
+        .maintenance-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+            padding: 1rem 2rem;
+            background: rgba(0, 15, 30, 0.75);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-icon {
+            font-size: 1.8rem;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+        }
+
+        .header-text {
+            font-weight: 500;
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #fff, #ffd966);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .progress-container {
+            flex: 1;
+            min-width: 250px;
+            max-width: 400px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .progress-bar-bg {
+            flex: 1;
+            height: 24px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 100px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            overflow: hidden;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .progress-bar-fill {
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, #ffd966, #ffb347);
+            border-radius: 100px;
+            box-shadow: 0 0 15px #ffb347;
+            position: relative;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .progress-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #ffd966;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            min-width: 45px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; box-shadow: 0 0 20px #ffb347; }
+        }
+
+        /* MAIN CONTENT – static, centred, fully responsive (adjusted for header) */
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;            /* full viewport height */
+            width: 100vw;
+            padding: 5rem 1.5rem 1.5rem;  /* increased top padding for header */
+            text-align: center;
+            position: relative;
+            z-index: 1;                   /* above overlay & video */
+            /* subtle text shadow for extra readability */
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.4);
+        }
+
+        /* LOGO / BRAND */
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(8px);
+            padding: 0.6rem 1.8rem 0.6rem 1.8rem;
+            border-radius: 60px;
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 15px 30px -10px rgba(0,0,0,0.3);
+        }
+
+        .brand-icon {
+            font-size: 2rem;
+            line-height: 1;
+            filter: drop-shadow(0 4px 6px #00000033);
+        }
+
+        .brand-name {
+            font-size: 1.8rem;
+            font-weight: 500;
+            background: linear-gradient(120deg, #fff, #e0eaff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* MAIN HEADLINE */
+        h1 {
+            font-size: clamp(2.5rem, 12vw, 5.8rem);
+            font-weight: 600;
+            line-height: 1.1;
+            max-width: 14ch;
+            margin: 0 auto 1rem;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            background: linear-gradient(130deg, #ffffff, #d6e4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 40px rgba(0,120,255,0.3);
+        }
+
+        .subhead {
+            font-size: clamp(1.2rem, 4vw, 1.9rem);
+            font-weight: 350;
+            max-width: 32rem;
+            margin: 0 auto 2.8rem;
+            opacity: 0.9;
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.7rem 2rem;
+            border-radius: 80px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* DUAL‑AUDIENCE PILLS — small / enterprise */
+        .audience-grid {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem 3rem;
+            margin: 2.5rem 0 2rem;
+        }
+
+        .pill {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(20, 30, 45, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 70px;
+            padding: 1.2rem 2.6rem;
+            min-width: 220px;
+            transition: all 0.2s ease;
+            box-shadow: 0 25px 40px -15px black;
+        }
+
+        .pill:hover {
+            background: rgba(30, 45, 65, 0.6);
+            border-color: rgba(255,255,255,0.35);
+            transform: scale(1.02);
+            box-shadow: 0 30px 50px -15px #000;
+        }
+
+        .pill-emoji {
+            font-size: 2.4rem;
+            margin-bottom: 0.3rem;
+            filter: drop-shadow(0 4px 5px black);
+        }
+
+        .pill-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+        }
+
+        .small-title {
+            background: linear-gradient(135deg, #b3e5ff, #7fc9ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .enterprise-title {
+            background: linear-gradient(135deg, #ffd966, #ffb347);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .pill-desc {
+            font-size: 1rem;
+            font-weight: 300;
+            opacity: 0.8;
+            margin-top: 0.2rem;
+        }
+
+        /* FEATURE HIGHLIGHT — inline with revamp message */
+        .revamp-note {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(0, 40, 70, 0.5);
+            backdrop-filter: blur(5px);
+            border-radius: 50px;
+            padding: 0.8rem 2rem;
+            margin: 2rem 0 2.5rem;
+            border: 1px solid rgba(72, 172, 240, 0.5);
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #e2f0ff;
+            box-shadow: 0 8px 20px rgba(0,30,60,0.5);
+        }
+
+        .revamp-note span {
+            font-size: 1.5rem;
+            filter: drop-shadow(0 2px 4px black);
+        }
+
+        /* CTA BUTTONS */
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            letter-spacing: 0.02em;
+            text-decoration: none;
+            transition: 0.2s;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            color: white;
+            box-shadow: 0 10px 20px -8px black;
+        }
+
+        .btn-primary {
+            background: rgba(20, 100, 200, 0.7);
+            border: 1px solid rgba(255,255,255,0.4);
+            backdrop-filter: blur(8px);
+        }
+
+        .btn-primary:hover {
+            background: rgba(30, 130, 250, 0.8);
+            border-color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 25px 30px -10px #000;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: white;
+            transform: translateY(-4px);
+        }
+
+        /* small footnote / fine print */
+        .footnote {
+            position: absolute;
+            bottom: 1.2rem;
+            right: 2rem;
+            font-size: 0.8rem;
+            opacity: 0.6;
+            background: rgba(0,0,0,0.2);
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            backdrop-filter: blur(2px);
+            letter-spacing: 0.3px;
+        }
+
+        /* ensure no scroll on tiny devices */
+        @media (max-width: 500px) {
+            .pill {
+                padding: 1rem 1.8rem;
+                min-width: 170px;
+            }
+            .footnote {
+                bottom: 0.5rem;
+                right: 1rem;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+    <!-- load Inter font (optional, but clean) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- VIDEO BACKGROUND – 1biz.mp4 as requested, entire background -->
+    <video class="video-background" autoplay muted loop playsinline>
+        <!-- Important: replace '1biz.mp4' with the actual path if different.
+             The file must be in the same directory or adjust src accordingly. -->
+        <source src="1biz.mp4" type="video/mp4">
+        <!-- Fallback text if video cannot load (rare) -->
+        Your browser does not support the video tag. Please update or use a different browser.
+    </video>
+
+    <!-- subtle overlay to ensure readability -->
+    <div class="overlay"></div>
+
+    <!-- STATIC HEADER WITH 50% PROGRESS BAR - NEW -->
+    <header class="maintenance-header">
+        <div class="header-content">
+            <div class="header-left">
+                <span class="header-icon">🔧</span>
+                <span class="header-text">Server Maintenance</span>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill"></div>
+                </div>
+                <span class="progress-text">50%</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN STATIC PAGE CONTENT -->
+    <div class="content">
+        <!-- brand pill (small detail) -->
+        <div class="brand">
+            <span class="brand-icon">⚡</span>
+            <span class="brand-name">1biz · hosting</span>
+        </div>
+
+        <!-- main headline: revamp message -->
+        <h1>🔧🚧 MAINTENANCE IN PROGRESS 🚧🔧</h1>
+        <div class="subhead">From startup dreams to enterprise grade</div>
+
+        <!-- two-pillar audience representation (small & enterprise) -->
+        <div class="audience-grid">
+            <!-- small business card -->
+            <div class="pill">
+                <span class="pill-emoji">🚀</span>
+                <span class="pill-title small-title">small biz</span>
+                <span class="pill-desc">lightning · simple · grow</span>
+            </div>
+            <!-- enterprise card -->
+            <div class="pill">
+                <span class="pill-emoji">🏛️</span>
+                <span class="pill-title enterprise-title">enterprise</span>
+                <span class="pill-desc">dedicated · secure · global</span>
+            </div>
+        </div>
+
+        <!-- explicit revamp highlight (connects to brief) -->
+        <div class="revamp-note">
+            <span>✨</span> complete service revamp · now tailored for both worlds <span>✨</span>
+        </div>
+
+        <!-- call to actions (static) -->
+        <div class="actions">
+            <a href="#" class="btn btn-primary">explore small plans →</a>
+            <a href="#" class="btn btn-outline">talk to enterprise →</a>
+        </div>
+
+        <!-- static year / note (optional) -->
+        <div class="footnote">
+            ⚡ 1biz · where hosting meets ambition
+        </div>
+    </div>
+
+    <!-- A tiny inline script to guarantee video plays and stays static (no interaction needed)
+         but also if you want to ensure video is seen even on slow load.
+         It's already looping, muted, autoplay. The code below is just a failover. -->
+    <script>
+        (function() {
+            // ensure video attempts to play (browser policies may require user interaction,
+            // but muted autoplay usually works. just to be safe:)
+            const video = document.querySelector('.video-background');
+            if (video) {
+                video.play().catch(e => {
+                    // Autoplay was prevented – but we stay static, overlay still visible.
+                    // we could optionally show a 'click to unmute' but it's muted anyway.
+                    console.log("Autoplay prevented? (non critical, video will stay placeholder)");
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
