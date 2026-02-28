@@ -1,0 +1,2158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexusHost — Hosting, Dedicated Servers & Cloud Infrastructure</title>
+<link href="https://fonts.googleapis.com/css2?family=Mabry+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #000000;
+    --white: #ffffff;
+    --pink: #ff90e8;
+    --yellow: #ffd700;
+    --green: #23a094;
+    --orange: #f4a261;
+    --bg: #f9f7f4;
+    --border: 2px solid #000;
+    --shadow: 4px 4px 0px #000;
+    --shadow-lg: 6px 6px 0px #000;
+    --radius: 0px;
+    --font-head: 'DM Sans', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--black);
+    overflow-x: hidden;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--white);
+    border-bottom: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    height: 60px;
+  }
+
+  .nav-logo {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  .nav-logo span {
+    background: var(--pink);
+    border: var(--border);
+    padding: 1px 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--black);
+    text-decoration: none;
+    padding: 6px 14px;
+    border: 2px solid transparent;
+    transition: all 0.1s;
+  }
+
+  .nav-links a:hover {
+    border: var(--border);
+    background: var(--yellow);
+    box-shadow: var(--shadow);
+  }
+
+  .nav-cta {
+    background: var(--black) !important;
+    color: var(--white) !important;
+    border: var(--border) !important;
+    padding: 8px 20px !important;
+    font-weight: 700 !important;
+    box-shadow: var(--shadow);
+    transition: all 0.1s !important;
+  }
+
+  .nav-cta:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-lg) !important;
+    background: var(--black) !important;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    border-bottom: var(--border);
+    padding: 80px 32px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: var(--pink);
+    border: var(--border);
+    display: inline-block;
+    padding: 4px 10px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+  }
+
+  .hero h1 {
+    font-family: var(--font-head);
+    font-size: clamp(42px, 5vw, 72px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    text-decoration: underline;
+    text-decoration-color: var(--pink);
+    text-underline-offset: 6px;
+    text-decoration-thickness: 4px;
+  }
+
+  .hero-desc {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 36px;
+    max-width: 480px;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--black);
+    color: var(--white);
+    border: var(--border);
+    padding: 14px 28px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: all 0.1s;
+    font-family: var(--font-body);
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .btn-secondary {
+    background: var(--white);
+    color: var(--black);
+    border: var(--border);
+    padding: 14px 28px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: all 0.1s;
+    font-family: var(--font-body);
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-secondary:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-lg);
+    background: var(--yellow);
+  }
+
+  .hero-visual {
+    position: relative;
+  }
+
+  .server-card-stack {
+    position: relative;
+    height: 340px;
+  }
+
+  .server-card {
+    position: absolute;
+    background: var(--white);
+    border: var(--border);
+    padding: 20px;
+    width: 280px;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .server-card:nth-child(1) { top: 0; left: 30px; transform: rotate(-2deg); background: var(--pink); }
+  .server-card:nth-child(2) { top: 60px; left: 80px; transform: rotate(1deg); background: var(--yellow); }
+  .server-card:nth-child(3) { top: 120px; left: 20px; transform: rotate(-1deg); }
+
+  .server-card-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .server-card-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  .server-card-price {
+    font-size: 13px;
+    color: #444;
+    margin-top: 4px;
+  }
+
+  .server-card-dot {
+    width: 8px;
+    height: 8px;
+    background: #23a094;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ===== STATS BAR ===== */
+  .stats-bar {
+    background: var(--black);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  .stat-item {
+    padding: 20px 48px;
+    text-align: center;
+    border-right: 1px solid #333;
+    flex: 1;
+  }
+
+  .stat-item:last-child { border-right: none; }
+
+  .stat-num {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    font-family: var(--font-head);
+    color: var(--pink);
+  }
+
+  .stat-label {
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-top: 2px;
+    font-family: var(--font-mono);
+  }
+
+  /* ===== SECTION WRAPPER ===== */
+  .section {
+    border-bottom: var(--border);
+    padding: 60px 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    margin-bottom: 40px;
+  }
+
+  .section-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: var(--border);
+    display: inline-block;
+    padding: 3px 8px;
+    margin-bottom: 12px;
+    background: var(--yellow);
+    box-shadow: 3px 3px 0 #000;
+  }
+
+  .section-title {
+    font-family: var(--font-head);
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+  }
+
+  .section-subtitle {
+    font-size: 16px;
+    color: #555;
+    margin-top: 10px;
+    max-width: 560px;
+    line-height: 1.6;
+  }
+
+  /* ===== PRODUCT GRID (Gumroad style) ===== */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .product-card {
+    background: var(--white);
+    border: var(--border);
+    box-shadow: var(--shadow);
+    transition: all 0.12s;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .product-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .product-card-cover {
+    height: 140px;
+    border-bottom: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+  }
+
+  .product-card-body {
+    padding: 16px;
+  }
+
+  .product-card-category {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 6px;
+  }
+
+  .product-card-name {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .product-card-desc {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+
+  .product-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+  }
+
+  .product-card-price {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  .product-card-price small {
+    font-size: 12px;
+    color: #888;
+    font-weight: 400;
+  }
+
+  .product-card-btn {
+    background: var(--black);
+    color: var(--white);
+    border: var(--border);
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 #000;
+    transition: all 0.1s;
+    font-family: var(--font-body);
+  }
+
+  .product-card-btn:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0 #000;
+  }
+
+  /* ===== FEATURES SECTION ===== */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: var(--border);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .feature-item {
+    padding: 28px;
+    border-right: var(--border);
+    border-bottom: var(--border);
+    transition: background 0.1s;
+  }
+
+  .feature-item:hover { background: var(--pink); }
+  .feature-item:nth-child(3n) { border-right: none; }
+  .feature-item:nth-child(n+7) { border-bottom: none; }
+
+  .feature-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .feature-name {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: -0.2px;
+  }
+
+  .feature-desc {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  /* ===== COMPARISON TABLE ===== */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: var(--border);
+    box-shadow: var(--shadow-lg);
+    background: var(--white);
+  }
+
+  .compare-table th {
+    background: var(--black);
+    color: var(--white);
+    padding: 14px 20px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-right: 1px solid #333;
+    font-family: var(--font-mono);
+  }
+
+  .compare-table th:first-child { background: var(--black); }
+
+  .compare-table td {
+    padding: 12px 20px;
+    font-size: 14px;
+    border-right: var(--border);
+    border-bottom: 1px solid #eee;
+  }
+
+  .compare-table tr:hover td { background: #fff9f0; }
+
+  .check { color: #23a094; font-size: 16px; font-weight: 700; }
+  .cross { color: #e63946; font-size: 16px; }
+
+  .popular-col {
+    background: rgba(255, 144, 232, 0.15) !important;
+  }
+
+  .popular-th {
+    background: var(--pink) !important;
+    color: var(--black) !important;
+    position: relative;
+  }
+
+  .popular-badge {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--yellow);
+    border: var(--border);
+    font-size: 10px;
+    padding: 2px 8px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    box-shadow: 2px 2px 0 #000;
+  }
+
+  /* ===== TESTIMONIALS ===== */
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .testimonial-card {
+    background: var(--white);
+    border: var(--border);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    transition: all 0.12s;
+  }
+
+  .testimonial-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .testimonial-stars {
+    font-size: 14px;
+    margin-bottom: 12px;
+    color: var(--black);
+  }
+
+  .testimonial-text {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #333;
+    margin-bottom: 16px;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .testimonial-avatar {
+    width: 36px;
+    height: 36px;
+    border: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    background: var(--yellow);
+    font-weight: 700;
+  }
+
+  .testimonial-name {
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .testimonial-role {
+    font-size: 12px;
+    color: #888;
+    font-family: var(--font-mono);
+  }
+
+  /* ===== FAQ ===== */
+  .faq-list {
+    border: var(--border);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .faq-item {
+    border-bottom: var(--border);
+    background: var(--white);
+  }
+
+  .faq-item:last-child { border-bottom: none; }
+
+  .faq-question {
+    padding: 20px 24px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    user-select: none;
+    transition: background 0.1s;
+  }
+
+  .faq-question:hover { background: var(--yellow); }
+
+  .faq-question.open { background: var(--pink); }
+
+  .faq-toggle {
+    font-size: 20px;
+    font-weight: 700;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--white);
+    box-shadow: 2px 2px 0 #000;
+  }
+
+  .faq-answer {
+    display: none;
+    padding: 0 24px 20px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #444;
+    border-top: var(--border);
+  }
+
+  .faq-answer.open { display: block; }
+
+  /* ===== CTA BANNER ===== */
+  .cta-banner {
+    background: var(--black);
+    color: var(--white);
+    padding: 60px 32px;
+    text-align: center;
+    border-bottom: var(--border);
+  }
+
+  .cta-banner h2 {
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    margin-bottom: 16px;
+    font-family: var(--font-head);
+  }
+
+  .cta-banner h2 em {
+    font-style: normal;
+    color: var(--pink);
+  }
+
+  .cta-banner p {
+    font-size: 17px;
+    color: #ccc;
+    margin-bottom: 32px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-banner .btn-primary {
+    background: var(--pink);
+    color: var(--black);
+    border: 2px solid var(--white);
+    box-shadow: 4px 4px 0 var(--white);
+    font-size: 16px;
+    padding: 16px 36px;
+  }
+
+  .cta-banner .btn-primary:hover {
+    box-shadow: 6px 6px 0 var(--white);
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--white);
+    border-top: var(--border);
+    padding: 48px 32px 24px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto 40px;
+  }
+
+  .footer-brand p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin-top: 12px;
+    margin-bottom: 20px;
+  }
+
+  .footer-col h4 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-family: var(--font-mono);
+  }
+
+  .footer-col ul { list-style: none; }
+
+  .footer-col ul li {
+    margin-bottom: 8px;
+  }
+
+  .footer-col ul li a {
+    font-size: 14px;
+    color: #555;
+    text-decoration: none;
+    transition: color 0.1s;
+  }
+
+  .footer-col ul li a:hover { color: var(--black); text-decoration: underline; }
+
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #888;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: var(--border);
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: var(--font-mono);
+    background: var(--white);
+    box-shadow: 2px 2px 0 #000;
+  }
+
+  /* ===== MODALS ===== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.15s ease;
+  }
+
+  .modal-overlay.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .modal {
+    background: var(--white);
+    border: var(--border);
+    box-shadow: 8px 8px 0 #000;
+    width: 100%;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUp 0.15s ease;
+    position: relative;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .modal-header {
+    padding: 24px 28px 20px;
+    border-bottom: var(--border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    background: var(--white);
+    z-index: 1;
+  }
+
+  .modal-header-content {}
+
+  .modal-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 6px;
+  }
+
+  .modal-title {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.8px;
+  }
+
+  .modal-close {
+    background: var(--white);
+    border: var(--border);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 700;
+    box-shadow: var(--shadow);
+    flex-shrink: 0;
+    transition: all 0.1s;
+  }
+
+  .modal-close:hover {
+    background: var(--pink);
+    transform: translate(-1px, -1px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .modal-body {
+    padding: 28px;
+  }
+
+  .modal-section {
+    margin-bottom: 28px;
+  }
+
+  .modal-section-title {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: var(--border);
+  }
+
+  .spec-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: var(--border);
+  }
+
+  .spec-row {
+    display: contents;
+  }
+
+  .spec-label {
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #666;
+    border-right: var(--border);
+    border-bottom: 1px solid #eee;
+    background: #fafafa;
+    font-family: var(--font-mono);
+  }
+
+  .spec-value {
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    border-bottom: 1px solid #eee;
+  }
+
+  .plan-tiers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .plan-tier {
+    border: var(--border);
+    padding: 16px;
+    background: var(--white);
+    cursor: pointer;
+    transition: all 0.1s;
+    box-shadow: var(--shadow);
+  }
+
+  .plan-tier:hover, .plan-tier.selected {
+    background: var(--yellow);
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .plan-tier-name {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .plan-tier-price {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  .plan-tier-price small {
+    font-size: 12px;
+    color: #666;
+    font-weight: 400;
+  }
+
+  .plan-tier-specs {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #555;
+    line-height: 1.7;
+    font-family: var(--font-mono);
+  }
+
+  .modal-footer {
+    padding: 20px 28px;
+    border-top: var(--border);
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .modal-footer-price {
+    font-size: 13px;
+    color: #666;
+  }
+
+  .modal-footer-price strong {
+    font-size: 20px;
+    color: var(--black);
+    letter-spacing: -0.5px;
+  }
+
+  .gumroad-btn {
+    background: var(--pink);
+    color: var(--black);
+    border: var(--border);
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: all 0.1s;
+    font-family: var(--font-body);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .gumroad-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* ===== MARQUEE ===== */
+  .marquee-wrap {
+    border-top: var(--border);
+    border-bottom: var(--border);
+    overflow: hidden;
+    background: var(--yellow);
+    padding: 10px 0;
+    white-space: nowrap;
+  }
+
+  .marquee-inner {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .marquee-sep {
+    margin: 0 20px;
+    color: #000;
+    opacity: 0.4;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .features-grid { grid-template-columns: 1fr 1fr; }
+    .testimonial-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .stat-item { padding: 16px 24px; }
+    .plan-tiers { grid-template-columns: 1fr; }
+    .compare-table { font-size: 12px; }
+    nav { padding: 0 16px; }
+    .section { padding: 40px 16px; }
+    .hero { padding: 48px 16px 40px; }
+  }
+
+  /* ===== MISC ===== */
+  .badge-new {
+    background: var(--green);
+    color: var(--white);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border: 1px solid rgba(0,0,0,0.2);
+    font-family: var(--font-mono);
+    vertical-align: middle;
+    margin-left: 6px;
+  }
+
+  .highlight-row { background: rgba(255, 215, 0, 0.15) !important; }
+
+  .uptime-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #e8f9f7;
+    border: var(--border);
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    box-shadow: 2px 2px 0 #000;
+    margin-top: 16px;
+  }
+
+  .dc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .dc-card {
+    border: var(--border);
+    padding: 16px;
+    background: var(--white);
+    box-shadow: var(--shadow);
+    transition: all 0.1s;
+  }
+
+  .dc-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-lg);
+    background: var(--yellow);
+  }
+
+  .dc-flag { font-size: 24px; margin-bottom: 6px; }
+  .dc-name { font-size: 14px; font-weight: 700; }
+  .dc-location { font-size: 12px; color: #666; font-family: var(--font-mono); }
+  .dc-latency { font-size: 11px; color: var(--green); font-family: var(--font-mono); margin-top: 4px; font-weight: 500; }
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav>
+  <a class="nav-logo" href="#">
+    NexusHost
+    <span>Beta</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="openModal('modal-hosting')">Web Hosting</a></li>
+    <li><a href="#" onclick="openModal('modal-dedicated')">Dedicated Servers</a></li>
+    <li><a href="#" onclick="openModal('modal-cloud')">Cloud</a></li>
+    <li><a href="#" onclick="openModal('modal-enterprise')">Enterprise</a></li>
+    <li><a href="#" onclick="openModal('modal-pricing')">Pricing</a></li>
+    <li><a href="#" class="nav-cta" onclick="openModal('modal-hosting')">Get Started →</a></li>
+  </ul>
+</nav>
+
+<!-- ===== HERO ===== -->
+<div style="border-bottom: var(--border);">
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow">🚀 Trusted by 50,000+ businesses</div>
+    <h1>The <em>fastest</em> hosting for serious businesses.</h1>
+    <p class="hero-desc">Web hosting, dedicated servers, and cloud infrastructure — built for developers and enterprises who refuse to compromise on speed, reliability, or control.</p>
+    <div class="uptime-badge">
+      <span class="server-card-dot"></span>
+      99.99% Uptime SLA • 24/7 NOC Support • All systems operational
+    </div>
+    <br><br>
+    <div class="hero-btns">
+      <a href="#" class="btn-primary" onclick="openModal('modal-hosting'); return false;">Browse Plans →</a>
+      <a href="#" class="btn-secondary" onclick="openModal('modal-enterprise'); return false;">Talk to Sales</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="server-card-stack">
+      <div class="server-card">
+        <div class="server-card-label">☁️ Cloud VPS</div>
+        <div class="server-card-title">Cloud Starter</div>
+        <div class="server-card-price">from $12/mo — 2 vCPU, 4GB RAM</div>
+      </div>
+      <div class="server-card">
+        <div class="server-card-label">🖥️ Dedicated</div>
+        <div class="server-card-title">Bare Metal Pro</div>
+        <div class="server-card-price">from $89/mo — 16-core, 64GB RAM</div>
+      </div>
+      <div class="server-card">
+        <div class="server-card-label"><span class="server-card-dot"></span>Live Now</div>
+        <div class="server-card-title">12 active plans</div>
+        <div class="server-card-price">Instant provisioning • No contracts</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ===== MARQUEE ===== -->
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    ⚡ NVMe SSD Storage &nbsp;<span class="marquee-sep">✦</span>&nbsp; 10Gbps Network &nbsp;<span class="marquee-sep">✦</span>&nbsp; DDoS Protection Included &nbsp;<span class="marquee-sep">✦</span>&nbsp; Free SSL Certificates &nbsp;<span class="marquee-sep">✦</span>&nbsp; Instant Provisioning &nbsp;<span class="marquee-sep">✦</span>&nbsp; 24/7 Expert Support &nbsp;<span class="marquee-sep">✦</span>&nbsp; 99.99% Uptime SLA &nbsp;<span class="marquee-sep">✦</span>&nbsp; Daily Backups &nbsp;<span class="marquee-sep">✦</span>&nbsp; Global CDN &nbsp;<span class="marquee-sep">✦</span>&nbsp; IPv6 Ready &nbsp;<span class="marquee-sep">✦</span>&nbsp; GDPR Compliant &nbsp;<span class="marquee-sep">✦</span>&nbsp; ISO 27001 Certified &nbsp;<span class="marquee-sep">✦</span>&nbsp;
+    ⚡ NVMe SSD Storage &nbsp;<span class="marquee-sep">✦</span>&nbsp; 10Gbps Network &nbsp;<span class="marquee-sep">✦</span>&nbsp; DDoS Protection Included &nbsp;<span class="marquee-sep">✦</span>&nbsp; Free SSL Certificates &nbsp;<span class="marquee-sep">✦</span>&nbsp; Instant Provisioning &nbsp;<span class="marquee-sep">✦</span>&nbsp; 24/7 Expert Support &nbsp;<span class="marquee-sep">✦</span>&nbsp; 99.99% Uptime SLA &nbsp;<span class="marquee-sep">✦</span>&nbsp; Daily Backups &nbsp;<span class="marquee-sep">✦</span>&nbsp; Global CDN &nbsp;<span class="marquee-sep">✦</span>&nbsp; IPv6 Ready &nbsp;<span class="marquee-sep">✦</span>&nbsp; GDPR Compliant &nbsp;<span class="marquee-sep">✦</span>&nbsp; ISO 27001 Certified &nbsp;<span class="marquee-sep">✦</span>&nbsp;
+  </div>
+</div>
+
+<!-- ===== STATS ===== -->
+<div style="border-bottom: var(--border);">
+  <div class="stats-bar" style="max-width: 1200px; margin: 0 auto;">
+    <div class="stat-item">
+      <div class="stat-num">50K+</div>
+      <div class="stat-label">Active Customers</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">99.99%</div>
+      <div class="stat-label">Uptime Guarantee</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">16</div>
+      <div class="stat-label">Data Centers</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">10Gbps</div>
+      <div class="stat-label">Network Backbone</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">&lt;5ms</div>
+      <div class="stat-label">Avg. Response Time</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PRODUCTS SECTION ===== -->
+<div style="border-bottom: var(--border);">
+<div class="section">
+  <div class="section-header">
+    <div class="section-tag">Our Products</div>
+    <h2 class="section-title">Everything you need to launch<br>and scale your infrastructure.</h2>
+    <p class="section-subtitle">From shared hosting for startups to bare metal clusters for enterprises — we have the right plan.</p>
+  </div>
+
+  <div class="product-grid">
+
+    <div class="product-card" onclick="openModal('modal-hosting')">
+      <div class="product-card-cover" style="background: #fff0fa;">🌐</div>
+      <div class="product-card-body">
+        <div class="product-card-category">Web Hosting</div>
+        <div class="product-card-name">Shared & Managed Hosting</div>
+        <div class="product-card-desc">SSD-powered shared hosting with cPanel, one-click WordPress, and free SSL. Perfect for blogs, agencies, and small businesses.</div>
+        <div class="product-card-footer">
+          <div class="product-card-price">$3.99 <small>/mo</small></div>
+          <button class="product-card-btn">View Plans</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="openModal('modal-vps')">
+      <div class="product-card-cover" style="background: #f0fff4;">☁️</div>
+      <div class="product-card-body">
+        <div class="product-card-category">VPS Hosting</div>
+        <div class="product-card-name">Virtual Private Servers</div>
+        <div class="product-card-desc">KVM-based VPS with dedicated resources, full root access, and your choice of OS. Scale up in seconds with our control panel.</div>
+        <div class="product-card-footer">
+          <div class="product-card-price">$12.00 <small>/mo</small></div>
+          <button class="product-card-btn">View Plans</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="openModal('modal-dedicated')">
+      <div class="product-card-cover" style="background: #fff9e6;">🖥️</div>
+      <div class="product-card-body">
+        <div class="product-card-category">Dedicated Servers</div>
+        <div class="product-card-name">Bare Metal Servers <span class="badge-new">Popular</span></div>
+        <div class="product-card-desc">Exclusively yours. No hypervisor overhead, no noisy neighbors. Configure your own CPU, RAM, and storage combination.</div>
+        <div class="product-card-footer">
+          <div class="product-card-price">$89.00 <small>/mo</small></div>
+          <button class="product-card-btn">Configure</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="openModal('modal-cloud')">
+      <div class="product-card-cover" style="background: #f0f7ff;">⚡</div>
+      <div class="product-card-body">
+        <div class="product-card-category">Cloud Infrastructure</div>
+        <div class="product-card-name">Cloud Compute & Auto-Scale</div>
+        <div class="product-card-desc">Kubernetes clusters, auto-scaling groups, load balancers, and object storage. API-first infrastructure built for modern teams.</div>
+        <div class="product-card-footer">
+          <div class="product-card-price">$0.008 <small>/hr/vCPU</small></div>
+          <button class="product-card-btn">Explore</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="openModal('modal-colocation')">
+      <div class="product-card-cover" style="background: #fff0f0;">🏢</div>
+      <div class="product-card-body">
+        <div class="product-card-category">Colocation</div>
+        <div class="product-card-name">Data Center Colocation</div>
+        <div class="product-card-desc">Rack your own hardware in our Tier III data centers. Redundant power, cooling, and 10Gbps cross-connects available.</div>
+        <div class="product-card-footer">
+          <div class="product-card-price">$99.00 <small>/U/mo</small></div>
+          <button class="product-card-btn">Learn More</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="openModal('modal-enterprise')">
+      <div class="product-card-cover" style="background: #f5f0ff;">🔒</div>
+      <div class="product-card-body">
+        <div class="product-card-category">Enterprise</div>
+        <div class="product-card-name">Enterprise & Custom Builds <span class="badge-new">New</span></div>
+        <div class="product-card-desc">Custom network topology, private cloud, SLA guarantees up to 99.999%, dedicated account management, and compliance support.</div>
+        <div class="product-card-footer">
+          <div class="product-card-price">Custom <small>pricing</small></div>
+          <button class="product-card-btn">Contact Sales</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- ===== FEATURES ===== -->
+<div style="border-bottom: var(--border);">
+<div class="section">
+  <div class="section-header">
+    <div class="section-tag">Why NexusHost</div>
+    <h2 class="section-title">Infrastructure built for the<br>demands of tomorrow.</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-item">
+      <span class="feature-icon">⚡</span>
+      <div class="feature-name">NVMe SSD Storage</div>
+      <div class="feature-desc">All servers use enterprise-grade NVMe SSDs — up to 7,000 MB/s sequential read, dramatically faster than traditional SATA drives.</div>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">🛡️</span>
+      <div class="feature-name">DDoS Protection</div>
+      <div class="feature-desc">Always-on volumetric DDoS mitigation up to 4 Tbps, included free on all plans. No traffic scrubbing fees, no upcharge.</div>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">🌍</span>
+      <div class="feature-name">Global Network</div>
+      <div class="feature-desc">16 data centers across 4 continents with private backbone peering. Anycast routing brings your content closer to every visitor.</div>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">🔒</span>
+      <div class="feature-name">Free SSL & DV Certs</div>
+      <div class="feature-desc">Automatic Let's Encrypt SSL issued in under 60 seconds. Wildcard SSL included on Business and Enterprise plans. HSTS enabled by default.</div>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">💾</span>
+      <div class="feature-name">Daily Backups</div>
+      <div class="feature-desc">Automated daily snapshots retained for 30 days. One-click restore from the control panel. Off-site backup replication available.</div>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">📊</span>
+      <div class="feature-name">Real-Time Monitoring</div>
+      <div class="feature-desc">CPU, RAM, disk, and network graphs updated every 10 seconds. Alerting via email, Slack, PagerDuty, or webhook. Full API access.</div>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">🔄</span>
+      <div class="feature-name">One-Click Scaling</div>
+      <div class="feature-desc">Resize VPS resources without migration. Horizontal auto-scaling on cloud plans. Spot instance support for cost optimization.</div>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">🧰</span>
+      <div class="feature-name">Developer Tools</div>
+      <div class="feature-desc">Full REST API, Terraform provider, Kubernetes operator, CLI tools, and webhooks. Deploy from GitHub Actions in under 2 minutes.</div>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">🎯</span>
+      <div class="feature-name">99.99% Uptime SLA</div>
+      <div class="feature-desc">Contractual uptime guarantees backed by financial credits. Redundant power (2N), cooling (N+1), and network (BGP multi-homed).</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ===== DATA CENTERS ===== -->
+<div style="border-bottom: var(--border);">
+<div class="section">
+  <div class="section-header">
+    <div class="section-tag">Global Presence</div>
+    <h2 class="section-title">16 data centers.<br>Every continent. One platform.</h2>
+    <p class="section-subtitle">Deploy close to your users with low-latency interconnects and private peering across our global network.</p>
+  </div>
+  <div class="dc-grid">
+    <div class="dc-card">
+      <div class="dc-flag">🇺🇸</div>
+      <div class="dc-name">New York, USA</div>
+      <div class="dc-location">NYC-1 / NYC-2</div>
+      <div class="dc-latency">● &lt;1ms to NYC</div>
+    </div>
+    <div class="dc-card">
+      <div class="dc-flag">🇺🇸</div>
+      <div class="dc-name">Los Angeles, USA</div>
+      <div class="dc-location">LAX-1</div>
+      <div class="dc-latency">● &lt;1ms to LA</div>
+    </div>
+    <div class="dc-card">
+      <div class="dc-flag">🇬🇧</div>
+      <div class="dc-name">London, UK</div>
+      <div class="dc-location">LON-1 / LON-2</div>
+      <div class="dc-latency">● ~8ms to London</div>
+    </div>
+    <div class="dc-card">
+      <div class="dc-flag">🇩🇪</div>
+      <div class="dc-name">Frankfurt, Germany</div>
+      <div class="dc-location">FRA-1</div>
+      <div class="dc-latency">● ~12ms to Frankfurt</div>
+    </div>
+    <div class="dc-card">
+      <div class="dc-flag">🇸🇬</div>
+      <div class="dc-name">Singapore</div>
+      <div class="dc-location">SIN-1</div>
+      <div class="dc-latency">● ~180ms to SIN</div>
+    </div>
+    <div class="dc-card">
+      <div class="dc-flag">🇯🇵</div>
+      <div class="dc-name">Tokyo, Japan</div>
+      <div class="dc-location">TYO-1</div>
+      <div class="dc-latency">● ~150ms to TYO</div>
+    </div>
+    <div class="dc-card">
+      <div class="dc-flag">🇦🇺</div>
+      <div class="dc-name">Sydney, Australia</div>
+      <div class="dc-location">SYD-1</div>
+      <div class="dc-latency">● ~220ms to SYD</div>
+    </div>
+    <div class="dc-card">
+      <div class="dc-flag">🇧🇷</div>
+      <div class="dc-name">São Paulo, Brazil</div>
+      <div class="dc-location">GRU-1</div>
+      <div class="dc-latency">● ~120ms to GRU</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ===== COMPARISON TABLE ===== -->
+<div style="border-bottom: var(--border);">
+<div class="section">
+  <div class="section-header">
+    <div class="section-tag">Compare Plans</div>
+    <h2 class="section-title">Find your perfect plan.</h2>
+    <p class="section-subtitle">All plans include DDoS protection, free SSL, and 24/7 support. No hidden fees, ever.</p>
+  </div>
+  <div style="overflow-x: auto;">
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th style="min-width:160px;">Feature</th>
+        <th>Shared Hosting</th>
+        <th class="popular-th" style="position:relative; min-width:140px;"><span class="popular-badge">Most Popular</span>VPS Pro</th>
+        <th>Dedicated</th>
+        <th>Cloud</th>
+        <th>Enterprise</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Starting Price</strong></td>
+        <td>$3.99/mo</td>
+        <td class="popular-col"><strong>$29/mo</strong></td>
+        <td>$89/mo</td>
+        <td>$0.008/hr</td>
+        <td>Custom</td>
+      </tr>
+      <tr>
+        <td><strong>vCPU / Cores</strong></td>
+        <td>Shared</td>
+        <td class="popular-col">4 vCPU</td>
+        <td>16 cores</td>
+        <td>2–128 vCPU</td>
+        <td>Custom</td>
+      </tr>
+      <tr>
+        <td><strong>RAM</strong></td>
+        <td>Shared</td>
+        <td class="popular-col">8 GB</td>
+        <td>64 GB</td>
+        <td>4 GB – 512 GB</td>
+        <td>Up to 6 TB</td>
+      </tr>
+      <tr>
+        <td><strong>Storage</strong></td>
+        <td>50 GB SSD</td>
+        <td class="popular-col">160 GB NVMe</td>
+        <td>2× 480 GB NVMe</td>
+        <td>Block + Object</td>
+        <td>Custom SAN</td>
+      </tr>
+      <tr>
+        <td><strong>Bandwidth</strong></td>
+        <td>Unlimited</td>
+        <td class="popular-col">4 TB/mo</td>
+        <td>10 TB/mo</td>
+        <td>Pay-as-you-go</td>
+        <td>Unmetered</td>
+      </tr>
+      <tr>
+        <td><strong>DDoS Protection</strong></td>
+        <td><span class="check">✓</span></td>
+        <td class="popular-col"><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span> Advanced</td>
+      </tr>
+      <tr>
+        <td><strong>Free SSL</strong></td>
+        <td><span class="check">✓</span></td>
+        <td class="popular-col"><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span> Wildcard</td>
+      </tr>
+      <tr>
+        <td><strong>Daily Backups</strong></td>
+        <td><span class="cross">✕</span></td>
+        <td class="popular-col"><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td><strong>Root / Full Access</strong></td>
+        <td><span class="cross">✕</span></td>
+        <td class="popular-col"><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td><strong>Managed Support</strong></td>
+        <td>Basic</td>
+        <td class="popular-col">Standard</td>
+        <td>Advanced</td>
+        <td>Standard</td>
+        <td>Dedicated TAM</td>
+      </tr>
+      <tr>
+        <td><strong>Uptime SLA</strong></td>
+        <td>99.9%</td>
+        <td class="popular-col">99.99%</td>
+        <td>99.99%</td>
+        <td>99.99%</td>
+        <td>99.999%</td>
+      </tr>
+      <tr>
+        <td><strong>Auto-Scaling</strong></td>
+        <td><span class="cross">✕</span></td>
+        <td class="popular-col"><span class="cross">✕</span></td>
+        <td><span class="cross">✕</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><button class="product-card-btn" onclick="openModal('modal-hosting')">Get Started</button></td>
+        <td class="popular-col"><button class="product-card-btn" style="background:var(--black);color:var(--white);" onclick="openModal('modal-vps')">Get Started</button></td>
+        <td><button class="product-card-btn" onclick="openModal('modal-dedicated')">Configure</button></td>
+        <td><button class="product-card-btn" onclick="openModal('modal-cloud')">Explore</button></td>
+        <td><button class="product-card-btn" onclick="openModal('modal-enterprise')">Contact</button></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+</div>
+
+<!-- ===== TESTIMONIALS ===== -->
+<div style="border-bottom: var(--border);">
+<div class="section">
+  <div class="section-header">
+    <div class="section-tag">Testimonials</div>
+    <h2 class="section-title">Loved by developers<br>and CTOs alike.</h2>
+  </div>
+  <div class="testimonial-grid">
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text">"Migrated from AWS and cut our infrastructure bill by 40% while improving performance. The dedicated server builds are phenomenal — exactly the specs we needed with zero fuss."</div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">JK</div>
+        <div>
+          <div class="testimonial-name">James K.</div>
+          <div class="testimonial-role">CTO, Fintech Startup</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text">"The support team is exceptional. They helped us architect our entire Kubernetes setup across three regions. 8 months in and we've had zero downtime. Genuinely impressive."</div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">SA</div>
+        <div>
+          <div class="testimonial-name">Sofía A.</div>
+          <div class="testimonial-role">Lead DevOps, SaaS Platform</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text">"NVMe storage + 10Gbps network is the real deal. Our database queries run 3× faster compared to our old host. The control panel is also the cleanest I've ever used."</div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">ML</div>
+        <div>
+          <div class="testimonial-name">Marc L.</div>
+          <div class="testimonial-role">Founder, E-Commerce Agency</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text">"We run a live video streaming platform and the DDoS protection has kept us online through multiple attacks. The instant provisioning means we can spin up capacity in under 90 seconds."</div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">TP</div>
+        <div>
+          <div class="testimonial-name">Tyler P.</div>
+          <div class="testimonial-role">VP Engineering, Media Company</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text">"Colocation with NexusHost is a no-brainer. Cross-connects to major exchanges, carrier-neutral facility, and our own hardware in a Tier III DC. Migration was smooth and well-supported."</div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">RN</div>
+        <div>
+          <div class="testimonial-name">Rachel N.</div>
+          <div class="testimonial-role">Infrastructure Lead, Enterprise</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text">"The Terraform provider is excellent. We can version-control our entire infrastructure and do blue-green deployments effortlessly. The API docs are thorough and the response times are fast."</div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">AI</div>
+        <div>
+          <div class="testimonial-name">Aryan I.</div>
+          <div class="testimonial-role">Senior SRE, B2B SaaS</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ===== FAQ ===== -->
+<div style="border-bottom: var(--border);">
+<div class="section">
+  <div class="section-header">
+    <div class="section-tag">FAQ</div>
+    <h2 class="section-title">Frequently asked questions.</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        How quickly are servers provisioned?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">VPS and cloud instances are provisioned within 60–90 seconds of order. Dedicated servers are provisioned within 2–4 hours for standard configurations. Custom hardware builds may take 24–48 hours depending on availability and configuration complexity.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        What operating systems are supported?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">We support all major Linux distributions including Ubuntu 20.04/22.04/24.04, Debian 11/12, CentOS Stream 8/9, AlmaLinux, Rocky Linux, Fedora, and Arch Linux. Windows Server 2019/2022 is available on VPS and Dedicated plans (additional licensing fee applies). Custom ISO uploads are supported on all VPS and dedicated plans.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Is there a contract or long-term commitment?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">No long-term contracts are required. All plans are month-to-month unless you choose to pre-pay annually for a discount (typically 15–20% off). Enterprise agreements may include SLA commitments, but billing is still monthly. Cancel anytime from your control panel.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        What kind of support do you offer?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">All plans include 24/7/365 support via live chat and ticket system. VPS Pro and above include phone support during business hours. Dedicated and Enterprise plans include priority escalation paths, a dedicated support queue, and response times of under 15 minutes for P1 incidents. Enterprise clients get a named Technical Account Manager.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        How does billing work? What payment methods do you accept?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">Billing is handled securely through Gumroad. We accept all major credit and debit cards (Visa, Mastercard, Amex, Discover), PayPal, and bank transfers for annual plans over $500/yr. All prices are in USD. Invoices are auto-generated and emailed monthly. You can manage payment methods directly from your billing dashboard.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        What does your 99.99% uptime SLA mean in practice?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">99.99% uptime means no more than ~52 minutes of unplanned downtime per year. If we miss this SLA, you receive service credits: 10% of monthly fee for 99.9%–99.99% availability, 25% for 99%–99.9%, and 50% for below 99%. Credits are automatically applied to your next invoice. Enterprise plans include 99.999% SLA with enhanced credit terms.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Can I migrate my existing servers to NexusHost?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">Yes! We offer free assisted migration for VPS Pro and above plans. Our team will help you migrate websites, databases, and applications with minimal downtime. We support migrations from all major providers including AWS, DigitalOcean, Vultr, Linode/Akamai, Hetzner, and traditional cPanel hosts. Contact our migration team to get started.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Are there any bandwidth overage charges?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">Shared hosting plans have truly unlimited bandwidth within fair-use policy. VPS and Dedicated plans have a monthly transfer allowance; overages are billed at $0.01/GB. Cloud plans are pay-as-you-go with no surprise bills — you set spending caps via the dashboard. Enterprise plans typically include unmetered bandwidth on their dedicated ports.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ===== CTA BANNER ===== -->
+<div class="cta-banner">
+  <h2>Start building on <em>NexusHost</em><br>today. No credit card needed.</h2>
+  <p>Deploy your first server in under 2 minutes. Upgrade or cancel anytime.</p>
+  <a href="#" class="btn-primary" onclick="openModal('modal-hosting'); return false;">Browse All Plans →</a>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="nav-logo" style="font-size: 20px;">NexusHost <span>Beta</span></div>
+      <p>Enterprise-grade web hosting, dedicated servers, and cloud infrastructure — trusted by 50,000+ businesses worldwide. Billing powered by Gumroad.</p>
+      <div class="status-pill"><span class="server-card-dot"></span> All Systems Operational</div>
+    </div>
+    <div class="footer-col">
+      <h4>Products</h4>
+      <ul>
+        <li><a href="#" onclick="openModal('modal-hosting');return false;">Web Hosting</a></li>
+        <li><a href="#" onclick="openModal('modal-vps');return false;">VPS Hosting</a></li>
+        <li><a href="#" onclick="openModal('modal-dedicated');return false;">Dedicated Servers</a></li>
+        <li><a href="#" onclick="openModal('modal-cloud');return false;">Cloud Compute</a></li>
+        <li><a href="#" onclick="openModal('modal-colocation');return false;">Colocation</a></li>
+        <li><a href="#" onclick="openModal('modal-enterprise');return false;">Enterprise</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press Kit</a></li>
+        <li><a href="#">Partners</a></li>
+        <li><a href="#">Affiliates</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">API Reference</a></li>
+        <li><a href="#">Status Page</a></li>
+        <li><a href="#">Community Forum</a></li>
+        <li><a href="#">Contact Sales</a></li>
+        <li><a href="#">Report Abuse</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">SLA Agreement</a></li>
+        <li><a href="#">AUP</a></li>
+        <li><a href="#">GDPR</a></li>
+        <li><a href="#">Cookie Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 NexusHost, Inc. All rights reserved. Payments processed by Gumroad.</div>
+    <div style="display:flex;gap:16px;">
+      <a href="#" style="color:#888;text-decoration:none;">Twitter / X</a>
+      <a href="#" style="color:#888;text-decoration:none;">GitHub</a>
+      <a href="#" style="color:#888;text-decoration:none;">Discord</a>
+      <a href="#" style="color:#888;text-decoration:none;">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== MODALS ===================== -->
+
+<!-- WEB HOSTING MODAL -->
+<div id="modal-hosting" class="modal-overlay" onclick="closeOnOverlay(event, 'modal-hosting')">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-content">
+        <div class="modal-eyebrow">🌐 Web Hosting</div>
+        <div class="modal-title">Shared & Managed Hosting</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-hosting')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">Choose Your Plan</div>
+        <div class="plan-tiers">
+          <div class="plan-tier selected" onclick="selectTier(this)">
+            <div class="plan-tier-name">Starter</div>
+            <div class="plan-tier-price">$3.99 <small>/mo</small></div>
+            <div class="plan-tier-specs">1 Website<br>50 GB SSD<br>Unlimited Bandwidth<br>Free SSL<br>5 Email Accounts</div>
+          </div>
+          <div class="plan-tier" onclick="selectTier(this)">
+            <div class="plan-tier-name">Business</div>
+            <div class="plan-tier-price">$9.99 <small>/mo</small></div>
+            <div class="plan-tier-specs">Unlimited Sites<br>200 GB SSD<br>Unlimited Bandwidth<br>Free SSL + Wildcard<br>Unlimited Emails</div>
+          </div>
+          <div class="plan-tier" onclick="selectTier(this)">
+            <div class="plan-tier-name">Pro</div>
+            <div class="plan-tier-price">$19.99 <small>/mo</small></div>
+            <div class="plan-tier-specs">Unlimited Sites<br>500 GB SSD<br>Unlimited Bandwidth<br>Priority Support<br>Staging Environment</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">All Plans Include</div>
+        <div class="spec-grid">
+          <div class="spec-label">Control Panel</div><div class="spec-value">cPanel / DirectAdmin</div>
+          <div class="spec-label">WordPress</div><div class="spec-value">One-click install + auto-updates</div>
+          <div class="spec-label">PHP Versions</div><div class="spec-value">7.4, 8.0, 8.1, 8.2, 8.3</div>
+          <div class="spec-label">MySQL / MariaDB</div><div class="spec-value">Unlimited databases</div>
+          <div class="spec-label">SSH Access</div><div class="spec-value">✓ Included</div>
+          <div class="spec-label">Softaculous</div><div class="spec-value">450+ apps, 1-click install</div>
+          <div class="spec-label">Node.js / Python</div><div class="spec-value">✓ Full support</div>
+          <div class="spec-label">Backup</div><div class="spec-value">Weekly automated (daily on Business+)</div>
+          <div class="spec-label">DNS Management</div><div class="spec-value">Full DNS zone editor</div>
+          <div class="spec-label">Uptime SLA</div><div class="spec-value">99.9% guaranteed</div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Managed WordPress Add-On</div>
+        <p style="font-size:14px;color:#555;line-height:1.6;">Upgrade to managed WordPress for automatic core, plugin, and theme updates, malware scanning, performance optimization with built-in caching, and staging environment support. Add from $5/mo per site.</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="modal-footer-price">Starting at <strong>$3.99/mo</strong> · No setup fee</div>
+      <a href="https://gumroad.com" target="_blank" class="gumroad-btn">🛒 Get Started via Gumroad</a>
+    </div>
+  </div>
+</div>
+
+<!-- VPS MODAL -->
+<div id="modal-vps" class="modal-overlay" onclick="closeOnOverlay(event, 'modal-vps')">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-content">
+        <div class="modal-eyebrow">☁️ VPS Hosting</div>
+        <div class="modal-title">Virtual Private Servers</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-vps')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">VPS Plans</div>
+        <div class="plan-tiers">
+          <div class="plan-tier selected" onclick="selectTier(this)">
+            <div class="plan-tier-name">VPS 2</div>
+            <div class="plan-tier-price">$12 <small>/mo</small></div>
+            <div class="plan-tier-specs">2 vCPU<br>4 GB RAM<br>80 GB NVMe<br>2 TB Transfer</div>
+          </div>
+          <div class="plan-tier" onclick="selectTier(this)">
+            <div class="plan-tier-name">VPS 4</div>
+            <div class="plan-tier-price">$29 <small>/mo</small></div>
+            <div class="plan-tier-specs">4 vCPU<br>8 GB RAM<br>160 GB NVMe<br>4 TB Transfer</div>
+          </div>
+          <div class="plan-tier" onclick="selectTier(this)">
+            <div class="plan-tier-name">VPS 8</div>
+            <div class="plan-tier-price">$59 <small>/mo</small></div>
+            <div class="plan-tier-specs">8 vCPU<br>16 GB RAM<br>320 GB NVMe<br>8 TB Transfer</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Technical Specifications</div>
+        <div class="spec-grid">
+          <div class="spec-label">Virtualization</div><div class="spec-value">KVM (full hardware virtualization)</div>
+          <div class="spec-label">Storage Type</div><div class="spec-value">NVMe SSD RAID-10</div>
+          <div class="spec-label">Network Speed</div><div class="spec-value">1 Gbps dedicated port</div>
+          <div class="spec-label">IP Addresses</div><div class="spec-value">1x IPv4, /64 IPv6 block</div>
+          <div class="spec-label">Additional IPs</div><div class="spec-value">$2/mo per IPv4</div>
+          <div class="spec-label">OS Options</div><div class="spec-value">Linux (all major distros) + Windows</div>
+          <div class="spec-label">Root Access</div><div class="spec-value">✓ Full root/admin access</div>
+          <div class="spec-label">Control Panel</div><div class="spec-value">Virtualizor or cPanel (optional)</div>
+          <div class="spec-label">DDoS Protection</div><div class="spec-value">✓ Up to 1 Tbps mitigation</div>
+          <div class="spec-label">Snapshot Backups</div><div class="spec-value">Daily, 7-day retention</div>
+          <div class="spec-label">Monitoring</div><div class="spec-value">Real-time metrics dashboard</div>
+          <div class="spec-label">Provisioning</div><div class="spec-value">Under 90 seconds</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="modal-footer-price">Starting at <strong>$12/mo</strong> · Hourly billing available</div>
+      <a href="https://gumroad.com" target="_blank" class="gumroad-btn">🛒 Order via Gumroad</a>
+    </div>
+  </div>
+</div>
+
+<!-- DEDICATED SERVERS MODAL -->
+<div id="modal-dedicated" class="modal-overlay" onclick="closeOnOverlay(event, 'modal-dedicated')">
+  <div class="modal" style="max-width:760px;">
+    <div class="modal-header">
+      <div class="modal-header-content">
+        <div class="modal-eyebrow">🖥️ Dedicated Servers</div>
+        <div class="modal-title">Bare Metal Servers</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-dedicated')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:14px;color:#555;line-height:1.6;margin-bottom:24px;">100% of the hardware is yours. No hypervisor overhead, no resource contention. Configure exactly what you need from our pre-built options or request a custom build.</p>
+      <div class="modal-section">
+        <div class="modal-section-title">Server Configurations</div>
+        <div class="plan-tiers" style="grid-template-columns: 1fr 1fr;">
+          <div class="plan-tier selected" onclick="selectTier(this)">
+            <div class="plan-tier-name">Entry</div>
+            <div class="plan-tier-price">$89 <small>/mo</small></div>
+            <div class="plan-tier-specs">Intel Xeon E-2286G (6-core)<br>32 GB DDR4 ECC<br>2× 480 GB NVMe<br>10 TB bandwidth @ 1 Gbps</div>
+          </div>
+          <div class="plan-tier" onclick="selectTier(this)">
+            <div class="plan-tier-name">Standard</div>
+            <div class="plan-tier-price">$149 <small>/mo</small></div>
+            <div class="plan-tier-specs">Intel Xeon Silver 4314 (16-core)<br>64 GB DDR4 ECC<br>2× 960 GB NVMe<br>Unmetered @ 1 Gbps</div>
+          </div>
+          <div class="plan-tier" onclick="selectTier(this)">
+            <div class="plan-tier-name">Performance</div>
+            <div class="plan-tier-price">$279 <small>/mo</small></div>
+            <div class="plan-tier-specs">AMD EPYC 7543P (32-core)<br>128 GB DDR4 ECC<br>4× 1.92 TB NVMe<br>Unmetered @ 10 Gbps</div>
+          </div>
+          <div class="plan-tier" onclick="selectTier(this)">
+            <div class="plan-tier-name">Dual-CPU</div>
+            <div class="plan-tier-price">$499 <small>/mo</small></div>
+            <div class="plan-tier-specs">2× AMD EPYC 7763 (128-core total)<br>512 GB DDR4 ECC<br>8× 3.84 TB NVMe<br>Unmetered @ 10 Gbps</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Included With Every Dedicated Server</div>
+        <div class="spec-grid">
+          <div class="spec-label">IPMI / iDRAC</div><div class="spec-value">Out-of-band management included</div>
+          <div class="spec-label">RAID Options</div><div class="spec-value">RAID 0, 1, 5, 10 (software + hardware)</div>
+          <div class="spec-label">OS Reload</div><div class="spec-value">Free, automated via IPMI</div>
+          <div class="spec-label">Network</div><div class="spec-value">Redundant 10Gbps uplinks, BGP</div>
+          <div class="spec-label">DDoS Protection</div><div class="spec-value">4 Tbps scrubbing, always-on</div>
+          <div class="spec-label">IP Addresses</div><div class="spec-value">5× IPv4, /48 IPv6</div>
+          <div class="spec-label">Private Network</div><div class="spec-value">Free VLAN between your servers</div>
+          <div class="spec-label">Hardware Replacement</div><div class="spec-value">4-hour SLA (same business day)</div>
+          <div class="spec-label">Provisioning</div><div class="spec-value">2–4 hours for standard configs</div>
+          <div class="spec-label">Support</div><div class="spec-value">Advanced 24/7 with priority queue</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="modal-footer-price">Starting at <strong>$89/mo</strong> · No setup fee on annual</div>
+      <a href="https://gumroad.com" target="_blank" class="gumroad-btn">🛒 Configure via Gumroad</a>
+    </div>
+  </div>
+</div>
+
+<!-- CLOUD MODAL -->
+<div id="modal-cloud" class="modal-overlay" onclick="closeOnOverlay(event, 'modal-cloud')">
+  <div class="modal" style="max-width:760px;">
+    <div class="modal-header">
+      <div class="modal-header-content">
+        <div class="modal-eyebrow">⚡ Cloud Infrastructure</div>
+        <div class="modal-title">Cloud Compute & Auto-Scale</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-cloud')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:14px;color:#555;line-height:1.6;margin-bottom:24px;">API-first cloud infrastructure designed for modern development teams. Spin up instances in seconds, build auto-scaling groups, and manage everything through our CLI, API, or Terraform provider.</p>
+      <div class="modal-section">
+        <div class="modal-section-title">Cloud Services</div>
+        <div class="spec-grid">
+          <div class="spec-label">Compute Instances</div><div class="spec-value">From $0.008/hr per vCPU (1–128 vCPU)</div>
+          <div class="spec-label">Memory-Optimized</div><div class="spec-value">From $0.013/hr (up to 512 GB RAM)</div>
+          <div class="spec-label">GPU Instances</div><div class="spec-value">NVIDIA A100, H100 — from $2.49/hr</div>
+          <div class="spec-label">Kubernetes (managed)</div><div class="spec-value">Free control plane + node billing</div>
+          <div class="spec-label">Object Storage</div><div class="spec-value">S3-compatible, $0.021/GB/mo</div>
+          <div class="spec-label">Block Storage</div><div class="spec-value">NVMe volumes, $0.10/GB/mo</div>
+          <div class="spec-label">Load Balancers</div><div class="spec-value">$12/mo per LB + traffic</div>
+          <div class="spec-label">Managed Databases</div><div class="spec-value">PostgreSQL, MySQL, Redis — from $15/mo</div>
+          <div class="spec-label">CDN</div><div class="spec-value">$0.008/GB egress, 50+ PoPs</div>
+          <div class="spec-label">Private Networking</div><div class="spec-value">Free VPC, private subnets, peering</div>
+          <div class="spec-label">Firewalls</div><div class="spec-value">Cloud firewall + WAF available</div>
+          <div class="spec-label">Auto-Scaling</div><div class="spec-value">CPU/RAM/custom metric triggers</div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Developer Integrations</div>
+        <p style="font-size:14px;color:#555;line-height:1.8;">REST API (OpenAPI spec) · Terraform Provider · Pulumi Provider · Kubernetes Operator · GitHub Actions · GitLab CI/CD · Ansible Collection · NexusHost CLI · Webhooks · Grafana Dashboards</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Spending Controls</div>
+        <p style="font-size:14px;color:#555;line-height:1.6;">Set monthly budget caps, per-project spending limits, and real-time cost alerts. No surprise bills — we'll notify you before you exceed thresholds. Hourly granular billing available.</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="modal-footer-price"><strong>Pay-as-you-go</strong> · $300 free credit on signup</div>
+      <a href="https://gumroad.com" target="_blank" class="gumroad-btn">🛒 Start Free via Gumroad</a>
+    </div>
+  </div>
+</div>
+
+<!-- COLOCATION MODAL -->
+<div id="modal-colocation" class="modal-overlay" onclick="closeOnOverlay(event, 'modal-colocation')">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-content">
+        <div class="modal-eyebrow">🏢 Colocation</div>
+        <div class="modal-title">Data Center Colocation</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-colocation')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:14px;color:#555;line-height:1.6;margin-bottom:24px;">Bring your own hardware and house it in our Tier III data centers. Get enterprise-grade power, cooling, security, and connectivity without the capital expense of building your own facility.</p>
+      <div class="modal-section">
+        <div class="modal-section-title">Colocation Options</div>
+        <div class="spec-grid">
+          <div class="spec-label">1U Colocation</div><div class="spec-value">$99/mo · 1 rack unit</div>
+          <div class="spec-label">Half Rack</div><div class="spec-value">$399/mo · 21U, 20A power</div>
+          <div class="spec-label">Full Rack</div><div class="spec-value">$699/mo · 42U, 30A power</div>
+          <div class="spec-label">Cage / Suite</div><div class="spec-value">Custom — contact sales</div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Facility Specifications</div>
+        <div class="spec-grid">
+          <div class="spec-label">Tier Rating</div><div class="spec-value">Tier III (99.982% availability)</div>
+          <div class="spec-label">Power Redundancy</div><div class="spec-value">2N (fully redundant UPS + generators)</div>
+          <div class="spec-label">Cooling</div><div class="spec-value">N+1 precision cooling, hot/cold aisle</div>
+          <div class="spec-label">PUE Rating</div><div class="spec-value">1.35 average (industry leading)</div>
+          <div class="spec-label">Security</div><div class="spec-value">Biometric + key card, 24/7 CCTV, guards</div>
+          <div class="spec-label">Network Carriers</div><div class="spec-value">Carrier-neutral, 10+ ISPs on-net</div>
+          <div class="spec-label">Cross Connects</div><div class="spec-value">From $100/mo — 1G or 10G fiber</div>
+          <div class="spec-label">Remote Hands</div><div class="spec-value">$75/hr standard, $125/hr after-hours</div>
+          <div class="spec-label">Certifications</div><div class="spec-value">SOC 2 Type II, ISO 27001, PCI DSS</div>
+          <div class="spec-label">Locations</div><div class="spec-value">NYC, LAX, LON, FRA (more coming)</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="modal-footer-price">From <strong>$99/U/mo</strong> · Custom quotes available</div>
+      <a href="https://gumroad.com" target="_blank" class="gumroad-btn">🛒 Request Quote via Gumroad</a>
+    </div>
+  </div>
+</div>
+
+<!-- ENTERPRISE MODAL -->
+<div id="modal-enterprise" class="modal-overlay" onclick="closeOnOverlay(event, 'modal-enterprise')">
+  <div class="modal" style="max-width:760px;">
+    <div class="modal-header">
+      <div class="modal-header-content">
+        <div class="modal-eyebrow">🔒 Enterprise</div>
+        <div class="modal-title">Enterprise & Custom Infrastructure</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-enterprise')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:14px;color:#555;line-height:1.6;margin-bottom:24px;">For organizations with complex requirements, compliance mandates, or massive scale. Get a dedicated team, custom SLAs, and infrastructure built exactly to your specifications.</p>
+      <div class="modal-section">
+        <div class="modal-section-title">Enterprise Features</div>
+        <div class="spec-grid">
+          <div class="spec-label">Uptime SLA</div><div class="spec-value">99.999% (5 nines) with financial credits</div>
+          <div class="spec-label">Support</div><div class="spec-value">Named TAM + 15-min P1 response</div>
+          <div class="spec-label">Billing</div><div class="spec-value">Custom invoicing, NET-30/60/90 available</div>
+          <div class="spec-label">Private Cloud</div><div class="spec-value">Isolated VMware or OpenStack cluster</div>
+          <div class="spec-label">Custom Network</div><div class="spec-value">BGP peering, private MPLS, VXLAN overlays</div>
+          <div class="spec-label">Compliance</div><div class="spec-value">HIPAA, PCI DSS, SOC 2, ISO 27001, FedRAMP</div>
+          <div class="spec-label">DDoS</div><div class="spec-value">Advanced filtering, custom mitigation rules</div>
+          <div class="spec-label">Security</div><div class="spec-value">Dedicated WAF, IDS/IPS, SIEM integration</div>
+          <div class="spec-label">Disaster Recovery</div><div class="spec-value">Custom RTO/RPO, geo-redundant failover</div>
+          <div class="spec-label">Contract Terms</div><div class="spec-value">1, 2, or 3-year agreements with discounts</div>
+          <div class="spec-label">Onboarding</div><div class="spec-value">Dedicated migration architect</div>
+          <div class="spec-label">Training</div><div class="spec-value">On-site or virtual training sessions</div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Industries We Serve</div>
+        <p style="font-size:14px;color:#555;line-height:1.8;">Financial Services &amp; FinTech · Healthcare &amp; Life Sciences · Government &amp; Public Sector · Media &amp; Entertainment · E-Commerce &amp; Retail · Gaming &amp; eSports · SaaS &amp; Software · Research &amp; Academia</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Talk to Our Team</div>
+        <p style="font-size:14px;color:#555;line-height:1.6;">Our enterprise sales team will get back to you within 1 business hour. Bring your current infrastructure details and requirements — we'll prepare a custom proposal.</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="modal-footer-price"><strong>Custom pricing</strong> · Minimum $1,000/mo</div>
+      <a href="https://gumroad.com" target="_blank" class="gumroad-btn">🛒 Contact Sales via Gumroad</a>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING MODAL -->
+<div id="modal-pricing" class="modal-overlay" onclick="closeOnOverlay(event, 'modal-pricing')">
+  <div class="modal" style="max-width:500px;">
+    <div class="modal-header">
+      <div class="modal-header-content">
+        <div class="modal-eyebrow">💳 Pricing</div>
+        <div class="modal-title">Simple, Transparent Pricing</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-pricing')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">Quick Price Reference</div>
+        <div class="spec-grid">
+          <div class="spec-label">Shared Hosting</div><div class="spec-value">From $3.99/mo</div>
+          <div class="spec-label">VPS Hosting</div><div class="spec-value">From $12/mo</div>
+          <div class="spec-label">Dedicated Server</div><div class="spec-value">From $89/mo</div>
+          <div class="spec-label">Cloud Compute</div><div class="spec-value">$0.008/hr per vCPU</div>
+          <div class="spec-label">GPU Instances</div><div class="spec-value">From $2.49/hr</div>
+          <div class="spec-label">Object Storage</div><div class="spec-value">$0.021/GB/mo</div>
+          <div class="spec-label">Block Storage</div><div class="spec-value">$0.10/GB/mo</div>
+          <div class="spec-label">CDN Bandwidth</div><div class="spec-value">$0.008/GB</div>
+          <div class="spec-label">Colocation</div><div class="spec-value">From $99/U/mo</div>
+          <div class="spec-label">Enterprise</div><div class="spec-value">Custom (min $1,000/mo)</div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Billing Notes</div>
+        <p style="font-size:14px;color:#555;line-height:1.7;">All prices in USD. Annual prepay saves 15–20%. No setup fees on standard plans. Overage bandwidth is $0.01/GB. Payments processed securely by <strong>Gumroad</strong> — accepts all major cards, PayPal, and bank transfer for annual plans.</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="modal-footer-price">No hidden fees. <strong>Cancel anytime.</strong></div>
+      <a href="https://gumroad.com" target="_blank" class="gumroad-btn">🛒 Purchase via Gumroad</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== JS ===================== -->
+<script>
+  function openModal(id) {
+    event && event.preventDefault();
+    document.getElementById(id).classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function closeOnOverlay(e, id) {
+    if (e.target === e.currentTarget) closeModal(id);
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.active').forEach(m => {
+        m.classList.remove('active');
+      });
+      document.body.style.overflow = '';
+    }
+  });
+
+  function selectTier(el) {
+    const parent = el.closest('.plan-tiers');
+    parent.querySelectorAll('.plan-tier').forEach(t => t.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function toggleFaq(el) {
+    const answer = el.nextElementSibling;
+    const toggle = el.querySelector('.faq-toggle');
+    const isOpen = answer.classList.contains('open');
+    // close all
+    document.querySelectorAll('.faq-answer.open').forEach(a => a.classList.remove('open'));
+    document.querySelectorAll('.faq-question.open').forEach(q => {
+      q.classList.remove('open');
+      q.querySelector('.faq-toggle').textContent = '+';
+    });
+    if (!isOpen) {
+      answer.classList.add('open');
+      el.classList.add('open');
+      toggle.textContent = '−';
+    }
+  }
+
+  // Nav link event listeners
+  document.querySelectorAll('[onclick]').forEach(el => {
+    // already inline
+  });
+</script>
+</body>
+</html>
