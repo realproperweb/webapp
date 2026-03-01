@@ -1,608 +1,763 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Why Pay More? | Web Services Cost Simulator</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Pay More? | LaunchPad AI Cost Simulator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --neon: #00FFB2;
-    --fire: #FF3D00;
-    --gold: #FFD600;
-    --dark: #080C14;
-    --card: #0D1421;
-    --border: rgba(255,255,255,0.08);
+    --pink: #ff4d6d;
+    --yellow: #ffd60a;
+    --black: #0a0a0a;
+    --cream: #fffbf5;
+    --gray: #f5f0e8;
+    --mid: #c8c0b0;
   }
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
   body {
-    background: var(--dark);
-    color: #fff;
     font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--black);
     overflow-x: hidden;
-    margin: 0;
   }
+  h1, h2, h3 { font-family: 'DM Serif Display', serif; }
+  .syne { font-family: 'Syne', sans-serif; }
 
-  /* Animated background grid */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0,255,178,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,255,178,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--cream);
+    border-bottom: 2px solid var(--black);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 64px;
   }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.4rem;
+    letter-spacing: -0.03em;
+    display: flex; align-items: center; gap: 8px;
+    text-decoration: none; color: var(--black);
+  }
+  .nav-logo span { color: var(--pink); }
+  .btn-nav {
+    background: var(--black); color: var(--cream);
+    border: 2px solid var(--black);
+    padding: 8px 20px; font-family: 'Syne', sans-serif;
+    font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; cursor: pointer;
+    transition: all 0.2s; text-decoration: none;
+  }
+  .btn-nav:hover { background: var(--pink); border-color: var(--pink); }
 
-  .hero-glow {
-    position: absolute;
-    width: 600px; height: 600px;
-    border-radius: 50%;
-    filter: blur(120px);
-    pointer-events: none;
+  /* HERO */
+  .hero {
+    padding-top: 64px;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    border-bottom: 2px solid var(--black);
+    position: relative; overflow: hidden;
+    background: var(--black);
   }
+  .hero-content {
+    text-align: center; padding: 5rem 2rem;
+    position: relative; z-index: 2;
+    max-width: 800px; margin: 0 auto;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--yellow); border: 2px solid var(--cream);
+    padding: 6px 16px; font-family: 'Syne', sans-serif;
+    font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.1em; margin-bottom: 2rem; color: var(--black);
+  }
+  .hero-badge::before { content: '✦'; }
+  .hero-h1 {
+    font-size: clamp(3.5rem, 7vw, 7rem);
+    line-height: 0.95; letter-spacing: -0.03em;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+  .hero-h1 em { font-style: italic; color: var(--pink); }
+  .hero-sub {
+    font-size: 1.1rem; line-height: 1.7; color: rgba(255,251,245,0.6);
+    max-width: 480px; margin: 0 auto 2.5rem;
+  }
+  .hero-deco {
+    position: absolute; font-family: 'DM Serif Display', serif;
+    font-size: 22rem; opacity: 0.04; color: white;
+    line-height: 1; pointer-events: none; user-select: none;
+  }
+  .btn-primary {
+    background: var(--pink); color: white;
+    border: 2px solid var(--cream);
+    padding: 14px 32px; font-family: 'Syne', sans-serif;
+    font-size: 0.9rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; cursor: pointer;
+    transition: all 0.2s; text-decoration: none; display: inline-block;
+    box-shadow: 4px 4px 0 var(--cream);
+  }
+  .btn-primary:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--cream); }
+  .scroll-hint {
+    margin-top: 3rem; display: flex; flex-direction: column;
+    align-items: center; gap: 8px;
+    font-family: 'Syne', sans-serif; font-size: 0.7rem;
+    text-transform: uppercase; letter-spacing: 0.15em;
+    color: rgba(255,251,245,0.3);
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
 
-  h1, h2, h3 { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.04em; }
+  /* MARQUEE */
+  .marquee-wrap {
+    background: var(--yellow); border-bottom: 2px solid var(--black);
+    overflow: hidden; white-space: nowrap; padding: 12px 0;
+  }
+  .marquee-inner {
+    display: inline-flex; gap: 3rem;
+    animation: marquee 25s linear infinite;
+  }
+  .marquee-item {
+    font-family: 'Syne', sans-serif; font-size: 0.8rem;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--black);
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .marquee-item::after { content: '✦'; opacity: 0.5; }
+  @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 
-  .step-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 32px;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
+  /* SIMULATOR SECTION */
+  .section-wrap { max-width: 1100px; margin: 0 auto; padding: 6rem 2rem; }
+  .section-label {
+    font-family: 'Syne', sans-serif; font-size: 0.75rem;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em;
+    color: var(--pink); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 8px;
   }
-  .step-card:hover { transform: translateY(-4px); box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
-  .step-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
+  .section-label::before { content: ''; display: block; width: 24px; height: 2px; background: var(--pink); }
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1.05; letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
   }
-  .step-card.them::before { background: linear-gradient(90deg, var(--fire), #ff8c00); }
-  .step-card.us::before { background: linear-gradient(90deg, var(--neon), #00bfff); }
+  .section-title em { font-style: italic; color: var(--pink); }
+  .section-sub { font-size: 1rem; color: #555; max-width: 520px; line-height: 1.7; margin-bottom: 3rem; }
 
-  .price-tag {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 3rem;
-    line-height: 1;
+  /* COLUMN HEADERS */
+  .col-headers {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2px; margin-bottom: 2px;
   }
-  .price-tag.crossed {
-    color: var(--fire);
-    position: relative;
-    display: inline-block;
+  .col-header {
+    padding: 1rem 2rem;
+    font-family: 'Syne', sans-serif; font-size: 0.75rem;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+    border: 2px solid var(--black);
   }
-  .price-tag.crossed::after {
-    content: '';
-    position: absolute;
-    left: -4px; right: -4px;
-    top: 50%;
-    height: 4px;
-    background: var(--fire);
-    transform: rotate(-8deg);
-    border-radius: 2px;
-  }
+  .col-header.them { background: var(--black); color: var(--cream); }
+  .col-header.us { background: var(--pink); color: white; }
 
-  .price-tag.ours { color: var(--neon); }
-
-  .step-number {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 4rem;
-    line-height: 1;
-    opacity: 0.08;
-    position: absolute;
-    top: 12px; right: 24px;
+  /* STEP ROWS */
+  .step-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    border: 2px solid var(--black);
+    border-top: none;
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
   }
-
-  .badge {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 999px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+  .step-row.visible { opacity: 1; transform: translateY(0); }
+  .step-cell {
+    padding: 2rem;
+    position: relative; overflow: hidden;
   }
-  .badge-fire { background: rgba(255,61,0,0.2); color: var(--fire); border: 1px solid rgba(255,61,0,0.4); }
-  .badge-neon { background: rgba(0,255,178,0.15); color: var(--neon); border: 1px solid rgba(0,255,178,0.4); }
-  .badge-gold { background: rgba(255,214,0,0.15); color: var(--gold); border: 1px solid rgba(255,214,0,0.4); }
-
-  /* Counter animation */
-  .counter { font-family: 'DM Mono', monospace; }
-
-  /* Savings bar */
-  .savings-bar-track {
-    background: rgba(255,255,255,0.07);
-    border-radius: 999px;
-    height: 12px;
-    overflow: hidden;
-    position: relative;
+  .step-cell.them { border-right: 2px solid var(--black); background: var(--cream); }
+  .step-cell.us { background: var(--gray); }
+  .step-num-bg {
+    position: absolute; top: 8px; right: 16px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 5rem; color: rgba(0,0,0,0.05);
+    line-height: 1; pointer-events: none; user-select: none;
   }
-  .savings-bar-fill {
-    height: 100%;
-    border-radius: 999px;
-    transition: width 1.8s cubic-bezier(0.16,1,0.3,1);
-    background: linear-gradient(90deg, var(--neon), #00bfff);
-    position: relative;
+  .step-cell.us .step-num-bg { color: rgba(255,77,109,0.08); }
+  .cell-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'Syne', sans-serif; font-size: 0.65rem;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 4px 10px; border: 1px solid var(--black);
+    margin-bottom: 1rem;
   }
-  .savings-bar-fill::after {
-    content: '';
-    position: absolute;
-    right: 0; top: 0; bottom: 0;
-    width: 40px;
-    background: rgba(255,255,255,0.3);
-    filter: blur(8px);
-    animation: shimmer 2s infinite;
+  .cell-tag.them { background: var(--black); color: var(--cream); }
+  .cell-tag.us { background: var(--pink); color: white; border-color: var(--pink); }
+  .cell-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem; margin-bottom: 0.4rem; line-height: 1.2;
   }
-  @keyframes shimmer { 0%,100%{opacity:0.5} 50%{opacity:1} }
+  .cell-desc { font-size: 0.8rem; color: #777; margin-bottom: 1.25rem; }
+  .cell-price {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.8rem; line-height: 1; margin-bottom: 0.4rem;
+  }
+  .cell-price.crossed {
+    position: relative; display: inline-block; color: var(--black);
+  }
+  .cell-price.crossed::after {
+    content: ''; position: absolute;
+    left: -2px; right: -2px; top: 50%;
+    height: 3px; background: var(--pink);
+    transform: rotate(-4deg);
+  }
+  .cell-price.free { color: var(--pink); }
+  .cell-price-note { font-family: 'Syne', sans-serif; font-size: 0.7rem; color: #888; }
+  .cell-price-note.good { color: var(--pink); font-weight: 700; }
+  .cell-divider { border: none; border-top: 1px solid var(--mid); margin: 1rem 0; }
+  .cell-note {
+    font-size: 0.8rem; color: #888;
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .cell-note.good { color: #555; font-weight: 500; }
+  .cell-note.good::before { content: '✓'; color: var(--pink); font-weight: 700; flex-shrink: 0; }
+  .cell-note.bad::before { content: '✗'; color: #bbb; flex-shrink: 0; }
 
-  /* Timeline connector */
+  /* CONNECTOR */
   .connector {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 0;
-    color: rgba(255,255,255,0.2);
-    font-size: 1.5rem;
+    border: 2px solid var(--black); border-top: none;
+    height: 40px; display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-size: 1rem; color: var(--mid);
+    background: var(--cream);
   }
 
-  /* Totals */
-  .total-box {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 32px;
-    text-align: center;
+  /* TOTALS */
+  .totals-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    border: 2px solid var(--black); border-top: none;
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
   }
-  .total-box.them { border-color: rgba(255,61,0,0.3); background: rgba(255,61,0,0.05); }
-  .total-box.us { border-color: rgba(0,255,178,0.3); background: rgba(0,255,178,0.05); }
+  .totals-row.visible { opacity: 1; transform: translateY(0); }
+  .total-cell {
+    padding: 2.5rem 2rem; text-align: center;
+  }
+  .total-cell.them { border-right: 2px solid var(--black); background: var(--black); color: var(--cream); }
+  .total-cell.us { background: var(--pink); color: white; }
+  .total-label {
+    font-family: 'Syne', sans-serif; font-size: 0.7rem;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em;
+    margin-bottom: 0.75rem; opacity: 0.7;
+  }
+  .total-price {
+    font-family: 'DM Serif Display', serif;
+    font-size: 4rem; line-height: 1; margin-bottom: 0.5rem;
+  }
+  .total-price.crossed { position: relative; display: inline-block; }
+  .total-price.crossed::after {
+    content: ''; position: absolute;
+    left: -4px; right: -4px; top: 50%;
+    height: 4px; background: var(--pink);
+    transform: rotate(-3deg);
+  }
+  .total-cell.them .total-price.crossed::after { background: rgba(255,77,109,0.8); }
+  .total-note { font-family: 'Syne', sans-serif; font-size: 0.75rem; opacity: 0.7; }
 
-  /* Pulse dot */
-  .pulse-dot {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: var(--neon);
+  /* SAVINGS METER */
+  .savings-section {
+    margin-top: 3rem; border: 2px solid var(--black);
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .savings-section.visible { opacity: 1; transform: translateY(0); }
+  .savings-inner { padding: 2.5rem 2rem; }
+  .savings-top {
+    display: flex; flex-wrap: wrap;
+    align-items: flex-end; justify-content: space-between;
+    gap: 1.5rem; margin-bottom: 1.5rem;
+  }
+  .savings-badge {
     display: inline-block;
+    background: var(--yellow); border: 2px solid var(--black);
+    font-family: 'Syne', sans-serif; font-size: 0.7rem;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+    padding: 6px 16px; margin-bottom: 0.75rem;
+  }
+  .savings-headline { font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 1.1; }
+  .savings-headline span { color: var(--pink); }
+  .savings-sub { font-size: 0.8rem; color: #888; margin-top: 4px; }
+  .savings-pct {
+    font-family: 'DM Serif Display', serif;
+    font-size: 5rem; line-height: 1; color: var(--yellow);
+    text-align: right;
+  }
+  .savings-pct-label {
+    font-family: 'Syne', sans-serif; font-size: 0.7rem;
+    text-align: right; color: #888; text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  .bar-track {
+    background: var(--gray); border: 1px solid var(--mid);
+    height: 16px; overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%; width: 0%;
+    background: var(--pink);
+    transition: width 1.8s cubic-bezier(0.16,1,0.3,1);
     position: relative;
   }
-  .pulse-dot::after {
-    content: '';
-    position: absolute;
-    inset: -4px;
-    border-radius: 50%;
-    background: var(--neon);
-    opacity: 0.3;
-    animation: pulse 1.5s infinite;
+  .bar-fill::after {
+    content: ''; position: absolute;
+    right: 0; top: 0; bottom: 0; width: 40px;
+    background: linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);
+    animation: shimmer 1.5s infinite;
   }
-  @keyframes pulse { 0%,100%{transform:scale(1);opacity:0.3} 50%{transform:scale(1.8);opacity:0} }
-
-  /* CTA */
-  .cta-btn {
-    background: var(--neon);
-    color: var(--dark);
-    border: none;
-    border-radius: 12px;
-    padding: 18px 48px;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.4rem;
-    letter-spacing: 0.08em;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    display: inline-block;
-    text-decoration: none;
-  }
-  .cta-btn:hover {
-    transform: scale(1.04);
-    box-shadow: 0 0 40px rgba(0,255,178,0.5);
+  @keyframes shimmer { 0%{transform:translateX(-40px)} 100%{transform:translateX(40px)} }
+  .bar-labels {
+    display: flex; justify-content: space-between;
+    font-family: 'Syne', sans-serif; font-size: 0.65rem;
+    color: #888; text-transform: uppercase; letter-spacing: 0.08em;
+    margin-top: 6px;
   }
 
-  /* Installment toggle */
-  .toggle-pill {
-    background: rgba(255,255,255,0.07);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 4px;
-    display: inline-flex;
-    gap: 4px;
+  /* WHY US */
+  .why-section { padding: 6rem 2rem; background: var(--gray); border-top: 2px solid var(--black); border-bottom: 2px solid var(--black); }
+  .why-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    border: 2px solid var(--black);
+    margin-top: 3rem;
+  }
+  .why-card {
+    padding: 2rem; border-right: 2px solid var(--black);
+    transition: background 0.2s;
+  }
+  .why-card:last-child { border-right: none; }
+  .why-card:hover { background: var(--black); color: var(--cream); }
+  .why-card:hover .why-desc { color: #aaa; }
+  .why-icon {
+    width: 48px; height: 48px;
+    background: var(--yellow); border: 2px solid var(--black);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 1.25rem;
+    transition: background 0.2s;
+  }
+  .why-card:hover .why-icon { background: var(--pink); }
+  .why-title { font-size: 1.3rem; margin-bottom: 0.5rem; }
+  .why-desc { font-size: 0.85rem; color: #555; line-height: 1.6; transition: color 0.2s; }
+
+  /* INSTALLMENT TOGGLE */
+  .toggle-wrap {
+    display: flex; gap: 0; margin-bottom: 0.75rem;
+    border: 2px solid var(--black); width: fit-content;
   }
   .toggle-btn {
-    padding: 8px 20px;
-    border-radius: 999px;
-    border: none;
-    background: transparent;
-    color: rgba(255,255,255,0.5);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
+    padding: 8px 18px; border: none; background: transparent;
+    font-family: 'Syne', sans-serif; font-size: 0.7rem;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+    cursor: pointer; transition: all 0.2s; color: #888;
+    border-right: 1px solid var(--black);
   }
-  .toggle-btn.active {
-    background: var(--neon);
-    color: var(--dark);
-    font-weight: 700;
+  .toggle-btn:last-child { border-right: none; }
+  .toggle-btn.active { background: var(--black); color: var(--cream); }
+
+  /* CTA */
+  .cta-section {
+    background: var(--pink); text-align: center;
+    border-top: 2px solid var(--black); padding: 5rem 2rem;
+    position: relative; overflow: hidden;
+  }
+  .cta-section h2 { color: white; font-size: clamp(2rem, 4vw, 4rem); margin-bottom: 1.5rem; }
+  .cta-section p { color: rgba(255,255,255,0.8); font-size: 1.1rem; margin-bottom: 2.5rem; }
+  .btn-cta-white {
+    background: white; color: var(--black);
+    border: 2px solid var(--black);
+    padding: 16px 40px; font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.08em; cursor: pointer;
+    transition: all 0.2s; box-shadow: 5px 5px 0 var(--black);
+    text-decoration: none; display: inline-block;
+  }
+  .btn-cta-white:hover { transform: translate(-2px,-2px); box-shadow: 7px 7px 0 var(--black); }
+  .cta-deco {
+    position: absolute; font-size: 20rem; opacity: 0.07;
+    font-family: 'DM Serif Display', serif; color: white;
+    pointer-events: none; line-height: 1;
   }
 
-  /* Fade-in on scroll */
-  .fade-up {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+  /* FOOTER */
+  footer {
+    background: var(--black); color: var(--cream);
+    padding: 2rem; text-align: center;
+    font-family: 'Syne', sans-serif; font-size: 0.8rem; color: #555;
   }
-  .fade-up.visible {
-    opacity: 1;
-    transform: none;
-  }
+  footer span { color: var(--pink); }
 
-  /* Floating ribbon */
-  .save-ribbon {
-    background: linear-gradient(135deg, var(--gold), #ff8c00);
-    color: #000;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.1rem;
-    letter-spacing: 0.05em;
-    padding: 8px 20px;
-    border-radius: 8px;
-    display: inline-block;
+  /* RESPONSIVE */
+  @media (max-width: 700px) {
+    .col-headers, .step-row, .totals-row { grid-template-columns: 1fr; }
+    .step-cell.them { border-right: none; border-bottom: 2px solid var(--black); }
+    .total-cell.them { border-right: none; border-bottom: 2px solid var(--black); }
+    .why-grid { grid-template-columns: 1fr; }
+    .why-card { border-right: none; border-bottom: 2px solid var(--black); }
+    .why-card:last-child { border-bottom: none; }
+    nav .nav-text { display: none; }
   }
-
-  .divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 0;
-  }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--dark); }
-  ::-webkit-scrollbar-thumb { background: rgba(0,255,178,0.3); border-radius: 3px; }
 </style>
 </head>
 <body>
 
-<!-- ─── HERO ─── -->
-<section class="relative min-h-screen flex flex-col items-center justify-center px-6 py-24 text-center overflow-hidden">
-  <div class="hero-glow" style="background:rgba(0,255,178,0.12); top:-200px; left:-200px;"></div>
-  <div class="hero-glow" style="background:rgba(255,61,0,0.08); bottom:-100px; right:-100px;"></div>
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Launch<span>Pad</span> AI</a>
+  <a href="#" class="btn-nav" onclick="openModal()">Get Started</a>
+</nav>
 
-  <div class="relative z-10 max-w-4xl mx-auto">
-    <div class="badge badge-gold mb-6">Real Cost Simulator</div>
-    <h1 class="text-7xl md:text-9xl text-white mb-4" style="line-height:0.95;">
-      Stop<br/>Overpaying<br/>
-      <span style="color:var(--neon);">For The Web</span>
-    </h1>
-    <p class="text-lg md:text-xl text-white/60 max-w-xl mx-auto mt-6 mb-10 leading-relaxed">
-      Watch what the industry charges vs. what we charge — step by step — and see how much you save.
-    </p>
-
-    <div class="flex items-center justify-center gap-3 mb-12">
-      <span class="pulse-dot"></span>
-      <span class="text-white/40 text-sm font-medium">Live price comparison below</span>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-deco" style="top:-40px;left:-60px;">$</div>
+  <div class="hero-deco" style="bottom:-40px;right:-60px;">✦</div>
+  <div class="hero-content">
+    <div class="hero-badge">Real Cost Simulator</div>
+    <h1 class="hero-h1">Stop<br/>Overpaying<br/>For The <em>Web</em></h1>
+    <p class="hero-sub">See what the industry charges vs. what we charge — step by step — and watch how much you save.</p>
+    <a href="#simulator" class="btn-primary">See The Numbers →</a>
+    <div class="scroll-hint">
+      <span>Scroll to compare</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
     </div>
-
-    <a href="#simulator" class="cta-btn">See The Numbers →</a>
-  </div>
-
-  <!-- Scroll indicator -->
-  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30 text-xs animate-bounce">
-    <span>Scroll</span>
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
   </div>
 </section>
 
-<!-- ─── SIMULATOR ─── -->
-<section id="simulator" class="relative z-10 max-w-6xl mx-auto px-6 pb-32">
-
-  <!-- Column Headers -->
-  <div class="grid grid-cols-2 gap-6 mb-6 fade-up">
-    <div class="text-center">
-      <span class="badge badge-fire text-sm px-4 py-2">🔥 Industry Standard</span>
-    </div>
-    <div class="text-center">
-      <span class="badge badge-neon text-sm px-4 py-2">✦ Our Service</span>
-    </div>
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    <span class="marquee-item">Domain Name</span>
+    <span class="marquee-item">Web Hosting</span>
+    <span class="marquee-item">Web Design</span>
+    <span class="marquee-item">Brand Identity</span>
+    <span class="marquee-item">SEO Setup</span>
+    <span class="marquee-item">Social Media</span>
+    <span class="marquee-item">Maintenance</span>
+    <span class="marquee-item">Content Creation</span>
+    <span class="marquee-item">Domain Name</span>
+    <span class="marquee-item">Web Hosting</span>
+    <span class="marquee-item">Web Design</span>
+    <span class="marquee-item">Brand Identity</span>
+    <span class="marquee-item">SEO Setup</span>
+    <span class="marquee-item">Social Media</span>
+    <span class="marquee-item">Maintenance</span>
+    <span class="marquee-item">Content Creation</span>
   </div>
+</div>
 
-  <!-- ── STEP 1: DOMAIN ── -->
-  <div id="step1" class="fade-up mb-3">
-    <div class="grid grid-cols-2 gap-6">
-      <!-- Them -->
-      <div class="step-card them">
-        <div class="step-number">01</div>
-        <div class="badge badge-fire mb-3">Step 1 · Domain Name</div>
-        <h3 class="text-2xl mb-2">Domain Registration</h3>
-        <p class="text-white/50 text-sm mb-6">Annual renewal, .com standard pricing</p>
-        <div class="price-tag crossed">$9.99</div>
-        <p class="text-white/40 text-xs mt-2">per year — required to go live</p>
-        <hr class="divider my-4"/>
-        <div class="flex items-center gap-2 text-white/50 text-sm">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-          Renews every year — it adds up
-        </div>
+<!-- SIMULATOR -->
+<section id="simulator">
+  <div class="section-wrap">
+    <div class="section-label">Price Comparison</div>
+    <h2 class="section-title">Industry Rates vs.<br><em>Our Prices</em></h2>
+    <p class="section-sub">We break down every cost line by line so you can see exactly where your money goes — and where it doesn't have to.</p>
+
+    <!-- Column Headers -->
+    <div class="col-headers">
+      <div class="col-header them">🔥 Industry Standard</div>
+      <div class="col-header us">✦ LaunchPad AI</div>
+    </div>
+
+    <!-- STEP 1: DOMAIN -->
+    <div class="step-row" id="step1">
+      <div class="step-cell them">
+        <div class="step-num-bg">01</div>
+        <div class="cell-tag them">Step 1 · Domain Name</div>
+        <h3 class="cell-title">Domain Registration</h3>
+        <p class="cell-desc">Annual renewal, .com standard pricing</p>
+        <div class="cell-price crossed">$9.99</div>
+        <div class="cell-price-note">per year — required before you can go live</div>
+        <hr class="cell-divider">
+        <div class="cell-note bad">Renews every year — it silently adds up over time</div>
       </div>
-      <!-- Us -->
-      <div class="step-card us">
-        <div class="step-number">01</div>
-        <div class="badge badge-neon mb-3">Step 1 · Domain Name</div>
-        <h3 class="text-2xl mb-2">Domain Registration</h3>
-        <p class="text-white/50 text-sm mb-6">We include it, no catch</p>
-        <div class="price-tag ours">FREE</div>
-        <p style="color:var(--neon);" class="text-xs mt-2 font-semibold">$0 — Included in your package</p>
-        <hr class="divider my-4"/>
-        <div class="flex items-center gap-2 text-sm" style="color:var(--neon)">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-          Your domain, no renewal hassle year 1
-        </div>
+      <div class="step-cell us">
+        <div class="step-num-bg">01</div>
+        <div class="cell-tag us">Step 1 · Domain Name</div>
+        <h3 class="cell-title">Domain Registration</h3>
+        <p class="cell-desc">We include it — no catch</p>
+        <div class="cell-price free">FREE</div>
+        <div class="cell-price-note good">$0 — Included in your package, first year</div>
+        <hr class="cell-divider">
+        <div class="cell-note good">Your domain name included, no renewal hassle year one</div>
       </div>
     </div>
-  </div>
 
-  <div class="connector fade-up">↓</div>
+    <div class="connector">↓</div>
 
-  <!-- ── STEP 2: HOSTING ── -->
-  <div id="step2" class="fade-up mb-3">
-    <div class="grid grid-cols-2 gap-6">
-      <div class="step-card them">
-        <div class="step-number">02</div>
-        <div class="badge badge-fire mb-3">Step 2 · Hosting</div>
-        <h3 class="text-2xl mb-2">Web Hosting</h3>
-        <p class="text-white/50 text-sm mb-4">Monthly billing or annual commitment</p>
-        <div class="flex items-end gap-3 flex-wrap">
-          <div>
-            <div class="price-tag crossed" style="font-size:2rem;">$7<span style="font-size:1rem;">/mo</span></div>
-            <p class="text-white/40 text-xs">monthly rate</p>
-          </div>
-          <div class="text-white/30 text-2xl">or</div>
-          <div>
-            <div class="price-tag crossed" style="font-size:2rem;">$84–$90</div>
-            <p class="text-white/40 text-xs">billed yearly</p>
-          </div>
-        </div>
-        <hr class="divider my-4"/>
-        <div class="flex items-center gap-2 text-white/50 text-sm">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-          Recurring cost that never ends
-        </div>
+    <!-- STEP 2: HOSTING -->
+    <div class="step-row" id="step2">
+      <div class="step-cell them">
+        <div class="step-num-bg">02</div>
+        <div class="cell-tag them">Step 2 · Web Hosting</div>
+        <h3 class="cell-title">Hosting Plan</h3>
+        <p class="cell-desc">Monthly billing or annual commitment</p>
+        <div class="cell-price crossed">$7<span style="font-size:1.4rem;">/mo</span></div>
+        <div class="cell-price-note">$84–$90/year billed annually — recurring forever</div>
+        <hr class="cell-divider">
+        <div class="cell-note bad">A cost that never stops — every year, every renewal</div>
       </div>
-      <div class="step-card us">
-        <div class="step-number">02</div>
-        <div class="badge badge-neon mb-3">Step 2 · Hosting</div>
-        <h3 class="text-2xl mb-2">Web Hosting</h3>
-        <p class="text-white/50 text-sm mb-4">First full year on us</p>
-        <div class="price-tag ours">FREE</div>
-        <p style="color:var(--neon);" class="text-xs mt-2 font-semibold">First year included — zero cost</p>
-        <hr class="divider my-4"/>
-        <div class="flex items-center gap-2 text-sm" style="color:var(--neon)">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-          12 months fully hosted, on us
-        </div>
+      <div class="step-cell us">
+        <div class="step-num-bg">02</div>
+        <div class="cell-tag us">Step 2 · Web Hosting</div>
+        <h3 class="cell-title">Hosting Plan</h3>
+        <p class="cell-desc">First full year on us</p>
+        <div class="cell-price free">FREE</div>
+        <div class="cell-price-note good">First year completely included — zero extra cost</div>
+        <hr class="cell-divider">
+        <div class="cell-note good">12 months fully hosted, fast and reliable, on us</div>
       </div>
     </div>
-  </div>
 
-  <div class="connector fade-up">↓</div>
+    <div class="connector">↓</div>
 
-  <!-- ── STEP 3: WEB DESIGN ── -->
-  <div id="step3" class="fade-up mb-3">
-    <div class="grid grid-cols-2 gap-6">
-      <div class="step-card them">
-        <div class="step-number">03</div>
-        <div class="badge badge-fire mb-3">Step 3 · Web Design</div>
-        <h3 class="text-2xl mb-2">Design & Development</h3>
-        <p class="text-white/50 text-sm mb-4">Industry agency rates</p>
-        <div class="price-tag crossed">$2,000–$5,000</div>
-        <p class="text-white/40 text-xs mt-2">one-time build cost</p>
-        <hr class="divider my-4"/>
-        <div class="flex items-center gap-2 text-white/50 text-sm">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-          Average agency charges $3,500+ upfront
-        </div>
+    <!-- STEP 3: WEB DESIGN -->
+    <div class="step-row" id="step3">
+      <div class="step-cell them">
+        <div class="step-num-bg">03</div>
+        <div class="cell-tag them">Step 3 · Web Design</div>
+        <h3 class="cell-title">Design & Development</h3>
+        <p class="cell-desc">Industry agency rates — standard market pricing</p>
+        <div class="cell-price crossed">$2,000–$5,000</div>
+        <div class="cell-price-note">one-time build cost, average agency charges $3,500+</div>
+        <hr class="cell-divider">
+        <div class="cell-note bad">Large upfront payment with no flexibility</div>
       </div>
-      <div class="step-card us">
-        <div class="step-number">03</div>
-        <div class="badge badge-neon mb-3">Step 3 · Web Design</div>
-        <h3 class="text-2xl mb-2">Design & Development</h3>
-        <p class="text-white/50 text-sm mb-4">Graphics, media, full build</p>
-        <div class="price-tag ours">$500</div>
-        <p style="color:var(--neon);" class="text-xs mt-2 font-semibold">Total — graphics, media & launch-ready site</p>
-        <hr class="divider my-4"/>
-
-        <!-- Installment Toggle -->
-        <div class="mb-3">
-          <p class="text-white/60 text-xs mb-2 uppercase tracking-widest font-semibold">Payment Options</p>
-          <div class="toggle-pill" id="togglePill">
+      <div class="step-cell us">
+        <div class="step-num-bg">03</div>
+        <div class="cell-tag us">Step 3 · Web Design</div>
+        <h3 class="cell-title">Design & Development</h3>
+        <p class="cell-desc">Full build — graphics, media, launch-ready site</p>
+        <div class="cell-price free">$500</div>
+        <div class="cell-price-note good">Total. All-in. No surprises.</div>
+        <hr class="cell-divider">
+        <!-- Installment toggle -->
+        <div style="margin-bottom:0.5rem;">
+          <p style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#888;margin-bottom:8px;">Payment options</p>
+          <div class="toggle-wrap">
             <button class="toggle-btn active" id="btnFull" onclick="setPayment('full')">Pay in Full</button>
-            <button class="toggle-btn" id="btnInstall" onclick="setPayment('installments')">Installments</button>
+            <button class="toggle-btn" id="btnInstall" onclick="setPayment('install')">Installments</button>
+          </div>
+          <div id="fullDetail" class="cell-note good">$500 one-time — save thousands vs. agencies</div>
+          <div id="installDetail" class="cell-note good" style="display:none;">As low as <strong>$100/mo × 5</strong> — zero interest, no fees</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector">↓</div>
+
+    <!-- STEP 4: MAINTENANCE -->
+    <div class="step-row" id="step4">
+      <div class="step-cell them">
+        <div class="step-num-bg">04</div>
+        <div class="cell-tag them">Step 4 · Maintenance</div>
+        <h3 class="cell-title">Ongoing Support</h3>
+        <p class="cell-desc">Standard agency retainer fee</p>
+        <div class="cell-price crossed">$200–$500<span style="font-size:1.2rem;">/mo</span></div>
+        <div class="cell-price-note">$2,400–$6,000 per year, recurring forever</div>
+        <hr class="cell-divider">
+        <div class="cell-note bad">Charged whether or not you need updates</div>
+      </div>
+      <div class="step-cell us">
+        <div class="step-num-bg">04</div>
+        <div class="cell-tag us">Step 4 · Maintenance</div>
+        <h3 class="cell-title">Ongoing Support</h3>
+        <p class="cell-desc">We grow with you, no retainer required</p>
+        <div class="cell-price free">INCLUDED</div>
+        <div class="cell-price-note good">Part of your $500 package — no hidden monthly fees</div>
+        <hr class="cell-divider">
+        <div class="cell-note good">We grow with you — your success is our success</div>
+      </div>
+    </div>
+
+    <!-- TOTALS -->
+    <div class="totals-row" id="totals">
+      <div class="total-cell them">
+        <div class="total-label">Industry Total (Year 1)</div>
+        <div class="total-price crossed">$5,583+</div>
+        <div class="total-note" style="color:rgba(255,77,109,0.8);margin-top:6px;">Domain + Hosting + Design + Maintenance</div>
+      </div>
+      <div class="total-cell us">
+        <div class="total-label">Our Total (Year 1)</div>
+        <div class="total-price">$500</div>
+        <div class="total-note">Everything included — pay in installments if needed</div>
+      </div>
+    </div>
+
+    <!-- SAVINGS METER -->
+    <div class="savings-section" id="savingsMeter">
+      <div class="savings-inner">
+        <div class="savings-top">
+          <div>
+            <div class="savings-badge">🏆 You Save ~85%</div>
+            <h2 class="savings-headline">Total Savings: <span id="savingsNum">$5,083</span></h2>
+            <p class="savings-sub">Based on industry low estimates. Your actual savings may be much higher.</p>
+          </div>
+          <div>
+            <div class="savings-pct" id="savingsPct">85%</div>
+            <div class="savings-pct-label">Less than industry avg</div>
           </div>
         </div>
-        <div id="paymentDetail" class="text-sm" style="color:var(--neon);">
-          <div id="fullDetail">✓ $500 one-time — save thousands instantly</div>
-          <div id="installDetail" class="hidden">✓ As low as <strong>$100/mo × 5</strong> — zero interest, no fees</div>
+        <div class="bar-track">
+          <div class="bar-fill" id="savingsBar"></div>
+        </div>
+        <div class="bar-labels">
+          <span>$0</span>
+          <span id="barRight">Industry avg: $5,583+</span>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="connector fade-up">↓</div>
-
-  <!-- ── STEP 4: MAINTENANCE ── -->
-  <div id="step4" class="fade-up mb-10">
-    <div class="grid grid-cols-2 gap-6">
-      <div class="step-card them">
-        <div class="step-number">04</div>
-        <div class="badge badge-fire mb-3">Step 4 · Monthly Maintenance</div>
-        <h3 class="text-2xl mb-2">Ongoing Support</h3>
-        <p class="text-white/50 text-sm mb-4">Standard agency retainer</p>
-        <div class="price-tag crossed">$200–$500<span style="font-size:1.2rem;">/mo</span></div>
-        <p class="text-white/40 text-xs mt-2">$2,400–$6,000 per year, recurring</p>
-        <hr class="divider my-4"/>
-        <div class="flex items-center gap-2 text-white/50 text-sm">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-          Expensive, and charged whether or not you need it
-        </div>
-      </div>
-      <div class="step-card us">
-        <div class="step-number">04</div>
-        <div class="badge badge-neon mb-3">Step 4 · Monthly Maintenance</div>
-        <h3 class="text-2xl mb-2">Ongoing Support</h3>
-        <p class="text-white/50 text-sm mb-4">We grow with you</p>
-        <div class="price-tag ours">INCLUDED</div>
-        <p style="color:var(--neon);" class="text-xs mt-2 font-semibold">Part of your $500 package — no hidden fees</p>
-        <hr class="divider my-4"/>
-        <div class="flex items-center gap-2 text-sm" style="color:var(--neon)">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-          We grow with you — your success is ours
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── TOTALS ── -->
-  <div class="fade-up mb-6">
-    <div class="grid grid-cols-2 gap-6">
-      <div class="total-box them">
-        <p class="text-white/40 text-sm uppercase tracking-widest mb-2">Industry Total (Year 1)</p>
-        <div class="price-tag crossed" style="font-size:3.5rem;" id="themTotal">$5,583</div>
-        <p class="text-white/40 text-xs mt-2">Domain + Hosting + Design + Maintenance (low estimate)</p>
-      </div>
-      <div class="total-box us">
-        <p class="text-sm uppercase tracking-widest mb-2" style="color:rgba(0,255,178,0.6)">Our Total (Year 1)</p>
-        <div class="price-tag ours" style="font-size:3.5rem;">$500</div>
-        <p class="text-xs mt-2" style="color:rgba(0,255,178,0.6)">Everything included — can be paid in installments</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── SAVINGS METER ── -->
-  <div class="step-card fade-up mb-10" style="border-color:rgba(0,255,178,0.2);">
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
-      <div>
-        <div class="save-ribbon mb-3">🏆 You Save ~85%</div>
-        <h2 class="text-4xl md:text-5xl text-white">
-          Savings: <span style="color:var(--neon);" class="counter" id="savingsAmount">$5,083</span>
-        </h2>
-        <p class="text-white/40 mt-2 text-sm">Based on industry low estimates. Savings can be much higher.</p>
-      </div>
-      <div class="text-right">
-        <div class="text-6xl font-black" style="font-family:'Bebas Neue'; color:var(--gold);" id="savingsPct">85%</div>
-        <div class="text-white/40 text-sm">less than industry average</div>
-      </div>
-    </div>
-    <div class="savings-bar-track">
-      <div class="savings-bar-fill" id="savingsBar" style="width:0%"></div>
-    </div>
-    <div class="flex justify-between text-xs text-white/30 mt-2">
-      <span>$0</span>
-      <span>Industry avg: $5,583+</span>
-    </div>
-  </div>
-
-  <!-- ── WHY US ── -->
-  <div class="fade-up mb-12">
-    <h2 class="text-5xl md:text-6xl text-center mb-10">Why Choose <span style="color:var(--neon);">Us?</span></h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="step-card" style="text-align:center;">
-        <div class="text-5xl mb-4">🌐</div>
-        <h3 class="text-2xl mb-2 text-white">Free Domain</h3>
-        <p class="text-white/50 text-sm">Your brand name online, included. No annual renewal surprise bills in year one.</p>
-      </div>
-      <div class="step-card" style="text-align:center;">
-        <div class="text-5xl mb-4">☁️</div>
-        <h3 class="text-2xl mb-2 text-white">Free Hosting</h3>
-        <p class="text-white/50 text-sm">First year completely hosted on us. Fast, reliable, and professionally managed.</p>
-      </div>
-      <div class="step-card" style="text-align:center;">
-        <div class="text-5xl mb-4">💳</div>
-        <h3 class="text-2xl mb-2 text-white">Pay in Installments</h3>
-        <p class="text-white/50 text-sm">Break your $500 into easy monthly payments. No interest. No fees. Just growth.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── CTA ── -->
-  <div class="text-center fade-up">
-    <div class="step-card" style="border-color:rgba(0,255,178,0.3); background:rgba(0,255,178,0.04); padding:60px 40px;">
-      <div class="save-ribbon mb-6">Cheapest On The Web — Guaranteed</div>
-      <h2 class="text-5xl md:text-7xl text-white mb-4">
-        Ready to Launch<br/><span style="color:var(--neon);">For $500?</span>
-      </h2>
-      <p class="text-white/50 max-w-md mx-auto mb-10 text-base">
-        Domain. Hosting. Full web design. Graphics. Media. Maintenance. <strong class="text-white">Everything</strong> — for less than the cost of a logo at an agency. Pay in installments if you need to.
-      </p>
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <button class="cta-btn" onclick="alert('🎉 Let\'s build your future! Contact us to get started.')">
-          Get Started — $500 Total
-        </button>
-        <button onclick="alert('📞 We\'ll walk you through every step. Reach out anytime!')" style="background:transparent; border:1px solid rgba(255,255,255,0.2); color:white; border-radius:12px; padding:18px 32px; font-family:\'DM Sans\'; font-size:0.95rem; font-weight:500; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(0,255,178,0.6)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.2)'">
-          Learn More →
-        </button>
-      </div>
-      <p class="text-white/30 text-xs mt-6">No hidden fees · No long-term contracts · Installments available</p>
-    </div>
-  </div>
-
 </section>
 
-<!-- ─── FOOTER ─── -->
-<footer class="border-t border-white/5 py-10 text-center text-white/20 text-sm relative z-10">
-  <p>We grow with you. Your success is our success. 🚀</p>
+<!-- WHY US -->
+<section class="why-section">
+  <div class="section-wrap" style="padding-top:0;padding-bottom:0;">
+    <div class="section-label">Why Choose Us</div>
+    <h2 class="section-title">Everything You Need,<br><em>For One Price</em></h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">🌐</div>
+        <h3 class="why-title">Free Domain</h3>
+        <p class="why-desc">Your brand name online, included. No annual renewal surprise bills in year one.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">☁️</div>
+        <h3 class="why-title">Free Hosting</h3>
+        <p class="why-desc">First year completely hosted on us. Fast, reliable, and professionally managed.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">💳</div>
+        <h3 class="why-title">Pay in Installments</h3>
+        <p class="why-desc">Break your $500 into 5 easy monthly payments. No interest. No fees. Just growth.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-deco" style="top:-60px;left:-80px;">$</div>
+  <div class="cta-deco" style="bottom:-60px;right:-80px;">✦</div>
+  <div style="position:relative;z-index:2;">
+    <h2>Ready to Launch For<br><em style="font-style:italic;">Only $500?</em></h2>
+    <p>Domain. Hosting. Full web design. Graphics. Media. Maintenance. <strong>Everything</strong> — for less than the cost of a logo at an agency.</p>
+    <a href="#" class="btn-cta-white" onclick="openModal()">Get Started — From $500</a>
+    <div style="margin-top:1.5rem;font-size:0.85rem;color:rgba(255,255,255,0.6);">30-Day Money Back Guarantee · No Hidden Fees · Pay in Installments</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 LaunchPad AI.</span> Made with ✦ & AI
 </footer>
 
-<script>
-// ─── Installment toggle ───
-function setPayment(type) {
-  const btnFull = document.getElementById('btnFull');
-  const btnInstall = document.getElementById('btnInstall');
-  const fullDetail = document.getElementById('fullDetail');
-  const installDetail = document.getElementById('installDetail');
+<!-- MODAL (same as main site) -->
+<div id="modal" style="
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(0,0,0,0.8);
+  display:flex;align-items:center;justify-content:center;padding:1rem;
+  opacity:0;pointer-events:none;transition:opacity 0.3s;
+" onclick="closeModalOutside(event)">
+  <div style="
+    background:var(--cream);border:2px solid var(--black);
+    width:100%;max-width:480px;padding:2.5rem;
+    box-shadow:10px 10px 0 var(--pink);
+    transform:translateY(20px);transition:transform 0.3s;
+  " id="modalInner">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2rem;">
+      <div>
+        <h2 style="font-size:1.8rem;line-height:1.1;font-family:'DM Serif Display',serif;">Get Started</h2>
+        <p style="font-size:0.85rem;color:#888;margin-top:4px;font-family:'DM Sans',sans-serif;">We'll reach out within 24 hours to begin.</p>
+      </div>
+      <button onclick="closeModal()" style="
+        width:36px;height:36px;background:var(--black);color:white;
+        border:none;font-size:1.2rem;cursor:pointer;display:flex;
+        align-items:center;justify-content:center;transition:background 0.2s;
+      " onmouseover="this.style.background='var(--pink)'" onmouseout="this.style.background='var(--black)'">✕</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+      <a href="https://gumroad.com/checkout?product=fxtpx&quantity=1" style="
+        display:block;width:100%;background:var(--pink);color:white;
+        border:2px solid var(--black);padding:14px;
+        font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;
+        text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;
+        text-decoration:none;text-align:center;
+        box-shadow:4px 4px 0 var(--black);transition:all 0.2s;
+      " onmouseover="this.style.transform='translate(-2px,-2px)';this.style.boxShadow='6px 6px 0 var(--black)'" onmouseout="this.style.transform='';this.style.boxShadow='4px 4px 0 var(--black)'">Pay in Full & Get Started →</a>
+      <a href="https://gumroad.com/checkout?product=fxtpx&quantity=1&pay_in_installments=true" style="
+        display:block;width:100%;background:transparent;color:var(--black);
+        border:2px solid var(--black);padding:14px;
+        font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;
+        text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;
+        text-decoration:none;text-align:center;
+        box-shadow:4px 4px 0 var(--black);transition:all 0.2s;
+      " onmouseover="this.style.background='var(--yellow)';this.style.transform='translate(-2px,-2px)';this.style.boxShadow='6px 6px 0 var(--black)'" onmouseout="this.style.background='transparent';this.style.transform='';this.style.boxShadow='4px 4px 0 var(--black)'">Pay in Installments →</a>
+    </div>
+    <p style="font-size:0.8rem;color:#888;text-align:center;margin-top:1rem;font-family:'DM Sans',sans-serif;">🔒 Your info is 100% secure. No spam, ever.</p>
+  </div>
+</div>
 
-  if (type === 'full') {
-    btnFull.classList.add('active');
-    btnInstall.classList.remove('active');
-    fullDetail.classList.remove('hidden');
-    installDetail.classList.add('hidden');
-  } else {
-    btnInstall.classList.add('active');
-    btnFull.classList.remove('active');
-    installDetail.classList.remove('hidden');
-    fullDetail.classList.add('hidden');
-  }
+<script>
+// Modal
+function openModal() {
+  const m = document.getElementById('modal');
+  m.style.opacity = '1'; m.style.pointerEvents = 'all';
+  document.getElementById('modalInner').style.transform = 'translateY(0)';
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  const m = document.getElementById('modal');
+  m.style.opacity = '0'; m.style.pointerEvents = 'none';
+  document.getElementById('modalInner').style.transform = 'translateY(20px)';
+  document.body.style.overflow = '';
+}
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modal')) closeModal();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// Installment toggle
+function setPayment(type) {
+  document.getElementById('btnFull').classList.toggle('active', type === 'full');
+  document.getElementById('btnInstall').classList.toggle('active', type === 'install');
+  document.getElementById('fullDetail').style.display = type === 'full' ? 'flex' : 'none';
+  document.getElementById('installDetail').style.display = type === 'install' ? 'flex' : 'none';
 }
 
-// ─── Scroll fade-in ───
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      // Trigger savings bar when it enters view
-      if (e.target.contains(document.getElementById('savingsBar'))) {
+// Scroll fade-in
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      // Trigger savings bar animation
+      if (entry.target.id === 'savingsMeter') {
         setTimeout(() => {
           document.getElementById('savingsBar').style.width = '85%';
-          animateCounter('savingsAmount', 0, 5083, 1800, '$');
+          animateCounter('savingsNum', 0, 5083, 1800, '$');
           animateCounter('savingsPct', 0, 85, 1500, '', '%');
-        }, 300);
+        }, 200);
       }
     }
   });
 }, { threshold: 0.15 });
 
-document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+['step1','step2','step3','step4','totals','savingsMeter'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) obs.observe(el);
+});
 
-// ─── Counter animation ───
 function animateCounter(id, from, to, duration, prefix='', suffix='') {
   const el = document.getElementById(id);
   if (!el) return;
   const start = performance.now();
   function update(now) {
-    const elapsed = Math.min((now - start) / duration, 1);
-    const eased = 1 - Math.pow(1 - elapsed, 3);
+    const t = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
     const val = Math.round(from + (to - from) * eased);
     el.textContent = prefix + val.toLocaleString() + suffix;
-    if (elapsed < 1) requestAnimationFrame(update);
+    if (t < 1) requestAnimationFrame(update);
   }
   requestAnimationFrame(update);
 }
