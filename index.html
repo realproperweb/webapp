@@ -1,0 +1,926 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NexDir — AI-Powered Business Directory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg: #050810;
+      --surface: #0b1120;
+      --card: #0f1a2e;
+      --accent: #00e5ff;
+      --accent2: #7c3aed;
+      --accent3: #10b981;
+      --text: #e2eaf8;
+      --muted: #556b8d;
+      --border: rgba(0,229,255,0.13);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── CUSTOM CURSOR ── */
+    .cursor {
+      position: fixed; top: 0; left: 0; z-index: 9999;
+      pointer-events: none;
+    }
+    .cursor-dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      transform: translate(-50%,-50%);
+      transition: transform .1s;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1.5px solid rgba(0,229,255,0.5);
+      border-radius: 50%;
+      transform: translate(-50%,-50%);
+      transition: transform .15s ease, width .2s, height .2s, border-color .2s;
+    }
+    body:has(a:hover) .cursor-ring,
+    body:has(button:hover) .cursor-ring {
+      width: 52px; height: 52px;
+      border-color: var(--accent);
+    }
+
+    /* ── ANIMATED BACKGROUND CANVAS ── */
+    #bg-canvas {
+      position: fixed; inset: 0; z-index: 0;
+      width: 100%; height: 100%;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    .noise {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      opacity: .025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* ── LAYOUT ── */
+    .wrapper { position: relative; z-index: 2; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 3rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(5,8,16,0.6);
+      border-bottom: 1px solid var(--border);
+      transition: background .3s;
+    }
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: .12em;
+      color: #fff;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2.2rem; align-items: center; }
+    .nav-links a {
+      font-size: .85rem; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      transition: color .2s;
+      cursor: none;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cta {
+      background: var(--accent); color: #050810;
+      font-family: 'Space Mono', monospace;
+      font-size: .75rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: .6rem 1.4rem; border-radius: 2px;
+      border: none; cursor: none; text-decoration: none;
+      transition: opacity .2s, transform .15s;
+      display: inline-block;
+    }
+    .nav-cta:hover { opacity: .85; transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+    }
+    .hero-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: .72rem; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: .75rem;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content: ''; display: block; width: 32px; height: 1px;
+      background: var(--accent); opacity: .5;
+    }
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 10vw, 9rem);
+      line-height: .92;
+      letter-spacing: .04em;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+    .hero-title .line-accent { color: var(--accent); display: block; }
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.7;
+      margin: 1.5rem auto 2.5rem;
+    }
+    .hero-sub em { color: var(--text); font-style: normal; font-weight: 500; }
+    .hero-actions {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--accent); color: #050810;
+      font-family: 'Space Mono', monospace;
+      font-size: .8rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; padding: .85rem 2rem;
+      border: none; border-radius: 2px; cursor: none;
+      transition: transform .15s, box-shadow .2s;
+      position: relative; overflow: hidden;
+    }
+    .btn-primary::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+      transform: translateX(-100%);
+      transition: transform .4s;
+    }
+    .btn-primary:hover::after { transform: translateX(100%); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 32px rgba(0,229,255,0.35); }
+
+    .btn-ghost {
+      background: transparent; color: var(--text);
+      font-family: 'Space Mono', monospace;
+      font-size: .8rem; letter-spacing: .08em;
+      text-transform: uppercase; padding: .85rem 2rem;
+      border: 1px solid var(--border); border-radius: 2px; cursor: none;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── TICKER ── */
+    .ticker-wrap {
+      overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: .75rem 0; margin: 0; background: rgba(0,229,255,0.03);
+    }
+    .ticker {
+      display: flex; gap: 3rem; width: max-content;
+      animation: ticker 30s linear infinite;
+    }
+    .ticker-item {
+      white-space: nowrap; font-family: 'Space Mono', monospace;
+      font-size: .7rem; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--muted); display: flex; align-items: center; gap: .75rem;
+    }
+    .ticker-item::before { content: '◆'; color: var(--accent); font-size: .5rem; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 6rem 2rem; position: relative; }
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: .65rem; letter-spacing: .3em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: .75rem;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      letter-spacing: .06em; color: #fff;
+      line-height: 1; margin-bottom: 1rem;
+    }
+    .section-desc {
+      font-size: 1rem; color: var(--muted); max-width: 500px; line-height: 1.7;
+    }
+    .max-w { max-width: 1200px; margin: 0 auto; }
+
+    /* ── HOW IT WORKS ── */
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5px; margin-top: 4rem;
+      border: 1.5px solid var(--border); border-radius: 4px; overflow: hidden;
+    }
+    .step-card {
+      background: var(--card); padding: 2.5rem 2rem;
+      position: relative; overflow: hidden;
+      transition: background .3s;
+    }
+    .step-card:hover { background: #122040; }
+    .step-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .4s;
+    }
+    .step-card:hover::before { transform: scaleX(1); }
+    .step-num {
+      font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem;
+      color: rgba(0,229,255,0.08); line-height: 1;
+      position: absolute; top: 1rem; right: 1.5rem;
+    }
+    .step-icon {
+      width: 44px; height: 44px; border-radius: 8px;
+      background: rgba(0,229,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.5rem; font-size: 1.3rem;
+    }
+    .step-title {
+      font-family: 'DM Sans', sans-serif; font-weight: 500;
+      font-size: 1.05rem; color: #fff; margin-bottom: .5rem;
+    }
+    .step-desc { font-size: .88rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── AGENT CHAT ── */
+    .agent-section {
+      background: linear-gradient(180deg, transparent, rgba(0,229,255,0.03) 50%, transparent);
+    }
+    .agent-wrap {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+      align-items: center; max-width: 1100px; margin: 0 auto;
+    }
+    .agent-terminal {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; overflow: hidden;
+      box-shadow: 0 0 80px rgba(0,229,255,0.07);
+    }
+    .terminal-bar {
+      background: rgba(255,255,255,0.04); padding: .75rem 1.25rem;
+      display: flex; gap: .5rem; align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .t-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .terminal-body { padding: 1.75rem; min-height: 320px; }
+    .chat-line {
+      font-family: 'Space Mono', monospace; font-size: .78rem;
+      line-height: 1.8; color: var(--muted);
+      opacity: 0; transform: translateY(6px);
+      transition: opacity .4s, transform .4s;
+    }
+    .chat-line.visible { opacity: 1; transform: translateY(0); }
+    .chat-line.user { color: var(--accent); }
+    .chat-line.ai { color: #a5f3fc; }
+    .chat-line .tag {
+      font-size: .65rem; letter-spacing: .12em; text-transform: uppercase;
+      margin-right: .5rem; opacity: .6;
+    }
+    .cursor-blink {
+      display: inline-block; width: 8px; height: 14px;
+      background: var(--accent); margin-left: 2px;
+      animation: blink .8s steps(1) infinite;
+      vertical-align: middle;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ── FEATURES ── */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem; margin-top: 4rem;
+    }
+    .feat-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 2rem;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+      position: relative; overflow: hidden;
+    }
+    .feat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 20px rgba(0,229,255,0.06);
+      border-color: rgba(0,229,255,0.3);
+    }
+    .feat-glow {
+      position: absolute; top: -60px; right: -60px;
+      width: 140px; height: 140px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,229,255,0.12), transparent 70%);
+      pointer-events: none;
+    }
+    .feat-icon {
+      font-size: 1.6rem; margin-bottom: 1rem;
+      width: 52px; height: 52px; border-radius: 10px;
+      background: rgba(0,229,255,0.07);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .feat-title { font-weight: 500; font-size: 1.05rem; color: #fff; margin-bottom: .5rem; }
+    .feat-desc { font-size: .88rem; color: var(--muted); line-height: 1.65; }
+    .feat-tag {
+      display: inline-block; margin-top: 1rem;
+      font-family: 'Space Mono', monospace; font-size: .65rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--accent3); background: rgba(16,185,129,0.1);
+      padding: .2rem .6rem; border-radius: 2px;
+    }
+
+    /* ── STATS ── */
+    .stats-strip {
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 3.5rem 2rem; background: rgba(0,229,255,0.02);
+    }
+    .stats-inner {
+      max-width: 1000px; margin: 0 auto;
+      display: flex; justify-content: space-around; flex-wrap: wrap; gap: 2rem;
+    }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem;
+      color: var(--accent); line-height: 1; letter-spacing: .04em;
+    }
+    .stat-label {
+      font-family: 'Space Mono', monospace; font-size: .65rem;
+      letter-spacing: .2em; text-transform: uppercase; color: var(--muted);
+      margin-top: .4rem;
+    }
+
+    /* ── LISTINGS PREVIEW ── */
+    .listings-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem; margin-top: 3rem;
+    }
+    .listing-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.5rem;
+      transition: border-color .2s, transform .2s;
+      cursor: none;
+    }
+    .listing-card:hover { border-color: rgba(0,229,255,0.35); transform: translateY(-3px); }
+    .listing-header { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1rem; }
+    .listing-logo {
+      width: 46px; height: 46px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; flex-shrink: 0;
+    }
+    .listing-name { font-weight: 500; color: #fff; font-size: .95rem; }
+    .listing-cat {
+      font-family: 'Space Mono', monospace; font-size: .62rem;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+      margin-top: .2rem;
+    }
+    .listing-desc { font-size: .83rem; color: var(--muted); line-height: 1.6; margin-bottom: 1rem; }
+    .listing-footer { display: flex; justify-content: space-between; align-items: center; }
+    .listing-stars { color: #f59e0b; font-size: .8rem; letter-spacing: .05em; }
+    .listing-badge {
+      font-family: 'Space Mono', monospace; font-size: .6rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: .2rem .5rem; border-radius: 2px;
+    }
+    .badge-ai { color: var(--accent); background: rgba(0,229,255,0.1); }
+    .badge-pro { color: #a78bfa; background: rgba(124,58,237,0.15); }
+    .badge-new { color: var(--accent3); background: rgba(16,185,129,0.1); }
+
+    /* ── CTA BLOCK ── */
+    .cta-block {
+      max-width: 900px; margin: 0 auto;
+      text-align: center; padding: 5rem 2rem;
+      position: relative;
+    }
+    .cta-glow {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 600px; height: 300px;
+      background: radial-gradient(ellipse, rgba(124,58,237,0.15) 0%, transparent 70%);
+      pointer-events: none; filter: blur(20px);
+    }
+    .cta-block .section-title { font-size: clamp(3rem, 6vw, 5rem); position: relative; }
+    .cta-input-row {
+      display: flex; gap: .75rem; justify-content: center;
+      margin-top: 2.5rem; flex-wrap: wrap; position: relative;
+    }
+    .cta-input {
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); font-family: 'DM Sans', sans-serif;
+      font-size: .95rem; padding: .85rem 1.4rem; border-radius: 2px;
+      min-width: 280px; outline: none;
+      transition: border-color .2s;
+    }
+    .cta-input:focus { border-color: var(--accent); }
+    .cta-input::placeholder { color: var(--muted); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+      display: flex; flex-wrap: wrap; justify-content: space-between;
+      align-items: center; gap: 1.5rem;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem;
+      letter-spacing: .12em; color: #fff;
+    }
+    .footer-logo span { color: var(--accent); }
+    .footer-links { display: flex; gap: 1.75rem; flex-wrap: wrap; }
+    .footer-links a {
+      font-size: .78rem; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: color .2s; cursor: none;
+    }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy {
+      font-family: 'Space Mono', monospace; font-size: .65rem;
+      color: var(--muted); letter-spacing: .08em;
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .agent-wrap { grid-template-columns: 1fr; gap: 3rem; }
+      .agent-terminal { order: -1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor">
+  <div class="cursor-dot" id="cursorDot"></div>
+</div>
+<div class="cursor" id="cursorRing">
+  <div class="cursor-ring" id="cursorRing2"></div>
+</div>
+
+<!-- NOISE -->
+<div class="noise"></div>
+
+<!-- ANIMATED BG -->
+<canvas id="bg-canvas"></canvas>
+
+<div class="wrapper">
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">Nex<span>Dir</span></div>
+    <div class="nav-links">
+      <a href="#how">How It Works</a>
+      <a href="#agent">AI Agent</a>
+      <a href="#listings">Browse</a>
+      <a href="#features">Features</a>
+      <a href="#list" class="nav-cta">List Your Business</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">AI-Powered Business Directory</div>
+    <h1 class="hero-title">
+      The Future of<br>
+      <span class="line-accent">Business Discovery</span>
+    </h1>
+    <p class="hero-sub">
+      Our <em>AI agent</em> crafts the most effective listing and marketing strategy for your business — optimized, ranked, and discovered by customers who need you most.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('list').scrollIntoView({behavior:'smooth'})">List Your Business</button>
+      <button class="btn-ghost" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">See How It Works</button>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker" id="ticker"></div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="max-w">
+      <div class="reveal">
+        <div class="section-label">Process</div>
+        <div class="section-title">Four Steps to Maximum Visibility</div>
+        <p class="section-desc">Our AI handles everything — from crafting your perfect listing to optimising your reach.</p>
+      </div>
+      <div class="steps-grid reveal">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <div class="step-icon">🏢</div>
+          <div class="step-title">Tell Us About Your Business</div>
+          <div class="step-desc">Answer a few quick questions. Our AI instantly understands your sector, audience, and competitive positioning.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <div class="step-icon">🤖</div>
+          <div class="step-title">AI Crafts Your Listing</div>
+          <div class="step-desc">NexDir's agent writes compelling copy, selects optimal categories, and builds a profile engineered to convert.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <div class="step-icon">📈</div>
+          <div class="step-title">Marketing Strategy Generated</div>
+          <div class="step-desc">Receive a tailored marketing playbook: keywords, positioning, target demographics — ready to execute.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">04</div>
+          <div class="step-icon">🚀</div>
+          <div class="step-title">Go Live &amp; Get Found</div>
+          <div class="step-desc">Your listing is published, indexed, and continuously optimised by our AI as your market evolves.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AGENT DEMO -->
+  <section id="agent" class="agent-section">
+    <div class="agent-wrap reveal">
+      <div>
+        <div class="section-label">AI Agent</div>
+        <div class="section-title">Your Always-On Marketing Intelligence</div>
+        <p class="section-desc" style="margin-bottom:2rem;">Chat with our AI agent any time. Refine your listing, explore opportunities, and get smart recommendations — 24/7.</p>
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:.9rem;">
+          <li style="display:flex;gap:.75rem;align-items:flex-start;font-size:.88rem;color:var(--muted);">
+            <span style="color:var(--accent);margin-top:.1rem;">▸</span> Natural language listing creation &amp; editing
+          </li>
+          <li style="display:flex;gap:.75rem;align-items:flex-start;font-size:.88rem;color:var(--muted);">
+            <span style="color:var(--accent);margin-top:.1rem;">▸</span> Competitive gap analysis in real time
+          </li>
+          <li style="display:flex;gap:.75rem;align-items:flex-start;font-size:.88rem;color:var(--muted);">
+            <span style="color:var(--accent);margin-top:.1rem;">▸</span> SEO keyword suggestions tailored to your niche
+          </li>
+          <li style="display:flex;gap:.75rem;align-items:flex-start;font-size:.88rem;color:var(--muted);">
+            <span style="color:var(--accent);margin-top:.1rem;">▸</span> Monthly performance reports with AI insights
+          </li>
+        </ul>
+      </div>
+      <div class="agent-terminal">
+        <div class="terminal-bar">
+          <div class="t-dot" style="background:#ff5f57"></div>
+          <div class="t-dot" style="background:#febc2e"></div>
+          <div class="t-dot" style="background:#28c840"></div>
+          <span style="margin-left:.75rem;font-family:'Space Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.08em;">nexdir_agent_v3 — active</span>
+        </div>
+        <div class="terminal-body" id="terminalBody"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-strip">
+    <div class="stats-inner">
+      <div class="stat-item reveal">
+        <div class="stat-num" data-target="48200">0</div>
+        <div class="stat-label">Active Listings</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-num" data-target="3200000">0</div>
+        <div class="stat-label">Monthly Searches</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-num" data-target="97">0</div>
+        <div class="stat-label">% AI Optimised</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-num" data-target="142">0</div>
+        <div class="stat-label">Industries Covered</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LISTINGS PREVIEW -->
+  <section id="listings">
+    <div class="max-w">
+      <div class="reveal">
+        <div class="section-label">Directory</div>
+        <div class="section-title">Featured Listings</div>
+        <p class="section-desc">AI-crafted profiles that connect the right business with the right customer.</p>
+      </div>
+      <div class="listings-grid reveal" id="listingsGrid"></div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="max-w">
+      <div class="reveal">
+        <div class="section-label">Platform</div>
+        <div class="section-title">Built Different</div>
+        <p class="section-desc">Every feature is designed around one goal: making your business impossible to ignore.</p>
+      </div>
+      <div class="features-grid reveal">
+        <div class="feat-card">
+          <div class="feat-glow"></div>
+          <div class="feat-icon">🧠</div>
+          <div class="feat-title">AI Listing Optimisation</div>
+          <div class="feat-desc">Our model continuously rewrites and tests your listing copy to maximise click-through and enquiry rates.</div>
+          <div class="feat-tag">Core AI</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🎯</div>
+          <div class="feat-title">Intent-Based Matching</div>
+          <div class="feat-desc">We don't just match keywords — we match buyer intent, connecting you with customers ready to act.</div>
+          <div class="feat-tag">Smart Search</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">📊</div>
+          <div class="feat-title">Live Analytics Dashboard</div>
+          <div class="feat-desc">See impressions, clicks, and conversions in real time with AI-powered attribution and recommendations.</div>
+          <div class="feat-tag">Analytics</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">✍️</div>
+          <div class="feat-title">AI Copywriting Suite</div>
+          <div class="feat-desc">Generate taglines, descriptions, social captions, and ad copy in seconds — all tuned to your brand voice.</div>
+          <div class="feat-tag">Generative AI</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🔒</div>
+          <div class="feat-title">Verified Listings</div>
+          <div class="feat-desc">Every business is verified by our AI trust engine, ensuring customers find only legitimate, active businesses.</div>
+          <div class="feat-tag">Trust</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🌐</div>
+          <div class="feat-title">Multi-Channel Amplification</div>
+          <div class="feat-desc">Automatically distribute your listing across partner networks, aggregators, and industry-specific platforms.</div>
+          <div class="feat-tag">Distribution</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="list">
+    <div class="cta-block reveal">
+      <div class="cta-glow"></div>
+      <div class="section-label">Get Started</div>
+      <div class="section-title">Ready to Be Found?</div>
+      <p class="section-desc" style="margin: 1rem auto; max-width:460px;">Enter your business details and our AI agent will contact you with a tailored listing strategy — within minutes.</p>
+      <div class="cta-input-row">
+        <input class="cta-input" type="text" placeholder="Business name" />
+        <input class="cta-input" type="email" placeholder="Your email address" />
+        <button class="btn-primary">Activate AI Agent →</button>
+      </div>
+      <p style="font-size:.75rem;color:var(--muted);margin-top:1.25rem;font-family:'Space Mono',monospace;letter-spacing:.06em;">Free to start · No credit card required</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Nex<span>Dir</span></div>
+    <div class="footer-links">
+      <a href="#">About</a>
+      <a href="#">Pricing</a>
+      <a href="#">API</a>
+      <a href="#">Blog</a>
+      <a href="#">Contact</a>
+      <a href="#">Privacy</a>
+    </div>
+    <div class="footer-copy">© 2025 NexDir · All Rights Reserved</div>
+  </footer>
+
+</div><!-- /wrapper -->
+
+<script>
+/* ── CURSOR ── */
+const dot = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing2');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animCursor() {
+  dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+  rx += (mx - rx) * .14; ry += (my - ry) * .14;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+
+/* ── BACKGROUND CANVAS ── */
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [], lines = [];
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+class Particle {
+  constructor() { this.reset(true); }
+  reset(init) {
+    this.x = Math.random() * W;
+    this.y = init ? Math.random() * H : H + 10;
+    this.r = Math.random() * 1.2 + .3;
+    this.speed = Math.random() * .4 + .15;
+    this.drift = (Math.random() - .5) * .3;
+    this.life = Math.random();
+    this.maxLife = Math.random() * 200 + 100;
+    this.age = 0;
+    this.hue = Math.random() < .6 ? 186 : 263; // cyan or purple
+  }
+  update() {
+    this.y -= this.speed; this.x += this.drift;
+    this.age++;
+    if (this.age > this.maxLife || this.y < -5) this.reset(false);
+  }
+  draw() {
+    const t = this.age / this.maxLife;
+    const alpha = Math.sin(t * Math.PI) * .6;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = `hsla(${this.hue}, 90%, 70%, ${alpha})`;
+    ctx.fill();
+  }
+}
+
+/* Hex grid lines */
+function drawHexGrid() {
+  const S = 60; // hex size
+  ctx.strokeStyle = 'rgba(0,229,255,0.028)';
+  ctx.lineWidth = 1;
+  for (let row = -1; row < H / S * 1.2; row++) {
+    for (let col = -1; col < W / (S * 1.73) * 1.2; col++) {
+      const ox = col * S * 1.732 + (row % 2 ? S * .866 : 0);
+      const oy = row * S * 1.5;
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const a = Math.PI / 180 * (60 * i - 30);
+        const px = ox + S * Math.cos(a);
+        const py = oy + S * Math.sin(a);
+        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      ctx.closePath(); ctx.stroke();
+    }
+  }
+}
+
+/* Orbs */
+const orbs = [
+  { x: W * .2, y: H * .3, r: 280, hue: 186, speed: .0003 },
+  { x: W * .8, y: H * .6, r: 220, hue: 263, speed: .0004 },
+  { x: W * .5, y: H * .8, r: 200, hue: 186, speed: .0005 },
+];
+let t = 0;
+
+for (let i = 0; i < 160; i++) particles.push(new Particle());
+
+function animBg() {
+  t += .008;
+  ctx.clearRect(0, 0, W, H);
+
+  /* Radial gradient base */
+  const grad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W,H)*.7);
+  grad.addColorStop(0, '#060c1a');
+  grad.addColorStop(1, '#050810');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  drawHexGrid();
+
+  /* Orbs */
+  orbs.forEach((o, i) => {
+    const ox = o.x + Math.sin(t * o.speed * 400 + i * 2) * 60;
+    const oy = o.y + Math.cos(t * o.speed * 300 + i * 1.5) * 50;
+    const g = ctx.createRadialGradient(ox, oy, 0, ox, oy, o.r);
+    const alpha = .12 + .04 * Math.sin(t + i);
+    g.addColorStop(0, `hsla(${o.hue},90%,60%,${alpha})`);
+    g.addColorStop(1, 'transparent');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  });
+
+  /* Scanlines */
+  for (let y = 0; y < H; y += 3) {
+    ctx.fillStyle = 'rgba(0,0,0,0.04)';
+    ctx.fillRect(0, y, W, 1);
+  }
+
+  /* Particles */
+  particles.forEach(p => { p.update(); p.draw(); });
+
+  requestAnimationFrame(animBg);
+}
+animBg();
+
+/* ── TICKER ── */
+const tickerItems = [
+  'AI-Optimised Listings','24/7 Agent Support','Smart Category Matching',
+  'Verified Businesses','Real-Time Analytics','SEO Keyword Engine',
+  'Multi-Channel Distribution','Intent-Based Discovery','Instant Go-Live',
+  'Free Starter Plan','48 200+ Active Listings','142 Industries',
+];
+const ticker = document.getElementById('ticker');
+const all = [...tickerItems, ...tickerItems];
+all.forEach(t => {
+  const d = document.createElement('div');
+  d.className = 'ticker-item'; d.textContent = t;
+  ticker.appendChild(d);
+});
+
+/* ── LISTINGS DATA ── */
+const listings = [
+  { name: 'Apex Legal Group', cat: 'Legal Services', logo: '⚖️', bg: '#0d1f3c',
+    desc: 'Commercial law specialists with AI-powered contract review and compliance monitoring.', stars: '★★★★★', badge: 'badge-pro', badgeText: 'Pro' },
+  { name: 'NovaTech IT Solutions', cat: 'Technology', logo: '💻', bg: '#0a1e1a',
+    desc: 'Managed IT services, cloud migration, and cybersecurity for growing businesses.', stars: '★★★★☆', badge: 'badge-ai', badgeText: 'AI+ ' },
+  { name: 'Bloom Studio Design', cat: 'Creative Agency', logo: '🎨', bg: '#1a0d2e',
+    desc: 'Brand identity, UI/UX design, and digital campaigns with measurable ROI.', stars: '★★★★★', badge: 'badge-new', badgeText: 'New' },
+  { name: 'PeakFin Advisors', cat: 'Financial Services', logo: '📊', bg: '#0d1f3c',
+    desc: 'Wealth management and business finance strategies driven by data intelligence.', stars: '★★★★☆', badge: 'badge-ai', badgeText: 'AI+' },
+  { name: 'GreenFlow Logistics', cat: 'Supply Chain', logo: '🚛', bg: '#0a1e12',
+    desc: 'Sustainable last-mile delivery with real-time AI route optimisation.', stars: '★★★★★', badge: 'badge-pro', badgeText: 'Pro' },
+  { name: 'CoreMed Health', cat: 'Healthcare', logo: '🏥', bg: '#1a1a0d',
+    desc: 'Occupational health services and employee wellness programmes for SMEs.', stars: '★★★★☆', badge: 'badge-new', badgeText: 'New' },
+];
+const grid = document.getElementById('listingsGrid');
+listings.forEach(l => {
+  grid.innerHTML += `
+  <div class="listing-card">
+    <div class="listing-header">
+      <div class="listing-logo" style="background:${l.bg}">${l.logo}</div>
+      <div>
+        <div class="listing-name">${l.name}</div>
+        <div class="listing-cat">${l.cat}</div>
+      </div>
+    </div>
+    <div class="listing-desc">${l.desc}</div>
+    <div class="listing-footer">
+      <div class="listing-stars">${l.stars}</div>
+      <div class="listing-badge ${l.badge}">${l.badgeText}</div>
+    </div>
+  </div>`;
+});
+
+/* ── TERMINAL CHAT ANIMATION ── */
+const convo = [
+  { type: 'user', text: '> I run a plumbing company in Cape Town' },
+  { type: 'ai',  text: '  Understood. Analysing Cape Town plumbing market...' },
+  { type: 'ai',  text: '  Found 340 searches/month for "emergency plumber Cape Town".' },
+  { type: 'ai',  text: '  Generating your optimised listing now...' },
+  { type: 'user', text: '> What keywords should I target?' },
+  { type: 'ai',  text: '  Top 3: "24hr plumber", "burst pipe repair", "plumbing quote".' },
+  { type: 'ai',  text: '  Competitor gap detected in Blouberg area — high demand, low supply.' },
+  { type: 'ai',  text: '  Listing live. Projected +340% visibility in 48hrs. ✓' },
+];
+const body = document.getElementById('terminalBody');
+let ci = 0;
+function nextLine() {
+  if (ci >= convo.length) { ci = 0; body.innerHTML = ''; }
+  const item = convo[ci++];
+  const el = document.createElement('div');
+  el.className = `chat-line ${item.type}`;
+  el.innerHTML = `<span class="tag">${item.type === 'user' ? 'you' : 'ai'}</span>${item.text}`;
+  body.appendChild(el);
+  setTimeout(() => el.classList.add('visible'), 50);
+  body.scrollTop = body.scrollHeight;
+  setTimeout(nextLine, ci < convo.length ? 1600 : 3000);
+}
+setTimeout(nextLine, 800);
+
+/* ── SCROLL REVEAL ── */
+const reveals = document.querySelectorAll('.reveal');
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
+}, { threshold: .12 });
+reveals.forEach(r => ro.observe(r));
+
+/* ── COUNT UP ── */
+function countUp(el, target) {
+  const duration = 1800;
+  const step = target / (duration / 16);
+  let val = 0;
+  const timer = setInterval(() => {
+    val = Math.min(val + step, target);
+    el.textContent = target >= 1000000
+      ? (val / 1000000).toFixed(1) + 'M'
+      : target >= 1000 ? Math.round(val).toLocaleString()
+      : Math.round(val) + (target === 97 ? '%' : '');
+    if (val >= target) clearInterval(timer);
+  }, 16);
+}
+const statNums = document.querySelectorAll('.stat-num[data-target]');
+const statObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      countUp(e.target, +e.target.dataset.target);
+      statObs.unobserve(e.target);
+    }
+  });
+}, { threshold: .5 });
+statNums.forEach(n => statObs.observe(n));
+</script>
+</body>
+</html>
