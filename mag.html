@@ -1,0 +1,1193 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLUX — Digital Magazine</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1008;
+    --cream: #f5f0e8;
+    --aged: #e8dfc8;
+    --rust: #c0392b;
+    --gold: #b8960c;
+    --mist: #8a8070;
+    --shadow-deep: rgba(10,5,0,0.55);
+    --shadow-soft: rgba(10,5,0,0.18);
+    --page-w: 420px;
+    --page-h: 580px;
+    --spine: 14px;
+  }
+
+  html, body {
+    height: 100%; width: 100%;
+    overflow: hidden;
+    background: #1a1008;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    user-select: none;
+  }
+
+  /* ── SCENE ── */
+  #scene {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 110%, #3a2510 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 20% 20%, #2a1a0a 0%, transparent 60%),
+      #0e0905;
+  }
+
+  /* ── TITLE BAR ── */
+  #masthead {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 52px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+    background: linear-gradient(to bottom, rgba(10,6,2,0.95), rgba(10,6,2,0.7));
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(184,150,12,0.25);
+    z-index: 100;
+  }
+  #masthead .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 900; letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  #masthead .issue-info {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em;
+    color: var(--mist);
+    text-transform: uppercase;
+  }
+  #page-indicator {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: 0.1em;
+    color: var(--gold);
+  }
+
+  /* ── BOOK WRAPPER ── */
+  #book-wrapper {
+    position: relative;
+    margin-top: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; height: calc(100vh - 52px - 80px);
+  }
+
+  /* ── BOOK ── */
+  #book {
+    position: relative;
+    width: calc(var(--page-w) * 2 + var(--spine));
+    height: var(--page-h);
+    transform-style: preserve-3d;
+    perspective: 2400px;
+  }
+
+  /* ── SPINE ── */
+  #spine-line {
+    position: absolute;
+    left: calc(var(--page-w) + var(--spine)/2 - 1px);
+    top: 0; bottom: 0; width: 2px;
+    background: linear-gradient(to bottom, transparent, var(--gold) 20%, var(--gold) 80%, transparent);
+    opacity: 0.35; z-index: 30; pointer-events: none;
+  }
+  #spine-shadow {
+    position: absolute;
+    left: var(--page-w);
+    top: 0; bottom: 0;
+    width: var(--spine);
+    background: linear-gradient(to right,
+      rgba(0,0,0,0.5) 0%,
+      rgba(0,0,0,0.15) 50%,
+      rgba(0,0,0,0.5) 100%);
+    z-index: 29; pointer-events: none;
+  }
+
+  /* ── PAGE SPREAD ── */
+  .spread {
+    position: absolute; inset: 0;
+    display: flex;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.05s;
+  }
+  .spread.active {
+    opacity: 1; pointer-events: all;
+  }
+
+  /* ── INDIVIDUAL PAGE ── */
+  .page {
+    width: var(--page-w);
+    height: var(--page-h);
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .page-left {
+    border-radius: 3px 0 0 3px;
+    box-shadow: -6px 0 24px var(--shadow-deep), inset -4px 0 12px rgba(0,0,0,0.2);
+  }
+  .page-right {
+    border-radius: 0 3px 3px 0;
+    box-shadow: 6px 0 24px var(--shadow-deep), inset 4px 0 12px rgba(0,0,0,0.2);
+  }
+
+  /* ── PAGE FLIP ANIMATION ── */
+  .flip-container {
+    position: absolute; inset: 0;
+    perspective: 2400px;
+    pointer-events: none;
+    z-index: 50;
+  }
+  .flip-page {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: var(--page-w);
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+  }
+  .flip-page.from-right {
+    right: 0;
+    transform-origin: left center;
+  }
+  .flip-page .flip-front,
+  .flip-page .flip-back {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    overflow: hidden;
+  }
+  .flip-page .flip-back {
+    transform: rotateY(180deg);
+  }
+
+  /* ── PAGE TURN SHADOW ── */
+  .flip-page::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, transparent 60%, rgba(0,0,0,0.4));
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  /* ── NAVIGATION ── */
+  #nav-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: 80px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 28px;
+    background: linear-gradient(to top, rgba(10,6,2,0.95), rgba(10,6,2,0.7));
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(184,150,12,0.2);
+  }
+  .nav-btn {
+    width: 48px; height: 48px;
+    border: 1px solid rgba(184,150,12,0.4);
+    background: rgba(184,150,12,0.08);
+    color: var(--gold);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 2px;
+    transition: all 0.2s;
+    font-size: 20px;
+    backdrop-filter: blur(4px);
+  }
+  .nav-btn:hover { background: rgba(184,150,12,0.2); border-color: var(--gold); }
+  .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+
+  #progress-track {
+    width: 200px; height: 2px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+  #progress-fill {
+    height: 100%;
+    background: var(--gold);
+    transition: width 0.5s ease;
+    border-radius: 1px;
+  }
+
+  /* ── THUMBNAILS ── */
+  #thumb-strip {
+    display: flex; gap: 6px;
+    align-items: center;
+  }
+
+  /* ══════════════════════════════════════════
+     PAGE CONTENT STYLES
+  ══════════════════════════════════════════ */
+
+  /* Base page background */
+  .pg { width: 100%; height: 100%; position: relative; overflow: hidden; }
+
+  /* Cream pages */
+  .pg-cream { background: var(--cream); color: var(--ink); }
+  .pg-aged  { background: var(--aged);  color: var(--ink); }
+  .pg-dark  { background: #1a1008; color: var(--cream); }
+  .pg-rust  { background: #2a0a05; color: var(--cream); }
+  .pg-forest{ background: #0a1a10; color: var(--cream); }
+
+  /* Paper texture overlay */
+  .pg::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 1;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply; pointer-events: none;
+  }
+
+  .pg-content { position: relative; z-index: 2; height: 100%; }
+
+  /* Typography */
+  .display-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900; line-height: 0.9;
+    letter-spacing: -0.02em;
+  }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.35em;
+    text-transform: uppercase; opacity: 0.6;
+    margin-bottom: 6px;
+  }
+  .body-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px; line-height: 1.75;
+    font-weight: 300;
+  }
+  .pull-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 18px; line-height: 1.3;
+    border-left: 2px solid var(--gold);
+    padding-left: 14px;
+    color: var(--rust);
+  }
+  .pg-dark .pull-quote, .pg-rust .pull-quote, .pg-forest .pull-quote { color: var(--gold); }
+
+  /* Page number */
+  .pg-num {
+    position: absolute; bottom: 18px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.2em;
+    opacity: 0.45;
+  }
+  .pg-num-left  { left: 22px; }
+  .pg-num-right { right: 22px; }
+
+  /* Column rule */
+  .col-rule {
+    width: 1px;
+    background: currentColor;
+    opacity: 0.12;
+    align-self: stretch;
+    flex-shrink: 0;
+  }
+
+  /* Image placeholder */
+  .img-block {
+    background: linear-gradient(135deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.05) 100%);
+    border: 1px solid rgba(0,0,0,0.08);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--mist);
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.2em;
+    text-transform: uppercase;
+    overflow: hidden;
+    position: relative;
+  }
+  .pg-dark .img-block, .pg-rust .img-block, .pg-forest .img-block {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* Video embed */
+  .video-frame {
+    position: relative; overflow: hidden;
+    background: #000;
+  }
+  .video-frame video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .video-frame iframe {
+    width: 100%; height: 100%;
+    border: none;
+  }
+  .video-badge {
+    position: absolute; top: 8px; right: 8px;
+    background: var(--rust);
+    color: white;
+    font-family: 'DM Mono', monospace;
+    font-size: 8px; letter-spacing: 0.15em;
+    padding: 3px 7px;
+    text-transform: uppercase;
+    z-index: 5;
+  }
+  .play-overlay {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.35);
+    z-index: 4; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .play-overlay:hover { background: rgba(0,0,0,0.15); }
+  .play-btn {
+    width: 44px; height: 44px;
+    border: 2px solid white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 18px;
+    padding-left: 4px;
+  }
+
+  /* GIF embed */
+  .gif-frame {
+    overflow: hidden; position: relative;
+  }
+  .gif-frame img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+  .gif-badge {
+    position: absolute; top: 8px; left: 8px;
+    background: var(--gold);
+    color: var(--ink);
+    font-family: 'DM Mono', monospace;
+    font-size: 8px; letter-spacing: 0.15em;
+    padding: 3px 7px;
+    text-transform: uppercase;
+    z-index: 5;
+  }
+
+  /* Cover page special */
+  .cover-page { position: relative; overflow: hidden; }
+  .cover-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 30%, #2a1505 0%, #0e0905 100%);
+  }
+  .cover-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(184,150,12,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(184,150,12,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .cover-content {
+    position: relative; z-index: 3;
+    height: 100%;
+    display: flex; flex-direction: column;
+    padding: 32px 28px;
+  }
+  .cover-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.4em;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .cover-main-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px; font-weight: 900;
+    line-height: 0.85; letter-spacing: -0.04em;
+    color: var(--cream);
+  }
+  .cover-main-title span { color: var(--gold); }
+  .cover-rule {
+    width: 48px; height: 2px;
+    background: var(--rust);
+    margin: 20px 0;
+  }
+  .cover-date {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 15px;
+    color: var(--mist); letter-spacing: 0.05em;
+  }
+  .cover-toc {
+    margin-top: auto;
+    border-top: 1px solid rgba(184,150,12,0.2);
+    padding-top: 16px;
+  }
+  .cover-toc-item {
+    display: flex; justify-content: space-between;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px; padding: 4px 0;
+    color: rgba(245,240,232,0.6);
+    border-bottom: 1px solid rgba(245,240,232,0.06);
+  }
+  .cover-toc-item span:last-child {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; color: var(--gold);
+  }
+
+  /* Section opener */
+  .section-opener {
+    position: relative; overflow: hidden;
+    background: var(--ink);
+  }
+  .section-opener .bg-num {
+    position: absolute;
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 220px; line-height: 1;
+    color: rgba(255,255,255,0.03);
+    bottom: -20px; right: -10px;
+    pointer-events: none;
+  }
+  .section-opener .content {
+    position: relative; z-index: 2;
+    padding: 32px 28px;
+    height: 100%; display: flex; flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  /* Ad page */
+  .ad-page {
+    background: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+  }
+  .ad-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px; font-weight: 900;
+    color: var(--gold); letter-spacing: 0.2em;
+  }
+  .ad-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 16px;
+    color: var(--mist); margin-top: 8px;
+  }
+  .ad-rule { width: 60px; height: 1px; background: var(--gold); margin: 20px auto; }
+
+  /* Layout helpers */
+  .flex { display: flex; }
+  .col { flex-direction: column; }
+  .gap-8 { gap: 8px; } .gap-12 { gap: 12px; } .gap-16 { gap: 16px; }
+  .p-24 { padding: 24px; } .p-28 { padding: 28px; } .p-32 { padding: 32px; }
+  .pb-8 { padding-bottom: 8px; }
+  .flex-1 { flex: 1; }
+  .w-full { width: 100%; }
+  .h-full { height: 100%; }
+  .relative { position: relative; }
+  .gold { color: var(--gold); }
+  .rust { color: var(--rust); }
+  .mist { color: var(--mist); }
+
+  /* Decorative rule */
+  .deco-rule {
+    height: 1px;
+    background: linear-gradient(to right, transparent, currentColor 20%, currentColor 80%, transparent);
+    opacity: 0.15;
+    margin: 8px 0;
+  }
+
+  /* Dropcap */
+  .dropcap::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 60px; font-weight: 900;
+    float: left; line-height: 0.8;
+    margin-right: 6px; margin-top: 4px;
+    color: var(--rust);
+  }
+  .pg-dark .dropcap::first-letter,
+  .pg-rust .dropcap::first-letter,
+  .pg-forest .dropcap::first-letter { color: var(--gold); }
+
+  /* Columns */
+  .two-cols { columns: 2; column-gap: 18px; }
+
+  /* Animated shimmer for placeholders */
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  .img-block::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent 20%, rgba(255,255,255,0.04) 50%, transparent 80%);
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+  }
+
+  /* Keyboard hint */
+  #key-hint {
+    position: fixed; bottom: 88px; right: 24px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.1em;
+    color: rgba(184,150,12,0.4);
+    text-transform: uppercase;
+  }
+
+  /* Turn animation classes */
+  @keyframes turnRight {
+    0%   { transform: rotateY(0deg); }
+    100% { transform: rotateY(-180deg); }
+  }
+  @keyframes turnLeft {
+    0%   { transform: rotateY(-180deg); }
+    100% { transform: rotateY(0deg); }
+  }
+  .turning-right { animation: turnRight 0.7s cubic-bezier(0.645,0.045,0.355,1) forwards; }
+  .turning-left  { animation: turnLeft 0.7s cubic-bezier(0.645,0.045,0.355,1) forwards; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    :root { --page-w: 310px; --page-h: 440px; }
+    .cover-main-title { font-size: 52px; }
+  }
+  @media (max-width: 680px) {
+    :root { --page-w: 220px; --page-h: 330px; }
+    .cover-main-title { font-size: 38px; }
+    .section-opener .bg-num { font-size: 140px; }
+    .ad-brand { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Masthead -->
+<header id="masthead">
+  <div class="logo">Flux</div>
+  <div class="issue-info">Issue 14 &nbsp;·&nbsp; Spring 2025 &nbsp;·&nbsp; Arts &amp; Culture</div>
+  <div id="page-indicator">1 / 32</div>
+</header>
+
+<!-- Scene -->
+<div id="scene">
+  <div id="book-wrapper">
+    <div id="book">
+      <div id="spine-shadow"></div>
+      <div id="spine-line"></div>
+      <!-- spreads injected by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- Nav -->
+<nav id="nav-bar">
+  <button class="nav-btn" id="btn-prev" disabled title="Previous spread (←)">&#8592;</button>
+  <div id="progress-track"><div id="progress-fill"></div></div>
+  <button class="nav-btn" id="btn-next" title="Next spread (→)">&#8594;</button>
+</nav>
+
+<div id="key-hint">← → Arrow keys to turn pages</div>
+
+<!-- Flip overlay -->
+<div class="flip-container" id="flip-container"></div>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   PAGE DEFINITIONS — 32 pages = 16 spreads
+   Each spread: { left: htmlString, right: htmlString }
+══════════════════════════════════════════════════════ */
+
+const BODY = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugat nulla pariatur.`;
+
+const BODY2 = `Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis molestie dictum semper, augue quam sodales purus. Phasellus blandit leo ut odio. Vivamus laoreet. Nullam tincidunt adipiscing enim.`;
+
+function page(cls, content, pgNum, side) {
+  const numClass = side === 'L' ? 'pg-num-left' : 'pg-num-right';
+  const numVal   = side === 'L' ? `— ${pgNum} —` : `— ${pgNum} —`;
+  return `<div class="pg ${cls}"><div class="pg-content">${content}</div><span class="pg-num ${numClass}">${numVal}</span></div>`;
+}
+
+// ── Spread 1: Cover + Contents ──────────────────────
+const s1L = `
+<div class="pg cover-page">
+  <div class="cover-bg"></div>
+  <div class="cover-grid"></div>
+  <div class="cover-content">
+    <div class="cover-eyebrow">The Culture Magazine</div>
+    <div class="cover-main-title">FL<span>U</span>X</div>
+    <div style="font-family:'Playfair Display';font-style:italic;font-size:22px;color:var(--mist);margin-top:8px;letter-spacing:0.05em;">Spring Edition</div>
+    <div class="cover-rule"></div>
+    <div class="cover-date">Issue 14 &nbsp;·&nbsp; 2025</div>
+    <div class="cover-toc">
+      <div class="cover-toc-item"><span>The Shape of Things</span><span>06</span></div>
+      <div class="cover-toc-item"><span>Cinema in Motion</span><span>10</span></div>
+      <div class="cover-toc-item"><span>Animated Worlds</span><span>16</span></div>
+      <div class="cover-toc-item"><span>Architecture Now</span><span>22</span></div>
+      <div class="cover-toc-item"><span>The Last Interview</span><span>28</span></div>
+    </div>
+  </div>
+  <span class="pg-num pg-num-right" style="color:var(--gold);opacity:0.4;">— 1 —</span>
+</div>`;
+
+const s1R = page('pg-cream', `
+<div class="flex col h-full p-28 gap-16">
+  <div>
+    <div class="section-label">Contents</div>
+    <div class="display-title" style="font-size:36px;">This<br>Issue</div>
+    <div class="deco-rule"></div>
+  </div>
+  <div class="flex col gap-8 flex-1">
+    ${[['The Shape of Things','06','Design & Form'],['Cinema in Motion','10','Film'],['Animated Worlds','16','Digital Art'],['Architecture Now','22','Space'],['The Last Interview','28','Profile'],['Fragments','30','Poetry'],['Afterword','32','Editor']].map(([t,p,s])=>`
+    <div class="flex" style="justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.07);">
+      <div>
+        <div style="font-size:12px;font-weight:600;letter-spacing:0.02em;">${t}</div>
+        <div class="section-label" style="margin:0;">${s}</div>
+      </div>
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);">${p}</div>
+    </div>`).join('')}
+  </div>
+  <div class="body-text mist" style="font-size:11px;">Published quarterly. All rights reserved. FLUX 2025.</div>
+</div>`, 2, 'R');
+
+// ── Spread 2: Editor's Note + Full-bleed image ──────
+const s2L = page('pg-cream', `
+<div class="flex col h-full p-28 gap-16">
+  <div>
+    <div class="section-label">Editor's Note</div>
+    <div class="display-title" style="font-size:30px;">A Letter<br>From the<br>Editor</div>
+    <div class="deco-rule"></div>
+  </div>
+  <div class="pull-quote">"What we call chaos is just patterns we haven't recognized yet."</div>
+  <div class="body-text dropcap">${BODY}</div>
+  <div class="body-text">${BODY2}</div>
+  <div style="margin-top:auto;">
+    <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:16px;">— Elena Marchetti</div>
+    <div class="section-label" style="margin-top:4px;">Editor in Chief</div>
+  </div>
+</div>`, 3, 'L');
+
+const s2R = page('pg-dark', `
+<div class="img-block w-full h-full" style="height:100%;">
+  <div style="text-align:center;">
+    <div style="font-size:48px;opacity:0.15;font-family:'Playfair Display',serif;font-weight:900;">IMG</div>
+    <div style="margin-top:8px;">Full-bleed photograph</div>
+  </div>
+</div>`, 4, 'R');
+
+// ── Spread 3: Section opener + Article ──────────────
+const s3L = `
+<div class="pg section-opener">
+  <div class="bg-num">01</div>
+  <div class="content">
+    <div class="section-label" style="color:var(--gold);">Section One</div>
+    <div class="display-title" style="font-size:52px;color:var(--cream);line-height:0.9;">The<br>Shape<br>of<br>Things</div>
+    <div style="height:2px;width:40px;background:var(--rust);margin:18px 0;"></div>
+    <div class="body-text" style="color:rgba(245,240,232,0.55);font-size:12px;">An exploration of form, negative space, and the geometry of modern design.</div>
+  </div>
+  <span class="pg-num pg-num-left" style="color:var(--gold);opacity:0.4;">— 5 —</span>
+</div>`;
+
+const s3R = page('pg-cream', `
+<div class="flex col h-full p-28 gap-12">
+  <div class="img-block flex-1 w-full" style="min-height:200px;">
+    <span>Feature photograph</span>
+  </div>
+  <div>
+    <div class="section-label">Design</div>
+    <div class="display-title" style="font-size:22px;">Minimal Forms,<br>Maximum Impact</div>
+  </div>
+  <div class="body-text">${BODY}</div>
+</div>`, 6, 'R');
+
+// ── Spread 4: Two-column article ────────────────────
+const s4L = page('pg-cream', `
+<div class="flex col h-full p-28 gap-12">
+  <div class="section-label">Design Continued</div>
+  <div class="display-title" style="font-size:28px;">Form Follows<br>Function</div>
+  <div class="deco-rule"></div>
+  <div class="body-text two-cols dropcap">${BODY} ${BODY2} ${BODY}</div>
+</div>`, 7, 'L');
+
+const s4R = page('pg-cream', `
+<div class="flex col h-full p-28 gap-12">
+  <div class="img-block w-full" style="height:180px;"><span>Detail photograph</span></div>
+  <div class="pull-quote">"Space is the breath of art." — Frank Lloyd Wright</div>
+  <div class="body-text">${BODY2}</div>
+  <div class="img-block w-full flex-1"><span>Secondary image</span></div>
+</div>`, 8, 'R');
+
+// ── Spread 5: Video feature ──────────────────────────
+const s5L = page('pg-dark', `
+<div class="flex col h-full p-28 gap-12">
+  <div>
+    <div class="section-label" style="color:var(--gold);">Cinema in Motion</div>
+    <div class="display-title" style="font-size:32px;color:var(--cream);">The Art of<br>Moving<br>Images</div>
+    <div style="height:2px;width:40px;background:var(--rust);margin:14px 0;"></div>
+  </div>
+  <!-- EMBEDDED VIDEO -->
+  <div class="video-frame flex-1 w-full" style="border-radius:2px;">
+    <video autoplay muted loop playsinline
+      src="https://www.w3schools.com/html/mov_bbb.mp4"
+      poster="">
+    </video>
+    <div class="video-badge">▶ Video</div>
+  </div>
+  <div class="body-text" style="color:rgba(245,240,232,0.6);font-size:12px;">A short film exploring the boundaries between still photography and cinema.</div>
+</div>`, 9, 'L');
+
+const s5R = page('pg-dark', `
+<div class="flex col h-full p-28 gap-12">
+  <!-- EMBEDDED YOUTUBE (iframe placeholder shows embed capability) -->
+  <div class="video-frame w-full" style="height:200px;border-radius:2px;">
+    <iframe
+      src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&mute=1&controls=1"
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+      title="Film excerpt"
+    ></iframe>
+    <div class="video-badge">▶ YouTube</div>
+  </div>
+  <div>
+    <div class="section-label" style="color:var(--gold);">Director's Cut</div>
+    <div class="display-title" style="font-size:22px;color:var(--cream);">Behind the<br>Lens</div>
+  </div>
+  <div class="body-text" style="color:rgba(245,240,232,0.65);">${BODY}</div>
+</div>`, 10, 'R');
+
+// ── Spread 6: Film review ────────────────────────────
+const s6L = page('pg-cream', `
+<div class="flex col h-full p-28 gap-12">
+  <div class="section-label">Review</div>
+  <div class="display-title" style="font-size:30px;">Light &amp;<br>Shadow</div>
+  <div class="deco-rule"></div>
+  <div class="img-block w-full" style="height:180px;"><span>Film still</span></div>
+  <div class="pull-quote">"Cinema is a mirror by which we often see ourselves."</div>
+  <div class="body-text">${BODY2}</div>
+</div>`, 11, 'L');
+
+const s6R = page('pg-cream', `
+<div class="flex h-full gap-12 p-28">
+  <div class="flex col flex-1 gap-12">
+    <div class="section-label">Rating</div>
+    <div class="display-title" style="font-size:56px;line-height:1;">★★★★</div>
+    <div class="body-text dropcap">${BODY}</div>
+  </div>
+  <div class="col-rule"></div>
+  <div class="flex col" style="width:110px;gap:12px;">
+    <div class="img-block flex-1 w-full"><span>Poster</span></div>
+    <div style="font-size:10px;line-height:1.6;opacity:0.6;">Director: A. Visconti<br>2025 · 112 min<br>Drama</div>
+  </div>
+</div>`, 12, 'R');
+
+// ── Spread 7: Advertisement ──────────────────────────
+const s7L = page('pg-dark', `
+<div class="ad-page h-full flex col" style="justify-content:center;align-items:center;padding:40px;">
+  <div class="img-block w-full" style="height:160px;margin-bottom:28px;"><span>Advertisement</span></div>
+  <div class="ad-brand">ARDENT</div>
+  <div class="ad-rule"></div>
+  <div class="ad-tagline">Pour qui ose rêver.</div>
+  <div style="margin-top:32px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.3em;color:var(--mist);text-transform:uppercase;">Fragrance · Since 1893</div>
+</div>`, 13, 'L');
+
+// ── Spread 7 Right: Animated Worlds opener ───────────
+const s7R = page('pg-forest', `
+<div class="flex col h-full p-28 gap-12">
+  <div>
+    <div class="section-label" style="color:var(--gold);">Animated Worlds</div>
+    <div class="display-title" style="font-size:36px;color:var(--cream);">GIF as Art<br>Medium</div>
+    <div style="height:2px;width:40px;background:var(--gold);margin:14px 0;"></div>
+  </div>
+  <!-- GIF EMBED -->
+  <div class="gif-frame flex-1 w-full" style="border-radius:2px;">
+    <img
+      src="https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif"
+      alt="Abstract animation"
+      loading="lazy"
+    />
+    <div class="gif-badge">GIF</div>
+  </div>
+  <div class="body-text" style="color:rgba(245,240,232,0.65);font-size:12px;">Looping animations as a narrative form — the infinite present of digital imagery.</div>
+</div>`, 14, 'R');
+
+// ── Spread 8: GIF gallery ────────────────────────────
+const s8L = page('pg-forest', `
+<div class="flex col h-full p-28 gap-10">
+  <div class="section-label" style="color:var(--gold);">Animation Gallery</div>
+  <div class="display-title" style="font-size:26px;color:var(--cream);">Frames in Time</div>
+  <div class="deco-rule"></div>
+  <!-- GIF 1 -->
+  <div class="gif-frame w-full" style="height:120px;border-radius:2px;">
+    <img src="https://media.giphy.com/media/26gsjCZpPolPr3sBy/giphy.gif" alt="Abstract loop" loading="lazy"/>
+    <div class="gif-badge">GIF</div>
+  </div>
+  <!-- GIF 2 -->
+  <div class="gif-frame w-full flex-1" style="border-radius:2px;">
+    <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" alt="Motion" loading="lazy"/>
+    <div class="gif-badge">GIF</div>
+  </div>
+  <div class="body-text" style="color:rgba(245,240,232,0.6);font-size:11px;">Works by Collective Aperture, 2025.</div>
+</div>`, 15, 'L');
+
+const s8R = page('pg-cream', `
+<div class="flex col h-full p-28 gap-12">
+  <div class="section-label">Artist Statement</div>
+  <div class="display-title" style="font-size:24px;">The Loop<br>as Metaphor</div>
+  <div class="deco-rule"></div>
+  <div class="pull-quote">"In the loop, we find eternity — and also its absurdity."</div>
+  <div class="body-text dropcap">${BODY}</div>
+  <div class="body-text">${BODY2}</div>
+</div>`, 16, 'R');
+
+// ── Spread 9: Mixed media ────────────────────────────
+const s9L = page('pg-cream', `
+<div class="flex col h-full p-28 gap-12">
+  <div class="section-label">Mixed Media</div>
+  <div class="display-title" style="font-size:28px;">Still &amp; Moving</div>
+  <div class="deco-rule"></div>
+  <div class="img-block w-full" style="height:140px;"><span>Still photograph</span></div>
+  <!-- GIF inline within article -->
+  <div class="gif-frame w-full" style="height:100px;border-radius:2px;">
+    <img src="https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif" alt="Transition" loading="lazy"/>
+    <div class="gif-badge">GIF</div>
+  </div>
+  <div class="body-text">${BODY2}</div>
+</div>`, 17, 'L');
+
+const s9R = page('pg-rust', `
+<div class="flex col h-full p-28 gap-12">
+  <div>
+    <div class="section-label" style="color:var(--gold);">Video Essay</div>
+    <div class="display-title" style="font-size:28px;color:var(--cream);">Texture &amp;<br>Motion</div>
+    <div style="height:2px;width:40px;background:var(--gold);margin:14px 0;"></div>
+  </div>
+  <!-- EMBEDDED VIDEO 2 -->
+  <div class="video-frame flex-1 w-full" style="border-radius:2px;">
+    <video autoplay muted loop playsinline
+      src="https://www.w3schools.com/html/movie.mp4">
+    </video>
+    <div class="video-badge">▶ Video</div>
+  </div>
+  <div class="body-text" style="color:rgba(245,240,232,0.6);font-size:12px;">A documentary short about material and memory.</div>
+</div>`, 18, 'R');
+
+// ── Spread 10: Architecture ──────────────────────────
+const s10L = `
+<div class="pg section-opener">
+  <div class="bg-num">02</div>
+  <div class="content">
+    <div class="section-label" style="color:var(--gold);">Section Two</div>
+    <div class="display-title" style="font-size:52px;color:var(--cream);">Archi-<br>tecture<br>Now</div>
+    <div style="height:2px;width:40px;background:var(--rust);margin:18px 0;"></div>
+    <div class="body-text" style="color:rgba(245,240,232,0.55);font-size:12px;">How contemporary architects are reimagining the relationship between human beings and built space.</div>
+  </div>
+  <span class="pg-num pg-num-left" style="color:var(--gold);opacity:0.4;">— 19 —</span>
+</div>`;
+
+const s10R = page('pg-cream', `
+<div class="flex col h-full p-28 gap-12">
+  <div class="img-block w-full flex-1"><span>Architectural photograph</span></div>
+  <div>
+    <div class="section-label">Featured Work</div>
+    <div class="display-title" style="font-size:20px;">Pavilion Zero,<br>Osaka 2025</div>
+    <div class="body-text" style="margin-top:8px;">${BODY2}</div>
+  </div>
+</div>`, 20, 'R');
+
+// ── Spread 11: Architecture article ─────────────────
+const s11L = page('pg-cream', `
+<div class="flex col h-full p-28 gap-12">
+  <div class="section-label">Architecture</div>
+  <div class="display-title" style="font-size:28px;">Space as<br>Language</div>
+  <div class="deco-rule"></div>
+  <div class="flex gap-12 flex-1">
+    <div class="img-block flex-1"><span>Detail</span></div>
+    <div class="img-block flex-1"><span>Interior</span></div>
+  </div>
+  <div class="body-text">${BODY}</div>
+</div>`, 21, 'L');
+
+const s11R = page('pg-cream', `
+<div class="flex col h-full p-28 gap-12">
+  <div class="pull-quote">"Architecture should speak of its time and place, but yearn for timelessness."</div>
+  <div class="body-text dropcap">${BODY} ${BODY2}</div>
+  <div class="img-block w-full" style="height:120px;"><span>Blueprint detail</span></div>
+</div>`, 22, 'R');
+
+// ── Spread 12: Advertisement ─────────────────────────
+const s12L = page('pg-aged', `
+<div class="ad-page h-full flex col" style="justify-content:center;align-items:center;padding:40px;">
+  <div style="border:1px solid var(--ink);padding:28px;width:100%;text-align:center;">
+    <div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:900;letter-spacing:0.15em;">MONOLITH</div>
+    <div style="height:1px;background:var(--ink);margin:16px 0;opacity:0.2;"></div>
+    <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--mist);">Timepieces for the discerning.</div>
+    <div class="img-block w-full" style="height:120px;margin-top:20px;"><span>Watch advertisement</span></div>
+    <div style="margin-top:20px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.3em;opacity:0.5;">MONOLITH.COM</div>
+  </div>
+</div>`, 23, 'L');
+
+const s12R = page('pg-cream', `
+<div class="flex col h-full p-28 gap-12">
+  <div class="section-label">Interview</div>
+  <div class="display-title" style="font-size:28px;">The Last<br>Interview</div>
+  <div class="deco-rule"></div>
+  <div class="img-block w-full" style="height:160px;"><span>Portrait</span></div>
+  <div class="pull-quote">"I have always worked against the grain of what was expected of me."</div>
+  <div class="body-text" style="font-size:11px;">${BODY2}</div>
+</div>`, 24, 'R');
+
+// ── Spread 13: Interview continued ──────────────────
+const s13L = page('pg-cream', `
+<div class="flex col h-full p-28 gap-12">
+  <div class="section-label">Profile — Continued</div>
+  <div class="body-text dropcap two-cols">${BODY} ${BODY2} ${BODY}</div>
+  <div class="img-block w-full" style="height:100px;"><span>Secondary portrait</span></div>
+</div>`, 25, 'L');
+
+const s13R = page('pg-dark', `
+<div class="flex col h-full p-28 gap-12">
+  <div>
+    <div class="section-label" style="color:var(--gold);">In Conversation</div>
+    <div class="display-title" style="font-size:24px;color:var(--cream);">Q &amp; A</div>
+    <div style="height:2px;width:40px;background:var(--rust);margin:14px 0;"></div>
+  </div>
+  ${[['You once said that silence is the most expressive medium.','Yes — and I stand by that. The pause before a note is as musical as the note itself.'],['How does that translate to your visual practice?','By embracing negative space. The absence of something becomes its own form of presence.']].map(([q,a])=>`
+  <div style="margin-bottom:12px;">
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:0.1em;margin-bottom:5px;">Q: ${q}</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:rgba(245,240,232,0.8);">A: ${a}</div>
+  </div>`).join('')}
+  <div class="gif-frame flex-1 w-full" style="border-radius:2px;">
+    <img src="https://media.giphy.com/media/3o7btZ1Gm7ZL25pLMs/giphy.gif" alt="Abstract" loading="lazy"/>
+    <div class="gif-badge">GIF</div>
+  </div>
+</div>`, 26, 'R');
+
+// ── Spread 14: Video interview ───────────────────────
+const s14L = page('pg-cream', `
+<div class="flex col h-full p-28 gap-12">
+  <div class="section-label">Fragments</div>
+  <div class="display-title" style="font-size:36px;">Poetry<br>&amp; Prose</div>
+  <div class="deco-rule"></div>
+  <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:16px;line-height:1.9;margin:8px 0 16px;color:var(--rust);">
+    In the space between breath<br>
+    and the next word spoken—<br>
+    a whole season passes.<br>
+    <br>
+    We count the seconds<br>
+    as if they were coins,<br>
+    spending them carelessly<br>
+    on ordinary Tuesdays.
+  </div>
+  <div class="section-label">— Ana Winters, 2025</div>
+  <div class="body-text" style="margin-top:auto;">${BODY2}</div>
+</div>`, 27, 'L');
+
+const s14R = page('pg-dark', `
+<div class="flex col h-full p-28 gap-12">
+  <div>
+    <div class="section-label" style="color:var(--gold);">Extended Interview</div>
+    <div class="display-title" style="font-size:24px;color:var(--cream);">On Camera</div>
+    <div style="height:2px;width:40px;background:var(--rust);margin:14px 0;"></div>
+  </div>
+  <!-- EMBEDDED VIDEO 3 -->
+  <div class="video-frame flex-1 w-full" style="border-radius:2px;">
+    <video autoplay muted loop playsinline
+      src="https://www.w3schools.com/html/mov_bbb.mp4">
+    </video>
+    <div class="video-badge">▶ Interview</div>
+  </div>
+  <div class="body-text" style="color:rgba(245,240,232,0.65);font-size:12px;">${BODY2}</div>
+</div>`, 28, 'R');
+
+// ── Spread 15: Essay ─────────────────────────────────
+const s15L = page('pg-aged', `
+<div class="flex col h-full p-28 gap-12">
+  <div class="section-label">Essay</div>
+  <div class="display-title" style="font-size:28px;">On the Nature<br>of Seeing</div>
+  <div class="deco-rule"></div>
+  <div class="body-text dropcap two-cols">${BODY} ${BODY2} ${BODY}</div>
+</div>`, 29, 'L');
+
+const s15R = page('pg-aged', `
+<div class="flex col h-full p-28 gap-12">
+  <div class="pull-quote">"To see truly is the greatest act of imagination."</div>
+  <div class="body-text">${BODY} ${BODY2}</div>
+  <div class="img-block w-full" style="height:110px;"><span>Closing photograph</span></div>
+</div>`, 30, 'R');
+
+// ── Spread 16: Back matter + Back cover ─────────────
+const s16L = page('pg-cream', `
+<div class="flex col h-full p-28 gap-12">
+  <div class="section-label">Afterword</div>
+  <div class="display-title" style="font-size:28px;">Until<br>Next Time</div>
+  <div class="deco-rule"></div>
+  <div class="body-text">${BODY}</div>
+  <div style="margin-top:auto;padding-top:20px;border-top:1px solid rgba(0,0,0,0.08);">
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;opacity:0.5;text-transform:uppercase;margin-bottom:8px;">Contributors</div>
+    ${['Elena Marchetti — Editor','Thomas Rey — Art Director','Ana Winters — Poetry','Marco Bianchi — Photography','Collective Aperture — Animation'].map(n=>`<div style="font-size:11px;opacity:0.6;margin-bottom:4px;">${n}</div>`).join('')}
+  </div>
+</div>`, 31, 'L');
+
+const s16R = `
+<div class="pg cover-page">
+  <div class="cover-bg"></div>
+  <div class="cover-grid"></div>
+  <div class="cover-content" style="justify-content:center;align-items:center;text-align:center;">
+    <div class="cover-eyebrow" style="margin-bottom:20px;">Thank you for reading</div>
+    <div class="cover-main-title" style="font-size:56px;">FL<span>U</span>X</div>
+    <div class="cover-rule" style="margin:20px auto;"></div>
+    <div class="cover-date">Issue 15 arrives Summer 2025</div>
+    <div style="margin-top:40px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.3em;color:var(--mist);text-transform:uppercase;">FLUXMAGAZINE.COM</div>
+    <div class="gif-frame" style="width:100px;height:100px;border-radius:50%;margin-top:32px;overflow:hidden;">
+      <img src="https://media.giphy.com/media/3o7btZ1Gm7ZL25pLMs/giphy.gif" alt="Loop" loading="lazy" style="width:100%;height:100%;object-fit:cover;"/>
+    </div>
+  </div>
+  <span class="pg-num pg-num-right" style="color:var(--gold);opacity:0.4;">— 32 —</span>
+</div>`;
+
+/* ══════════════════════════════════════════════════════
+   SPREADS ARRAY
+══════════════════════════════════════════════════════ */
+const spreads = [
+  { left: s1L,  right: s1R  },
+  { left: s2L,  right: s2R  },
+  { left: s3L,  right: s3R  },
+  { left: s4L,  right: s4R  },
+  { left: s5L,  right: s5R  },
+  { left: s6L,  right: s6R  },
+  { left: s7L,  right: s7R  },
+  { left: s8L,  right: s8R  },
+  { left: s9L,  right: s9R  },
+  { left: s10L, right: s10R },
+  { left: s11L, right: s11R },
+  { left: s12L, right: s12R },
+  { left: s13L, right: s13R },
+  { left: s14L, right: s14R },
+  { left: s15L, right: s15R },
+  { left: s16L, right: s16R },
+];
+
+/* ══════════════════════════════════════════════════════
+   BOOK ENGINE
+══════════════════════════════════════════════════════ */
+const book      = document.getElementById('book');
+const flipCont  = document.getElementById('flip-container');
+const btnPrev   = document.getElementById('btn-prev');
+const btnNext   = document.getElementById('btn-next');
+const indicator = document.getElementById('page-indicator');
+const progress  = document.getElementById('progress-fill');
+
+let current = 0;
+let turning = false;
+
+// Build all spreads
+spreads.forEach((s, i) => {
+  const div = document.createElement('div');
+  div.className = 'spread' + (i === 0 ? ' active' : '');
+  div.id = `spread-${i}`;
+  div.innerHTML = `
+    <div class="page page-left">${s.left}</div>
+    <div class="page page-right" style="margin-left:var(--spine);">${s.right}</div>`;
+  book.appendChild(div);
+});
+
+function updateUI() {
+  const leftPage  = current * 2 + 1;
+  const rightPage = current * 2 + 2;
+  indicator.textContent = `${leftPage}–${rightPage} / 32`;
+  const pct = ((current + 1) / spreads.length) * 100;
+  progress.style.width = pct + '%';
+  btnPrev.disabled = current === 0;
+  btnNext.disabled = current === spreads.length - 1;
+}
+
+function goTo(dir) {
+  if (turning) return;
+  if (dir === 1 && current >= spreads.length - 1) return;
+  if (dir === -1 && current <= 0) return;
+
+  turning = true;
+  const fromSpread = spreads[current];
+  const toIdx      = current + dir;
+  const toSpread   = spreads[toIdx];
+
+  // Build flip element
+  const flip = document.createElement('div');
+  flip.className = 'flip-page';
+  flip.style.transformOrigin = dir === 1 ? 'left center' : 'right center';
+
+  // Front = page being turned (right page when going forward)
+  const frontContent = dir === 1 ? fromSpread.right : toSpread.right;
+  // Back  = next page appearing
+  const backContent  = dir === 1 ? toSpread.right  : fromSpread.right;
+
+  if (dir === 1) {
+    // Turning forward: right page flips left, reveal new right
+    flip.style.right = 'calc(var(--page-w) + var(--spine)/2)';
+    flip.style.width = 'var(--page-w)';
+    flip.style.transformOrigin = 'left center';
+    flip.innerHTML = `
+      <div class="flip-front page">${frontContent}</div>
+      <div class="flip-back page">${backContent}</div>`;
+    flipCont.appendChild(flip);
+
+    // Position flip container over book
+    const bookRect = book.getBoundingClientRect();
+    flipCont.style.position = 'fixed';
+    flipCont.style.left = bookRect.left + 'px';
+    flipCont.style.top  = bookRect.top  + 'px';
+    flipCont.style.width= bookRect.width + 'px';
+    flipCont.style.height= bookRect.height + 'px';
+
+    requestAnimationFrame(() => {
+      flip.style.transition = 'transform 0.7s cubic-bezier(0.645,0.045,0.355,1)';
+      flip.style.transform = 'rotateY(-180deg)';
+    });
+  } else {
+    // Turning backward
+    flip.style.left = 'var(--page-w)';
+    flip.style.width = 'var(--page-w)';
+    flip.style.transformOrigin = 'left center';
+    flip.innerHTML = `
+      <div class="flip-front page">${toSpread.right}</div>
+      <div class="flip-back page">${fromSpread.left}</div>`;
+    flip.style.transform = 'rotateY(-180deg)';
+    flipCont.appendChild(flip);
+
+    const bookRect = book.getBoundingClientRect();
+    flipCont.style.position = 'fixed';
+    flipCont.style.left = bookRect.left + 'px';
+    flipCont.style.top  = bookRect.top  + 'px';
+    flipCont.style.width= bookRect.width + 'px';
+    flipCont.style.height= bookRect.height + 'px';
+
+    requestAnimationFrame(() => {
+      flip.style.transition = 'transform 0.7s cubic-bezier(0.645,0.045,0.355,1)';
+      flip.style.transform = 'rotateY(0deg)';
+    });
+  }
+
+  flip.addEventListener('transitionend', () => {
+    flipCont.innerHTML = '';
+    flipCont.style.cssText = '';
+    document.getElementById(`spread-${current}`).classList.remove('active');
+    current = toIdx;
+    document.getElementById(`spread-${current}`).classList.add('active');
+    updateUI();
+    turning = false;
+  }, { once: true });
+}
+
+btnNext.addEventListener('click', () => goTo(1));
+btnPrev.addEventListener('click', () => goTo(-1));
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'PageDown') goTo(1);
+  if (e.key === 'ArrowLeft'  || e.key === 'PageUp')   goTo(-1);
+});
+
+// Touch/swipe support
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) goTo(dx < 0 ? 1 : -1);
+});
+
+updateUI();
+</script>
+</body>
+</html>
