@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>WebPresence | Affordable Online Solutions for Everyone</title>
+  <!-- Tailwind CSS v3 + Font Awesome Icons + Google Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Custom smooth behavior and minor overrides -->
+  <style>
+    * {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    /* custom gradient animations for hero */
+    .bg-glow {
+      background: radial-gradient(circle at 10% 20%, rgba(99,102,241,0.08) 0%, rgba(168,85,247,0.05) 80%);
+    }
+    .hover-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .hover-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.15);
+    }
+    /* loader animation for contact form feedback */
+    .fa-spin-custom {
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 antialiased">
+
+  <!-- NAVBAR - clean, transparent to solid on scroll -->
+  <header id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-white/95 backdrop-blur-sm shadow-sm border-b border-gray-100">
+    <div class="container mx-auto px-5 md:px-8 py-3 flex flex-wrap items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <i class="fas fa-globe text-indigo-600 text-2xl"></i>
+        <span class="font-bold text-xl tracking-tight text-gray-800">Web<span class="text-indigo-600">Presence</span></span>
+      </div>
+      <div class="hidden md:flex space-x-8 text-gray-600 font-medium">
+        <a href="#home" class="hover:text-indigo-600 transition">Home</a>
+        <a href="#solutions" class="hover:text-indigo-600 transition">Solutions</a>
+        <a href="#packages" class="hover:text-indigo-600 transition">Packages</a>
+        <a href="#contact" class="hover:text-indigo-600 transition">Contact</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="#contact" class="hidden md:inline-block bg-indigo-600 text-white px-5 py-2 rounded-full text-sm font-semibold shadow-md hover:bg-indigo-700 transition">Start Journey</a>
+        <button id="mobileMenuBtn" class="md:hidden text-gray-700 text-2xl focus:outline-none">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile menu drawer (hidden by default) -->
+    <div id="mobileMenu" class="md:hidden hidden bg-white border-t border-gray-100 px-5 py-4 flex flex-col space-y-4 shadow-lg">
+      <a href="#home" class="text-gray-700 font-medium hover:text-indigo-600 py-1">Home</a>
+      <a href="#solutions" class="text-gray-700 font-medium hover:text-indigo-600 py-1">Solutions</a>
+      <a href="#packages" class="text-gray-700 font-medium hover:text-indigo-600 py-1">Packages</a>
+      <a href="#contact" class="text-gray-700 font-medium hover:text-indigo-600 py-1">Contact</a>
+      <a href="#contact" class="bg-indigo-600 text-white text-center rounded-full px-4 py-2 font-semibold">Get Started</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION (home) -->
+    <section id="home" class="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-glow">
+      <div class="container mx-auto px-5 md:px-8 relative z-10">
+        <div class="max-w-3xl mx-auto text-center">
+          <span class="inline-block px-4 py-1.5 rounded-full bg-indigo-50 text-indigo-700 text-sm font-semibold tracking-wide mb-5 shadow-sm">✦ Your Digital Launchpad ✦</span>
+          <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900 leading-tight">
+            Build Your Online Presence<br> 
+            <span class="text-indigo-600">Without Breaking Boundaries</span>
+          </h1>
+          <p class="text-lg md:text-xl text-gray-600 mt-6 max-w-2xl mx-auto">
+            Website, domain name, reliable hosting & dedicated support — all at bootstrap prices. Empowering individuals and small ventures to thrive on the web.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center mt-10">
+            <a href="#packages" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition flex items-center justify-center gap-2 text-lg">
+              Explore Plans <i class="fas fa-arrow-right text-sm"></i>
+            </a>
+            <a href="#contact" class="border border-gray-300 hover:border-indigo-400 bg-white text-gray-700 hover:text-indigo-600 font-semibold px-8 py-3 rounded-full transition shadow-sm flex items-center justify-center gap-2 text-lg">
+              Talk to Support <i class="fas fa-headset"></i>
+            </a>
+          </div>
+          <div class="flex flex-wrap justify-center gap-6 mt-12 text-sm text-gray-500">
+            <div class="flex items-center gap-1"><i class="fas fa-check-circle text-indigo-500"></i> <span>Free Domain (*select plans)</span></div>
+            <div class="flex items-center gap-1"><i class="fas fa-check-circle text-indigo-500"></i> <span>SSL Certificate</span></div>
+            <div class="flex items-center gap-1"><i class="fas fa-check-circle text-indigo-500"></i> <span>24/7 Support</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white to-transparent"></div>
+    </section>
+
+    <!-- Solutions Section (What we do) -->
+    <section id="solutions" class="py-20 bg-gray-50">
+      <div class="container mx-auto px-5 md:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-14">
+          <span class="text-indigo-600 font-semibold tracking-wide uppercase text-sm">Full-stack simplicity</span>
+          <h2 class="text-3xl md:text-4xl font-bold mt-2 text-gray-900">Everything you need to succeed online</h2>
+          <p class="text-gray-600 mt-4">We combine essential digital tools & human support so you can focus on your passion.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover-card text-center">
+            <div class="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center mx-auto mb-5"><i class="fas fa-code text-indigo-700 text-2xl"></i></div>
+            <h3 class="text-xl font-bold text-gray-800">Website Builder</h3>
+            <p class="text-gray-500 mt-2 text-sm">Drag-and-drop or custom development — launch a stunning, responsive site tailored to your vision.</p>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover-card text-center">
+            <div class="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center mx-auto mb-5"><i class="fas fa-globe text-indigo-700 text-2xl"></i></div>
+            <h3 class="text-xl font-bold text-gray-800">Domain Name</h3>
+            <p class="text-gray-500 mt-2 text-sm">Find the perfect .com, .org, .net or regional TLDs. Simple registration & management.</p>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover-card text-center">
+            <div class="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center mx-auto mb-5"><i class="fas fa-server text-indigo-700 text-2xl"></i></div>
+            <h3 class="text-xl font-bold text-gray-800">Reliable Hosting</h3>
+            <p class="text-gray-500 mt-2 text-sm">Fast SSD storage, 99.9% uptime, free SSL and daily backups — performance you can trust.</p>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover-card text-center">
+            <div class="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center mx-auto mb-5"><i class="fas fa-life-ring text-indigo-700 text-2xl"></i></div>
+            <h3 class="text-xl font-bold text-gray-800">Priority Support</h3>
+            <p class="text-gray-500 mt-2 text-sm">Expert assistance via chat & ticket. We guide you from setup to growth.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Packages / Pricing (Bootstrap prices, no currency symbols, focus on value) -->
+    <section id="packages" class="py-20 bg-white">
+      <div class="container mx-auto px-5 md:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-14">
+          <span class="text-indigo-600 font-semibold tracking-wide uppercase text-sm">Simple, transparent offers</span>
+          <h2 class="text-3xl md:text-4xl font-bold mt-2 text-gray-900">Plans built for bootstrap budgets</h2>
+          <p class="text-gray-600 mt-4">Choose the right foundation for your idea. No hidden fees, upgrade anytime.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <!-- Starter Package -->
+          <div class="border border-gray-200 rounded-2xl p-6 bg-white shadow-md hover-card flex flex-col">
+            <div class="mb-4"><i class="fas fa-seedling text-indigo-500 text-3xl"></i></div>
+            <h3 class="text-2xl font-bold text-gray-800">Starter Launch</h3>
+            <div class="mt-2 mb-4"><span class="text-4xl font-black text-gray-900">Essential</span><span class="text-gray-500 text-base"> / month</span></div>
+            <ul class="space-y-3 text-gray-600 flex-1">
+              <li class="flex items-start gap-2"><i class="fas fa-check-circle text-indigo-500 mt-1"></i> <span>1 Website + Custom Domain</span></li>
+              <li class="flex items-start gap-2"><i class="fas fa-check-circle text-indigo-500 mt-1"></i> <span>10 GB SSD Storage</span></li>
+              <li class="flex items-start gap-2"><i class="fas fa-check-circle text-indigo-500 mt-1"></i> <span>Free SSL & Email Forwarding</span></li>
+              <li class="flex items-start gap-2"><i class="fas fa-check-circle text-indigo-500 mt-1"></i> <span>Standard Support (Chat)</span></li>
+            </ul>
+            <div class="mt-8"><a href="#contact" class="block text-center border border-indigo-300 text-indigo-700 font-semibold py-2.5 rounded-xl hover:bg-indigo-50 transition">Get Started</a></div>
+          </div>
+          <!-- Business Pro (Most popular) -->
+          <div class="border-2 border-indigo-200 rounded-2xl p-6 bg-gradient-to-b from-white to-indigo-50/30 shadow-xl relative flex flex-col">
+            <div class="absolute -top-3 left-5 bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full">Best value</div>
+            <div class="mb-4"><i class="fas fa-chart-line text-indigo-600 text-3xl"></i></div>
+            <h3 class="text-2xl font-bold text-gray-800">Business Pro</h3>
+            <div class="mt-2 mb-4"><span class="text-4xl font-black text-gray-900">Complete</span><span class="text-gray-500 text-base"> / month</span></div>
+            <ul class="space-y-3 text-gray-600 flex-1">
+              <li class="flex items-start gap-2"><i class="fas fa-check-circle text-indigo-600 mt-1"></i> <span>5 Websites + Domain Included</span></li>
+              <li class="flex items-start gap-2"><i class="fas fa-check-circle text-indigo-600 mt-1"></i> <span>50 GB SSD + Free CDN</span></li>
+              <li class="flex items-start gap-2"><i class="fas fa-check-circle text-indigo-600 mt-1"></i> <span>Premium SSL, Daily Backups</span></li>
+              <li class="flex items-start gap-2"><i class="fas fa-check-circle text-indigo-600 mt-1"></i> <span>Priority Support 24/7 + Onboarding</span></li>
+              <li class="flex items-start gap-2"><i class="fas fa-check-circle text-indigo-600 mt-1"></i> <span>SEO Tools & Analytics</span></li>
+            </ul>
+            <div class="mt-8"><a href="#contact" class="block text-center bg-indigo-600 text-white font-semibold py-2.5 rounded-xl shadow-md hover:bg-indigo-700 transition">Claim Offer</a></div>
+          </div>
+          <!-- Agency Unlimited -->
+          <div class="border border-gray-200 rounded-2xl p-6 bg-white shadow-md hover-card flex flex-col">
+            <div class="mb-4"><i class="fas fa-rocket text-indigo-500 text-3xl"></i></div>
+            <h3 class="text-2xl font-bold text-gray-800">Agency Unlimited</h3>
+            <div class="mt-2 mb-4"><span class="text-4xl font-black text-gray-900">Scale</span><span class="text-gray-500 text-base"> / month</span></div>
+            <ul class="space-y-3 text-gray-600 flex-1">
+              <li class="flex items-start gap-2"><i class="fas fa-check-circle text-indigo-500 mt-1"></i> <span>Unlimited Websites + Domains</span></li>
+              <li class="flex items-start gap-2"><i class="fas fa-check-circle text-indigo-500 mt-1"></i> <span>200 GB NVMe Storage</span></li>
+              <li class="flex items-start gap-2"><i class="fas fa-check-circle text-indigo-500 mt-1"></i> <span>Advanced Security & DDoS Protection</span></li>
+              <li class="flex items-start gap-2"><i class="fas fa-check-circle text-indigo-500 mt-1"></i> <span>White-glove Support & Dedicated Manager</span></li>
+            </ul>
+            <div class="mt-8"><a href="#contact" class="block text-center border border-indigo-300 text-indigo-700 font-semibold py-2.5 rounded-xl hover:bg-indigo-50 transition">Contact Sales</a></div>
+          </div>
+        </div>
+        <p class="text-center text-gray-500 text-sm mt-12">All plans include industry-leading uptime, free migration assistance, and a 30-day satisfaction guarantee. Cancel anytime.</p>
+      </div>
+    </section>
+
+    <!-- Testimonial & Trust Bar (optional but strengthens credibility) -->
+    <section class="py-12 bg-indigo-50/40">
+      <div class="container mx-auto px-5 md:px-8 text-center">
+        <div class="flex flex-wrap justify-center gap-8 items-center opacity-80">
+          <div class="flex items-center gap-2"><i class="fas fa-users text-indigo-400 text-xl"></i><span class="text-gray-700 font-medium">Trusted by 6,200+ creators</span></div>
+          <div class="flex items-center gap-2"><i class="fas fa-clock text-indigo-400 text-xl"></i><span class="text-gray-700 font-medium">99.99% uptime SLA</span></div>
+          <div class="flex items-center gap-2"><i class="fas fa-globe text-indigo-400 text-xl"></i><span class="text-gray-700 font-medium">Global data centers</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact / Lead form section (No currency, worldwide friendly) -->
+    <section id="contact" class="py-20 bg-white">
+      <div class="container mx-auto px-5 md:px-8 max-w-5xl">
+        <div class="bg-gray-50 rounded-3xl shadow-lg p-8 md:p-12 border border-gray-100">
+          <div class="text-center mb-10">
+            <i class="fas fa-paper-plane text-indigo-500 text-3xl mb-3"></i>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Start your online journey today</h2>
+            <p class="text-gray-600 mt-3 max-w-xl mx-auto">Fill out the form and our team will reach out with a tailored plan, domain options, and free consultation.</p>
+          </div>
+          <form id="contactForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-700 font-medium mb-1">Full name</label>
+              <input type="text" id="fullName" required class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 outline-none transition" placeholder="Alex Johnson">
+            </div>
+            <div>
+              <label class="block text-gray-700 font-medium mb-1">Email address</label>
+              <input type="email" id="email" required class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 outline-none transition" placeholder="hello@example.com">
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-gray-700 font-medium mb-1">What are you looking for? (Website, domain, hosting, support)</label>
+              <textarea id="message" rows="3" required class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 outline-none transition" placeholder="Tell us about your idea or business..."></textarea>
+            </div>
+            <div class="md:col-span-2 flex flex-col items-center gap-4">
+              <button type="submit" id="submitBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-10 rounded-full transition shadow-md flex items-center gap-2 text-lg">
+                <i class="fas fa-rocket"></i> Request free consultation
+              </button>
+              <p class="text-xs text-gray-400">No spam, no obligations. We’ll get back within 24h.</p>
+            </div>
+          </form>
+          <div id="formFeedback" class="mt-6 text-center hidden"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 pt-16 pb-8">
+      <div class="container mx-auto px-5 md:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <div class="flex items-center space-x-2 mb-4"><i class="fas fa-globe text-indigo-400 text-xl"></i><span class="font-bold text-xl text-white">Web<span class="text-indigo-400">Presence</span></span></div>
+            <p class="text-sm">Democratizing the web: accessible website, domain, hosting and support for dreamers and doers everywhere.</p>
+          </div>
+          <div>
+            <h4 class="text-white font-semibold mb-4">Solutions</h4>
+            <ul class="space-y-2 text-sm">
+              <li><a href="#" class="hover:text-indigo-300 transition">Website Builder</a></li>
+              <li><a href="#" class="hover:text-indigo-300 transition">Domain Registration</a></li>
+              <li><a href="#" class="hover:text-indigo-300 transition">Managed Hosting</a></li>
+              <li><a href="#" class="hover:text-indigo-300 transition">Priority Support</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-white font-semibold mb-4">Company</h4>
+            <ul class="space-y-2 text-sm">
+              <li><a href="#" class="hover:text-indigo-300 transition">About Us</a></li>
+              <li><a href="#" class="hover:text-indigo-300 transition">Global Network</a></li>
+              <li><a href="#" class="hover:text-indigo-300 transition">Sustainability</a></li>
+              <li><a href="#" class="hover:text-indigo-300 transition">Careers</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-white font-semibold mb-4">Resources</h4>
+            <ul class="space-y-2 text-sm">
+              <li><a href="#" class="hover:text-indigo-300 transition">Help Center</a></li>
+              <li><a href="#" class="hover:text-indigo-300 transition">Community</a></li>
+              <li><a href="#" class="hover:text-indigo-300 transition">Status</a></li>
+              <li><a href="#" class="hover:text-indigo-300 transition">GDPR & Privacy</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-gray-800 mt-12 pt-8 text-center text-sm text-gray-400">
+          <p>&copy; 2025 WebPresence — Empowering individuals to build their digital future. Worldwide service, transparent value.</p>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- JavaScript for Mobile menu, Form validation and simulated submission -->
+  <script>
+    (function() {
+      // Mobile menu toggle
+      const mobileBtn = document.getElementById('mobileMenuBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      if (mobileBtn && mobileMenu) {
+        mobileBtn.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+          const icon = mobileBtn.querySelector('i');
+          if (icon.classList.contains('fa-bars')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+          } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          }
+        });
+        // close menu on link click
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            const icon = mobileBtn.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          });
+        });
+      }
+
+      // navbar background effect on scroll
+      const navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) {
+          navbar.classList.add('bg-white/95', 'shadow-md');
+          navbar.classList.remove('bg-white/80');
+        } else {
+          navbar.classList.add('bg-white/95');
+          navbar.classList.remove('shadow-md');
+        }
+      });
+
+      // Form handling (no currency, worldwide, validation + simulated submission)
+      const contactForm = document.getElementById('contactForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const feedbackDiv = document.getElementById('formFeedback');
+
+      if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          // Get values
+          const fullName = document.getElementById('fullName').value.trim();
+          const email = document.getElementById('email').value.trim();
+          const message = document.getElementById('message').value.trim();
+
+          // basic validation
+          if (!fullName || !email || !message) {
+            showFeedback('Please fill in all fields before sending.', 'error');
+            return;
+          }
+          if (!email.includes('@') || !email.includes('.')) {
+            showFeedback('Please enter a valid email address.', 'error');
+            return;
+          }
+
+          // Show loading state on button
+          const originalContent = submitBtn.innerHTML;
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin-custom"></i> Sending...';
+          
+          // Simulate API / email submission (no actual backend, but realistic)
+          // We simulate a 1s delay to mimic network request
+          setTimeout(() => {
+            // store lead in console for demo, but also show success
+            console.log(`Lead captured: ${fullName}, ${email}, inquiry: ${message.substring(0,80)}`);
+            showFeedback(`✨ Thank you ${fullName}! Our support team will contact you soon to build your online presence.`, 'success');
+            contactForm.reset();
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalContent;
+            // auto hide feedback after 6 secs
+            setTimeout(() => {
+              if (feedbackDiv) {
+                feedbackDiv.classList.add('hidden');
+                feedbackDiv.innerHTML = '';
+              }
+            }, 6000);
+          }, 800);
+        });
+      }
+
+      function showFeedback(msg, type) {
+        if (!feedbackDiv) return;
+        feedbackDiv.classList.remove('hidden', 'text-green-700', 'text-red-600', 'bg-green-50', 'bg-red-50');
+        if (type === 'success') {
+          feedbackDiv.innerHTML = `<div class="bg-green-50 text-green-700 p-3 rounded-xl inline-block"><i class="fas fa-check-circle mr-2"></i>${msg}</div>`;
+          feedbackDiv.classList.remove('hidden');
+        } else {
+          feedbackDiv.innerHTML = `<div class="bg-red-50 text-red-600 p-3 rounded-xl inline-block"><i class="fas fa-exclamation-triangle mr-2"></i>${msg}</div>`;
+          feedbackDiv.classList.remove('hidden');
+        }
+        // scroll feedback into view smoothly
+        feedbackDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // additional simple interactive: add active link highlight on scroll? optional but not needed
+    })();
+  </script>
+</body>
+</html>
