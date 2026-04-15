@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>1Biz.online — Stories That Move The World</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #0a0a0a;
+      --ink-mid: #141414;
+      --ink-soft: #1e1e1e;
+      --paper: #f5f0e8;
+      --paper-mid: #ede8de;
+      --accent: #e8401c;
+      --accent-warm: #f0621e;
+      --gold: #c9a84c;
+      --steel: #8a8f9a;
+      --wire: #2a2a2a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--ink);
+      color: var(--paper);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease, width 0.2s ease, height 0.2s ease;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1.5px solid rgba(232,64,28,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.18s ease, width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+    }
+    body:hover .cursor { opacity: 1; }
+
+    /* Ticker tape */
+    .ticker-wrap {
+      width: 100%;
+      overflow: hidden;
+      background: var(--accent);
+      padding: 8px 0;
+    }
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: ticker 28s linear infinite;
+    }
+    .ticker-track:hover { animation-play-state: paused; }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .ticker-item {
+      white-space: nowrap;
+      padding: 0 2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: white;
+    }
+    .ticker-dot {
+      color: rgba(255,255,255,0.5);
+      padding: 0 0.5rem;
+    }
+
+    /* Navbar */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    nav.scrolled {
+      background: rgba(10,10,10,0.97);
+      border-bottom: 1px solid var(--wire);
+      backdrop-filter: blur(8px);
+    }
+    .nav-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .logo-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.12em;
+      color: var(--paper);
+      line-height: 1;
+    }
+    .logo-text span { color: var(--accent); }
+    .logo-sub {
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--steel);
+      margin-top: 2px;
+    }
+    .nav-links a {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--steel);
+      text-decoration: none;
+      transition: color 0.2s;
+      padding: 0 1.25rem;
+    }
+    .nav-links a:hover { color: var(--paper); }
+    .nav-cta {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 22px;
+      cursor: none;
+      transition: background 0.2s, transform 0.2s;
+      text-decoration: none;
+    }
+    .nav-cta:hover { background: var(--accent-warm); transform: translateY(-1px); }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 5rem;
+      padding-top: 70px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.85) 60%, var(--ink) 100%),
+        radial-gradient(ellipse at 70% 40%, rgba(232,64,28,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 80%, rgba(201,168,76,0.05) 0%, transparent 50%);
+    }
+
+    /* Film grain overlay */
+    .grain {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 180px;
+    }
+
+    /* Broadcast grid lines */
+    .scanlines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 2px;
+      background: var(--accent);
+    }
+
+    .hero-headline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4.5rem, 12vw, 13rem);
+      line-height: 0.92;
+      letter-spacing: 0.01em;
+      color: var(--paper);
+      max-width: 1000px;
+    }
+    .hero-headline .line-accent { color: var(--accent); }
+
+    .hero-rule {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, var(--accent), transparent);
+      margin: 2rem 0;
+      opacity: 0.4;
+    }
+
+    .hero-sub-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .hero-desc {
+      font-size: 1.1rem;
+      line-height: 1.65;
+      color: rgba(245,240,232,0.65);
+      max-width: 500px;
+      font-weight: 300;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      flex-shrink: 0;
+    }
+    .hero-stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      line-height: 1;
+      color: var(--paper);
+    }
+    .hero-stat-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--steel);
+      margin-top: 4px;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.5;
+      animation: fadeUpDown 2s ease-in-out infinite;
+    }
+    @keyframes fadeUpDown {
+      0%,100% { opacity: 0.3; transform: translateX(-50%) translateY(0); }
+      50% { opacity: 0.7; transform: translateX(-50%) translateY(6px); }
+    }
+    .scroll-indicator span {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--steel);
+    }
+
+    /* Section divider */
+    .section-rule {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .section-rule-line {
+      height: 1px;
+      flex: 1;
+      background: var(--wire);
+    }
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    /* Services */
+    #services {
+      background: var(--ink);
+      padding: 7rem 0;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1px;
+      background: var(--wire);
+      border: 1px solid var(--wire);
+    }
+    .service-card {
+      background: var(--ink);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+    .service-card:hover { background: var(--ink-soft); }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      background: var(--accent);
+      transition: height 0.35s ease;
+    }
+    .service-card:hover::before { height: 100%; }
+    .service-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem;
+      line-height: 1;
+      color: var(--wire);
+      margin-bottom: 1.5rem;
+      transition: color 0.3s;
+    }
+    .service-card:hover .service-num { color: var(--accent); opacity: 0.3; }
+    .service-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--paper);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    .service-desc {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--steel);
+      font-weight: 300;
+    }
+    .service-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 2rem;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .service-card:hover .service-arrow { opacity: 1; transform: translateX(0); }
+
+    /* What We Do (wide statement section) */
+    #about {
+      background: var(--paper);
+      color: var(--ink);
+      padding: 8rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+    #about::before {
+      content: 'NEXUS';
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22vw;
+      line-height: 1;
+      position: absolute;
+      right: -2%;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(10,10,10,0.04);
+      pointer-events: none;
+      letter-spacing: -0.02em;
+    }
+    .about-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .about-label::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 2px;
+      background: var(--accent);
+    }
+    .about-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 4.2rem);
+      line-height: 1.18;
+      color: var(--ink);
+      max-width: 700px;
+      font-weight: 900;
+    }
+    .about-headline em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .about-body {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: rgba(10,10,10,0.65);
+      max-width: 500px;
+      font-weight: 300;
+    }
+    .about-pillar {
+      border-top: 2px solid var(--ink);
+      padding-top: 1.5rem;
+    }
+    .pillar-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.08em;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+    .pillar-text {
+      font-size: 0.85rem;
+      color: rgba(10,10,10,0.55);
+      line-height: 1.6;
+    }
+
+    /* Plans */
+    #plans {
+      background: var(--ink-mid);
+      padding: 7rem 0;
+    }
+    .plans-header-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .plans-header-label::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 2px;
+      background: var(--accent);
+    }
+    .plans-headline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      line-height: 1;
+      letter-spacing: 0.03em;
+      color: var(--paper);
+      margin-bottom: 0.5rem;
+    }
+    .plans-sub {
+      font-size: 1rem;
+      color: var(--steel);
+      max-width: 500px;
+      line-height: 1.65;
+      font-weight: 300;
+    }
+
+    .plan-card {
+      border: 1px solid var(--wire);
+      padding: 2.5rem;
+      position: relative;
+      transition: border-color 0.3s, transform 0.3s;
+      background: var(--ink);
+    }
+    .plan-card:hover { border-color: rgba(232,64,28,0.4); transform: translateY(-4px); }
+    .plan-card.featured {
+      border-color: var(--accent);
+      background: var(--ink-soft);
+    }
+    .plan-badge {
+      position: absolute;
+      top: -1px; right: 2rem;
+      background: var(--accent);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: white;
+      padding: 5px 14px;
+    }
+    .plan-tier {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      letter-spacing: 0.08em;
+      color: var(--paper);
+      margin-bottom: 0.25rem;
+    }
+    .plan-desc { font-size: 0.85rem; color: var(--steel); margin-bottom: 2rem; line-height: 1.5; }
+    .plan-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--wire);
+      font-size: 0.875rem;
+      color: rgba(245,240,232,0.75);
+    }
+    .plan-feature:last-of-type { border-bottom: none; }
+    .plan-feature i { color: var(--accent); margin-top: 3px; flex-shrink: 0; font-size: 11px; }
+    .plan-btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 2rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: none;
+    }
+    .plan-btn-outline {
+      border: 1px solid var(--wire);
+      color: var(--steel);
+    }
+    .plan-btn-outline:hover { border-color: var(--paper); color: var(--paper); }
+    .plan-btn-solid {
+      background: var(--accent);
+      color: white;
+      border: 1px solid var(--accent);
+    }
+    .plan-btn-solid:hover { background: var(--accent-warm); }
+
+    /* Broadcast bar */
+    .broadcast-bar {
+      background: var(--ink-soft);
+      border-top: 1px solid var(--wire);
+      border-bottom: 1px solid var(--wire);
+      padding: 2.5rem 0;
+    }
+    .broadcast-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .broadcast-icon {
+      width: 48px; height: 48px;
+      border: 1px solid var(--wire);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .broadcast-icon i { color: var(--accent); font-size: 16px; }
+    .broadcast-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--steel);
+    }
+    .broadcast-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.06em;
+      color: var(--paper);
+    }
+
+    /* Contact */
+    #contact {
+      background: var(--ink);
+      padding: 7rem 0;
+    }
+    .contact-headline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      line-height: 0.9;
+      letter-spacing: 0.02em;
+      color: var(--paper);
+    }
+    .contact-headline span { color: var(--accent); }
+    .contact-sub {
+      font-size: 0.95rem;
+      color: var(--steel);
+      line-height: 1.7;
+      max-width: 400px;
+      margin-top: 1.5rem;
+      font-weight: 300;
+    }
+
+    label.field-label {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--steel);
+      margin-bottom: 8px;
+    }
+    input[type="text"], input[type="email"], select, textarea {
+      width: 100%;
+      background: var(--ink-soft);
+      border: 1px solid var(--wire);
+      color: var(--paper);
+      padding: 14px 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+      border-radius: 0;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+    }
+    input::placeholder, textarea::placeholder { color: rgba(138,143,154,0.5); }
+    select option { background: var(--ink-soft); }
+    textarea { resize: none; }
+
+    .submit-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 16px 40px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: none;
+      transition: background 0.2s, transform 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .submit-btn:hover { background: var(--accent-warm); transform: translateY(-2px); }
+    .submit-btn:disabled { opacity: 0.6; pointer-events: none; }
+
+    #formFeedback {
+      font-size: 0.875rem;
+      padding: 14px 18px;
+      border-left: 3px solid;
+      margin-top: 1rem;
+    }
+    #formFeedback.success { border-color: #4ade80; color: #4ade80; background: rgba(74,222,128,0.05); }
+    #formFeedback.error { border-color: var(--accent); color: var(--accent); background: rgba(232,64,28,0.05); }
+
+    /* Footer */
+    footer {
+      background: var(--ink-mid);
+      border-top: 1px solid var(--wire);
+      padding: 4rem 0 2rem;
+    }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      letter-spacing: 0.12em;
+      color: var(--paper);
+    }
+    .footer-logo span { color: var(--accent); }
+    .footer-tagline {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--steel);
+      margin-top: 4px;
+    }
+    .footer-nav-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--paper);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--wire);
+    }
+    .footer-nav a {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--steel);
+      text-decoration: none;
+      padding: 0.3rem 0;
+      transition: color 0.2s, padding-left 0.2s;
+    }
+    .footer-nav a:hover { color: var(--paper); padding-left: 4px; }
+    .footer-bottom {
+      border-top: 1px solid var(--wire);
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-bottom-text {
+      font-size: 11px;
+      color: rgba(138,143,154,0.6);
+      letter-spacing: 0.05em;
+    }
+    .footer-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .footer-live::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: blink 1.4s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+    /* Mobile nav */
+    #mobileMenu {
+      position: fixed;
+      inset: 0;
+      background: rgba(10,10,10,0.98);
+      z-index: 99;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.76,0,0.24,1);
+    }
+    #mobileMenu.open { transform: translateX(0); }
+    .mobile-link {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem;
+      letter-spacing: 0.06em;
+      color: var(--paper);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .mobile-link:hover { color: var(--accent); }
+    #mobileCloseBtn {
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      background: none;
+      border: none;
+      color: var(--paper);
+      font-size: 1.5rem;
+      cursor: none;
+    }
+
+    /* Animations on scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* Container */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero-headline { font-size: clamp(3.5rem, 16vw, 6rem); }
+      .hero-stats { gap: 1.5rem; }
+      .nav-links { display: none; }
+      .service-card { padding: 2rem 1.5rem; }
+      .mobile-link { font-size: 2.8rem; }
+      body { cursor: auto; }
+      .cursor, .cursor-ring { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ===== TICKER ===== -->
+  <div class="ticker-wrap" style="position:fixed;top:0;left:0;right:0;z-index:101;">
+    <div class="ticker-track">
+      <span class="ticker-item">● LIVE</span><span class="ticker-item">Global Media &amp; Digital Production</span><span class="ticker-dot">—</span>
+      <span class="ticker-item">Documentary · Broadcast · Digital Campaigns</span><span class="ticker-dot">—</span>
+      <span class="ticker-item">Now serving 140+ markets worldwide</span><span class="ticker-dot">—</span>
+      <span class="ticker-item">Award-winning storytelling since 2008</span><span class="ticker-dot">—</span>
+      <span class="ticker-item">Next broadcast: Live studio ready</span><span class="ticker-dot">—</span>
+      <!-- duplicate for infinite scroll -->
+      <span class="ticker-item">● LIVE</span><span class="ticker-item">Global Media &amp; Digital Production</span><span class="ticker-dot">—</span>
+      <span class="ticker-item">Documentary · Broadcast · Digital Campaigns</span><span class="ticker-dot">—</span>
+      <span class="ticker-item">Now serving 140+ markets worldwide</span><span class="ticker-dot">—</span>
+      <span class="ticker-item">Award-winning storytelling since 2008</span><span class="ticker-dot">—</span>
+      <span class="ticker-item">Next broadcast: Live studio ready</span><span class="ticker-dot">—</span>
+    </div>
+  </div>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav id="navbar" style="top:32px;">
+    <div class="nav-inner">
+      <div>
+        <div class="logo-text">1Biz<span>.online</span> MEDIA</div>
+        <div class="logo-sub">Global Broadcast &amp; Digital</div>
+      </div>
+      <div class="nav-links hidden md:flex">
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#plans">Plans</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="#contact" class="nav-cta hidden md:inline-block">Pitch Us</a>
+        <button id="mobileOpenBtn" class="md:hidden bg-none border-none text-gray-300 text-xl p-2" style="background:none;border:none;cursor:pointer;">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div id="mobileMenu">
+    <button id="mobileCloseBtn"><i class="fas fa-times"></i></button>
+    <a href="#services" class="mobile-link">Services</a>
+    <a href="#about" class="mobile-link">About</a>
+    <a href="#plans" class="mobile-link">Plans</a>
+    <a href="#contact" class="mobile-link">Contact</a>
+  </div>
+
+  <main>
+    <!-- ===== HERO ===== -->
+    <section id="home" class="hero" style="padding-top:102px;">
+      <div class="hero-bg"></div>
+      <div class="grain"></div>
+      <div class="scanlines"></div>
+
+      <!-- Floating broadcast indicator top-right -->
+      <div style="position:absolute;top:120px;right:2rem;z-index:10;display:flex;align-items:center;gap:10px;opacity:0.8;">
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--accent);animation:blink 1.4s infinite;"></div>
+        <span style="font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);">On Air</span>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-eyebrow">Breaking ground since 2008</div>
+        <h1 class="hero-headline">
+          Stories<br>
+          <span class="line-accent">That Move</span><br>
+          The World
+        </h1>
+        <div class="hero-rule"></div>
+        <div class="hero-sub-row">
+          <p class="hero-desc">
+            NEXUS MEDIA is a full-spectrum media company — producing documentary, digital content, broadcast, and brand narratives that reach millions across every continent.
+          </p>
+          <div class="hero-stats">
+            <div>
+              <div class="hero-stat-num">140+</div>
+              <div class="hero-stat-label">Markets reached</div>
+            </div>
+            <div>
+              <div class="hero-stat-num">3.8B</div>
+              <div class="hero-stat-label">Cumulative views</div>
+            </div>
+            <div>
+              <div class="hero-stat-num">16yr</div>
+              <div class="hero-stat-label">In the field</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;gap:1rem;margin-top:3rem;flex-wrap:wrap;">
+          <a href="#plans" style="background:var(--accent);color:white;padding:14px 32px;font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;">
+            View Plans <i class="fas fa-arrow-right"></i>
+          </a>
+          <a href="#about" style="border:1px solid var(--wire);color:var(--steel);padding:14px 32px;font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;" onmouseover="this.style.borderColor='var(--paper)';this.style.color='var(--paper)'" onmouseout="this.style.borderColor='var(--wire)';this.style.color='var(--steel)'">
+            Our Story
+          </a>
+        </div>
+      </div>
+
+      <div class="scroll-indicator">
+        <span>scroll</span>
+        <i class="fas fa-chevron-down" style="font-size:10px;color:var(--steel);"></i>
+      </div>
+    </section>
+
+    <!-- ===== BROADCAST BAR ===== -->
+    <div class="broadcast-bar">
+      <div class="container">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;">
+          <div class="broadcast-item">
+            <div class="broadcast-icon"><i class="fas fa-satellite-dish"></i></div>
+            <div>
+              <div class="broadcast-label">Broadcast Partners</div>
+              <div class="broadcast-value">60+ Networks</div>
+            </div>
+          </div>
+          <div class="broadcast-item">
+            <div class="broadcast-icon"><i class="fas fa-film"></i></div>
+            <div>
+              <div class="broadcast-label">Produced</div>
+              <div class="broadcast-value">1,200+ Titles</div>
+            </div>
+          </div>
+          <div class="broadcast-item">
+            <div class="broadcast-icon"><i class="fas fa-trophy"></i></div>
+            <div>
+              <div class="broadcast-label">Industry Awards</div>
+              <div class="broadcast-value">38 Accolades</div>
+            </div>
+          </div>
+          <div class="broadcast-item">
+            <div class="broadcast-icon"><i class="fas fa-earth-americas"></i></div>
+            <div>
+              <div class="broadcast-label">Offices</div>
+              <div class="broadcast-value">9 Cities</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SERVICES ===== -->
+    <section id="services" style="padding:7rem 0;background:var(--ink);">
+      <div class="container">
+        <div class="section-rule reveal">
+          <div class="section-rule-line"></div>
+          <div class="section-label">What We Do</div>
+          <div class="section-rule-line"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4rem;flex-wrap:wrap;gap:2rem;">
+          <h2 class="reveal" style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,6vw,5rem);letter-spacing:0.03em;color:var(--paper);line-height:1;">
+            Full-Spectrum<br>Media Services
+          </h2>
+          <p class="reveal reveal-delay-1" style="font-size:0.95rem;color:var(--steel);max-width:380px;line-height:1.7;font-weight:300;">
+            From concept to global distribution — every format, every platform, every audience.
+          </p>
+        </div>
+        <div class="services-grid">
+          <div class="service-card reveal">
+            <div class="service-num">01</div>
+            <div class="service-title">Documentary & Film</div>
+            <p class="service-desc">Long-form documentary, docuseries, and short films crafted for international broadcast and streaming. We find the story in every frame.</p>
+            <div class="service-arrow">Explore <i class="fas fa-arrow-right" style="font-size:10px;"></i></div>
+          </div>
+          <div class="service-card reveal reveal-delay-1">
+            <div class="service-num">02</div>
+            <div class="service-title">Broadcast Production</div>
+            <p class="service-desc">Studio and field production for news, live events, sports, and entertainment — broadcast-ready across any format or distribution channel.</p>
+            <div class="service-arrow">Explore <i class="fas fa-arrow-right" style="font-size:10px;"></i></div>
+          </div>
+          <div class="service-card reveal reveal-delay-2">
+            <div class="service-num">03</div>
+            <div class="service-title">Digital &amp; Brand Content</div>
+            <p class="service-desc">Social-first content, branded documentaries, and campaign narratives that connect brands with global audiences in authentic, meaningful ways.</p>
+            <div class="service-arrow">Explore <i class="fas fa-arrow-right" style="font-size:10px;"></i></div>
+          </div>
+          <div class="service-card reveal reveal-delay-3">
+            <div class="service-num">04</div>
+            <div class="service-title">Distribution &amp; Licensing</div>
+            <p class="service-desc">Worldwide licensing, platform placement, and rights management — getting your content seen on the networks and platforms that matter.</p>
+            <div class="service-arrow">Explore <i class="fas fa-arrow-right" style="font-size:10px;"></i></div>
+          </div>
+          <div class="service-card reveal">
+            <div class="service-num">05</div>
+            <div class="service-title">Web &amp; Digital Presence</div>
+            <p class="service-desc">Premium digital infrastructure for media organizations — custom domains, high-performance hosting, and tools built for content-heavy audiences.</p>
+            <div class="service-arrow">Explore <i class="fas fa-arrow-right" style="font-size:10px;"></i></div>
+          </div>
+          <div class="service-card reveal reveal-delay-1">
+            <div class="service-num">06</div>
+            <div class="service-title">Post-Production Studio</div>
+            <p class="service-desc">Color grading, audio mix, motion graphics, localization, and delivery — finishing work that meets the highest broadcast and streaming standards globally.</p>
+            <div class="service-arrow">Explore <i class="fas fa-arrow-right" style="font-size:10px;"></i></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about">
+      <div class="container">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;" class="md:grid-cols-2">
+          <div class="reveal">
+            <div class="about-label">Our Mission</div>
+            <h2 class="about-headline">
+              We don't just tell stories.<br>
+              We <em>amplify</em> the voices that deserve to be heard.
+            </h2>
+          </div>
+          <div class="reveal reveal-delay-1">
+            <p class="about-body" style="margin-bottom:3rem;">
+              Founded in 2008, NEXUS MEDIA has grown from a small documentary unit into one of the most respected independent media companies on the planet. Our work spans investigative journalism, cinematic storytelling, live broadcast, and digital-first campaigns — all driven by a single belief: the right story told right can change everything.
+            </p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;">
+              <div class="about-pillar">
+                <div class="pillar-title">Independent</div>
+                <div class="pillar-text">No political alignment. No corporate bias. We answer to the story.</div>
+              </div>
+              <div class="about-pillar">
+                <div class="pillar-title">Global</div>
+                <div class="pillar-text">Crews on the ground in 40+ countries, stories from every corner of the world.</div>
+              </div>
+              <div class="about-pillar">
+                <div class="pillar-title">Crafted</div>
+                <div class="pillar-text">Every frame, every word, every sound — deliberate, precise, intentional.</div>
+              </div>
+              <div class="about-pillar">
+                <div class="pillar-title">Impactful</div>
+                <div class="pillar-text">Our productions have influenced policy, sparked conversations, and moved millions.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PLANS ===== -->
+    <section id="plans">
+      <div class="container">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4rem;flex-wrap:wrap;gap:2rem;">
+          <div class="reveal">
+            <div class="plans-header-label">Digital Infrastructure</div>
+            <h2 class="plans-headline">Your media.<br>Online.</h2>
+          </div>
+          <p class="reveal reveal-delay-1 plans-sub">
+            Every media brand needs a powerful digital home. Our hosting, domain, and web infrastructure plans are built for content-heavy, high-traffic media operations worldwide.
+          </p>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;align-items:start;">
+          <!-- Starter -->
+          <div class="plan-card reveal">
+            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+              <i class="fas fa-seedling" style="color:var(--accent);font-size:1.2rem;"></i>
+            </div>
+            <div class="plan-tier">Essentials</div>
+            <p class="plan-desc">For independent journalists, bloggers, and emerging media voices launching their first digital home.</p>
+            <div class="plan-feature"><i class="fas fa-check"></i> 1 fully managed media website</div>
+            <div class="plan-feature"><i class="fas fa-check"></i> Custom domain registration</div>
+            <div class="plan-feature"><i class="fas fa-check"></i> 10 GB NVMe media storage</div>
+            <div class="plan-feature"><i class="fas fa-check"></i> Free SSL + email forwarding</div>
+            <div class="plan-feature"><i class="fas fa-check"></i> Standard editorial support</div>
+            <div class="plan-feature"><i class="fas fa-check"></i> Global CDN delivery</div>
+            <a href="#contact" class="plan-btn plan-btn-outline">Get Started →</a>
+          </div>
+
+          <!-- Featured: Pro -->
+          <div class="plan-card featured reveal reveal-delay-1">
+            <div class="plan-badge">Most Popular</div>
+            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+              <i class="fas fa-broadcast-tower" style="color:var(--accent);font-size:1.2rem;"></i>
+            </div>
+            <div class="plan-tier">Broadcast Pro</div>
+            <p class="plan-desc">For established media brands, newsrooms, and production companies that need serious digital infrastructure.</p>
+            <div class="plan-feature"><i class="fas fa-check"></i> Up to 5 media websites + domain included</div>
+            <div class="plan-feature"><i class="fas fa-check"></i> 100 GB SSD + unlimited bandwidth</div>
+            <div class="plan-feature"><i class="fas fa-check"></i> Premium SSL + daily encrypted backups</div>
+            <div class="plan-feature"><i class="fas fa-check"></i> Priority 24/7 editorial support</div>
+            <div class="plan-feature"><i class="fas fa-check"></i> Advanced SEO + analytics dashboard</div>
+            <div class="plan-feature"><i class="fas fa-check"></i> Video hosting integration ready</div>
+            <a href="#contact" class="plan-btn plan-btn-solid">Claim This Plan →</a>
+          </div>
+
+          <!-- Agency -->
+          <div class="plan-card reveal reveal-delay-2">
+            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+              <i class="fas fa-satellite" style="color:var(--accent);font-size:1.2rem;"></i>
+            </div>
+            <div class="plan-tier">Network Scale</div>
+            <p class="plan-desc">For multi-brand media networks, production studios, and agencies managing multiple channels and markets.</p>
+            <div class="plan-feature"><i class="fas fa-check"></i> Unlimited websites + domains</div>
+            <div class="plan-feature"><i class="fas fa-check"></i> 500 GB NVMe + DDoS protection</div>
+            <div class="plan-feature"><i class="fas fa-check"></i> Dedicated account manager</div>
+            <div class="plan-feature"><i class="fas fa-check"></i> Custom development hours included</div>
+            <div class="plan-feature"><i class="fas fa-check"></i> White-label dashboard options</div>
+            <div class="plan-feature"><i class="fas fa-check"></i> API access + SLA guarantee</div>
+            <a href="#contact" class="plan-btn plan-btn-outline">Contact Our Team →</a>
+          </div>
+        </div>
+
+        <p class="reveal" style="text-align:center;font-size:11px;letter-spacing:0.1em;color:var(--steel);margin-top:3rem;display:flex;align-items:center;justify-content:center;gap:1.5rem;flex-wrap:wrap;">
+          <span><i class="fas fa-shield-alt" style="color:var(--accent);margin-right:6px;"></i>30-day money-back guarantee</span>
+          <span>·</span>
+          <span><i class="fas fa-truck" style="color:var(--accent);margin-right:6px;"></i>Free migration from any host</span>
+          <span>·</span>
+          <span><i class="fas fa-globe" style="color:var(--accent);margin-right:6px;"></i>Available in every country</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact">
+      <div class="container">
+        <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:6rem;align-items:start;" class="contact-grid">
+
+          <!-- Left copy -->
+          <div class="reveal">
+            <div class="plans-header-label" style="margin-bottom:1.5rem;">Start The Conversation</div>
+            <h2 class="contact-headline">
+              Pitch.<br>Partner.<br>
+              <span>Publish.</span>
+            </h2>
+            <p class="contact-sub">
+              Whether you're pitching a documentary, launching a media brand, or need a powerful digital home — our team is ready. We respond within 12 hours.
+            </p>
+            <div style="margin-top:3rem;display:flex;flex-direction:column;gap:1.25rem;">
+              <div style="display:flex;align-items:center;gap:1rem;">
+                <div style="width:40px;height:40px;border:1px solid var(--wire);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <i class="fas fa-envelope" style="color:var(--accent);font-size:13px;"></i>
+                </div>
+                <div>
+                  <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--steel);margin-bottom:2px;">Email</div>
+                  <div style="font-size:0.875rem;color:var(--paper);">contact@nexusmedia.global</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:1rem;">
+                <div style="width:40px;height:40px;border:1px solid var(--wire);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <i class="fas fa-comment-dots" style="color:var(--accent);font-size:13px;"></i>
+                </div>
+                <div>
+                  <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--steel);margin-bottom:2px;">Live Chat</div>
+                  <div style="font-size:0.875rem;color:var(--paper);">Available 24/7 worldwide</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right form -->
+          <div class="reveal reveal-delay-1">
+            <form id="contactForm" style="display:flex;flex-direction:column;gap:1.25rem;">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                <div>
+                  <label class="field-label">Full Name</label>
+                  <input type="text" id="fullName" placeholder="Your name" required>
+                </div>
+                <div>
+                  <label class="field-label">Email Address</label>
+                  <input type="email" id="email" placeholder="you@domain.com" required>
+                </div>
+              </div>
+              <div>
+                <label class="field-label">I'm interested in</label>
+                <select id="interest">
+                  <option value="">— Select a service —</option>
+                  <option>Documentary & Film Production</option>
+                  <option>Broadcast Production</option>
+                  <option>Digital & Brand Content</option>
+                  <option>Distribution & Licensing</option>
+                  <option>Web & Digital Presence</option>
+                  <option>Post-Production Studio</option>
+                  <option>Partnership / Press</option>
+                </select>
+              </div>
+              <div>
+                <label class="field-label">Your Message</label>
+                <textarea id="message" rows="5" placeholder="Tell us about your project, idea, or inquiry..." required></textarea>
+              </div>
+              <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;">
+                <button type="submit" class="submit-btn" id="submitBtn">
+                  <i class="fas fa-paper-plane"></i> Send Transmission
+                </button>
+                <span style="font-size:11px;color:var(--steel);letter-spacing:0.05em;">No spam. Ever.</span>
+              </div>
+              <div id="formFeedback" style="display:none;"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+      <div class="container">
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;flex-wrap:wrap;">
+          <div>
+            <div class="footer-logo">1Biz<span>online</span> MEDIA</div>
+            <div class="footer-tagline">Global Broadcast &amp; Digital — Est. 2008</div>
+            <p style="font-size:0.82rem;color:var(--steel);margin-top:1rem;line-height:1.65;max-width:300px;">
+              Stories that move the world. Independent, international, and uncompromising — from first pitch to final frame.
+            </p>
+            <div style="display:flex;gap:1rem;margin-top:1.5rem;">
+              <a href="#" style="width:34px;height:34px;border:1px solid var(--wire);display:flex;align-items:center;justify-content:center;color:var(--steel);text-decoration:none;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--wire)';this.style.color='var(--steel)'"><i class="fab fa-x-twitter" style="font-size:12px;"></i></a>
+              <a href="#" style="width:34px;height:34px;border:1px solid var(--wire);display:flex;align-items:center;justify-content:center;color:var(--steel);text-decoration:none;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--wire)';this.style.color='var(--steel)'"><i class="fab fa-instagram" style="font-size:12px;"></i></a>
+              <a href="#" style="width:34px;height:34px;border:1px solid var(--wire);display:flex;align-items:center;justify-content:center;color:var(--steel);text-decoration:none;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--wire)';this.style.color='var(--steel)'"><i class="fab fa-linkedin-in" style="font-size:12px;"></i></a>
+              <a href="#" style="width:34px;height:34px;border:1px solid var(--wire);display:flex;align-items:center;justify-content:center;color:var(--steel);text-decoration:none;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--wire)';this.style.color='var(--steel)'"><i class="fab fa-youtube" style="font-size:12px;"></i></a>
+            </div>
+          </div>
+          <div>
+            <div class="footer-nav-title">Services</div>
+            <div class="footer-nav">
+              <a href="#services">Documentary & Film</a>
+              <a href="#services">Broadcast Production</a>
+              <a href="#services">Digital Content</a>
+              <a href="#services">Distribution</a>
+              <a href="#services">Digital Presence</a>
+              <a href="#services">Post-Production</a>
+            </div>
+          </div>
+          <div>
+            <div class="footer-nav-title">Company</div>
+            <div class="footer-nav">
+              <a href="#about">About Us</a>
+              <a href="#">Our Films</a>
+              <a href="#">Global Network</a>
+              <a href="#">Careers</a>
+              <a href="#">Press Room</a>
+            </div>
+          </div>
+          <div>
+            <div class="footer-nav-title">Resources</div>
+            <div class="footer-nav">
+              <a href="#plans">Digital Plans</a>
+              <a href="#">Help Center</a>
+              <a href="#">System Status</a>
+              <a href="#">Privacy Policy</a>
+              <a href="#">Terms of Use</a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="footer-bottom-text">© 2025 NEXUS MEDIA GROUP. All rights reserved. Independent, global, uncompromising.</div>
+          <div class="footer-live">Broadcasting Live</div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    (function() {
+      // Custom cursor
+      const cursor = document.getElementById('cursor');
+      const ring = document.getElementById('cursorRing');
+      let mx = 0, my = 0, rx = 0, ry = 0;
+      document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; });
+      function animateRing() {
+        rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+        ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+        requestAnimationFrame(animateRing);
+      }
+      animateRing();
+      document.querySelectorAll('a, button, input, select, textarea').forEach(el => {
+        el.addEventListener('mouseenter', () => { cursor.style.width = '16px'; cursor.style.height = '16px'; ring.style.width = '52px'; ring.style.height = '52px'; ring.style.opacity = '0.7'; });
+        el.addEventListener('mouseleave', () => { cursor.style.width = '10px'; cursor.style.height = '10px'; ring.style.width = '36px'; ring.style.height = '36px'; ring.style.opacity = '1'; });
+      });
+
+      // Navbar scroll
+      const navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 20);
+      });
+
+      // Mobile menu
+      const openBtn = document.getElementById('mobileOpenBtn');
+      const closeBtn = document.getElementById('mobileCloseBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      openBtn.addEventListener('click', () => mobileMenu.classList.add('open'));
+      closeBtn.addEventListener('click', () => mobileMenu.classList.remove('open'));
+      mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+      // Scroll reveal
+      const reveals = document.querySelectorAll('.reveal');
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+      }, { threshold: 0.12 });
+      reveals.forEach(el => io.observe(el));
+
+      // Contact form
+      const form = document.getElementById('contactForm');
+      const feedback = document.getElementById('formFeedback');
+      const btn = document.getElementById('submitBtn');
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const name = document.getElementById('fullName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const msg = document.getElementById('message').value.trim();
+        if (!name || !email || !msg) { showMsg('Please complete all required fields.', 'error'); return; }
+        if (!email.includes('@') || !email.includes('.')) { showMsg('Please enter a valid email address.', 'error'); return; }
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Transmitting...';
+        setTimeout(() => {
+          console.log('Inquiry:', { name, email, interest: document.getElementById('interest').value, msg: msg.substring(0, 80) });
+          showMsg(`✓ Received, ${name}. Our editorial team will respond within 12 hours.`, 'success');
+          form.reset();
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Transmission';
+          setTimeout(() => { feedback.style.display = 'none'; }, 6000);
+        }, 900);
+      });
+      function showMsg(text, type) {
+        feedback.textContent = text;
+        feedback.className = type;
+        feedback.style.display = 'block';
+        feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Smooth link scroll for nav
+      document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+          const target = document.querySelector(a.getAttribute('href'));
+          if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+        });
+      });
+
+      // Responsive contact grid
+      function adjustContactGrid() {
+        const g = document.querySelector('.contact-grid');
+        if (!g) return;
+        g.style.gridTemplateColumns = window.innerWidth < 900 ? '1fr' : '1fr 1.2fr';
+        g.style.gap = window.innerWidth < 900 ? '3rem' : '6rem';
+      }
+      window.addEventListener('resize', adjustContactGrid);
+      adjustContactGrid();
+
+      // Responsive footer grid
+      function adjustFooterGrid() {
+        const g = document.querySelector('footer .container > div');
+        if (!g) return;
+        g.style.gridTemplateColumns = window.innerWidth < 900 ? '1fr 1fr' : '2fr 1fr 1fr 1fr';
+      }
+      window.addEventListener('resize', adjustFooterGrid);
+      adjustFooterGrid();
+
+    })();
+  </script>
+</body>
+</html>
