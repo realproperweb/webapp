@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pullens Tombstone | Crafted with Dignity</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --stone:     #1a1714;
+      --stone-mid: #2c2825;
+      --stone-lt:  #3d3935;
+      --gold:      #c9a96e;
+      --gold-lt:   #e2c99a;
+      --cream:     #f5f0e8;
+      --text-muted: #9e9690;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--stone);
+      color: var(--cream);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+    }
+
+    /* ── Texture overlay ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Gold divider ── */
+    .gold-rule {
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 1.25rem auto;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(26,23,20,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,169,110,0.15);
+      transition: all 0.3s ease;
+    }
+
+    nav.scrolled {
+      background: rgba(26,23,20,0.98);
+      border-bottom-color: rgba(201,169,110,0.3);
+    }
+
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 1.1rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; letter-spacing: 0.04em;
+      color: var(--cream);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+
+    .nav-logo span { color: var(--gold); }
+
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+
+    .nav-links a {
+      font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--text-muted); text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-cta {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold) !important;
+      padding: 0.45rem 1.2rem;
+      transition: background 0.2s, color 0.2s !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--gold) !important;
+      color: var(--stone) !important;
+    }
+
+    .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
+    .hamburger span { display: block; width: 24px; height: 1.5px; background: var(--cream); transition: all 0.3s; }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      background: radial-gradient(ellipse at 30% 60%, #2d2620 0%, var(--stone) 70%);
+    }
+
+    .hero-bg-pattern {
+      position: absolute; inset: 0; opacity: 0.04;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(201,169,110,0.5) 60px),
+        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(201,169,110,0.5) 60px);
+    }
+
+    .hero-content {
+      position: relative; z-index: 1;
+      text-align: center; max-width: 780px; padding: 2rem;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.4rem;
+      opacity: 0; animation: fadeUp 0.9s 0.2s forwards;
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 8vw, 6rem);
+      line-height: 1.05; letter-spacing: -0.01em;
+      color: var(--cream);
+      opacity: 0; animation: fadeUp 0.9s 0.4s forwards;
+    }
+
+    .hero-title em { color: var(--gold); font-style: italic; }
+
+    .hero-subtitle {
+      font-family: 'Jost', sans-serif; font-size: 1rem; font-weight: 300;
+      color: var(--text-muted); margin-top: 1.4rem; line-height: 1.8;
+      opacity: 0; animation: fadeUp 0.9s 0.6s forwards;
+    }
+
+    .hero-actions {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      margin-top: 2.4rem;
+      opacity: 0; animation: fadeUp 0.9s 0.8s forwards;
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--stone);
+      padding: 0.85rem 2.2rem;
+      font-family: 'Jost', sans-serif; font-size: 0.8rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: background 0.25s, transform 0.2s;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+
+    .btn-gold:hover { background: var(--gold-lt); transform: translateY(-2px); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--cream);
+      padding: 0.85rem 2.2rem;
+      font-family: 'Jost', sans-serif; font-size: 0.8rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      text-decoration: none; border: 1px solid rgba(245,240,232,0.3); cursor: pointer;
+      transition: border-color 0.25s, color 0.25s, transform 0.2s;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      opacity: 0; animation: fadeUp 1s 1.2s forwards;
+    }
+
+    .hero-scroll span { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); }
+    .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollPulse 2s infinite; }
+
+    /* ── Section shared ── */
+    section { position: relative; z-index: 1; }
+
+    .section-inner { max-width: 1200px; margin: 0 auto; padding: 6rem 2rem; }
+
+    .section-label {
+      font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold); text-align: center; margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      text-align: center; color: var(--cream); line-height: 1.15;
+    }
+
+    .section-subtitle {
+      text-align: center; color: var(--text-muted);
+      font-size: 0.95rem; line-height: 1.85; margin-top: 1rem;
+      max-width: 540px; margin-left: auto; margin-right: auto;
+    }
+
+    /* ── Services ── */
+    #services { background: var(--stone-mid); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5px;
+      margin-top: 4rem;
+      background: rgba(201,169,110,0.12);
+    }
+
+    .service-card {
+      background: var(--stone-mid);
+      padding: 2.8rem 2.2rem;
+      position: relative; overflow: hidden;
+      transition: background 0.3s;
+      cursor: default;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+
+    .service-card:hover { background: var(--stone-lt); }
+    .service-card:hover::before { opacity: 1; }
+
+    .service-icon {
+      width: 52px; height: 52px;
+      border: 1px solid rgba(201,169,110,0.35);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.5rem; color: var(--gold); font-size: 1.4rem;
+    }
+
+    .service-card h3 {
+      font-size: 1.35rem; color: var(--cream); margin-bottom: 0.75rem;
+    }
+
+    .service-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.8; }
+
+    /* ── About ── */
+    #about {
+      background: linear-gradient(135deg, var(--stone) 0%, #221f1b 100%);
+    }
+
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center; margin-top: 2rem;
+    }
+
+    .about-visual {
+      position: relative; aspect-ratio: 4/5;
+      background: var(--stone-mid);
+      border: 1px solid rgba(201,169,110,0.18);
+      overflow: hidden;
+    }
+
+    .about-visual-inner {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 1rem; color: var(--text-muted);
+      font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+    }
+
+    /* Stone SVG illustration */
+    .stone-svg { width: 120px; opacity: 0.35; }
+
+    .about-corner {
+      position: absolute; width: 32px; height: 32px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: 0.4;
+    }
+
+    .about-corner.tl { top: 12px; left: 12px; border-width: 1px 0 0 1px; }
+    .about-corner.br { bottom: 12px; right: 12px; border-width: 0 1px 1px 0; }
+
+    .about-stat-badge {
+      position: absolute; bottom: -1.5rem; right: -1.5rem;
+      background: var(--gold);
+      color: var(--stone);
+      padding: 1.4rem 1.6rem;
+      text-align: center;
+    }
+
+    .about-stat-badge .num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem; line-height: 1;
+    }
+
+    .about-stat-badge .label { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 0.25rem; }
+
+    .about-text h2 { font-size: clamp(2rem, 4vw, 3rem); color: var(--cream); }
+    .about-text .tagline { color: var(--gold); font-style: italic; font-size: 1.2rem; margin-top: 0.4rem; font-family: 'Cormorant Garamond', serif; }
+    .about-text p { color: var(--text-muted); line-height: 1.9; font-size: 0.92rem; margin-top: 1.2rem; }
+
+    .about-pillars { display: flex; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; }
+
+    .pillar { display: flex; align-items: flex-start; gap: 0.75rem; }
+    .pillar-dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; margin-top: 0.45rem; flex-shrink: 0; }
+    .pillar-text strong { display: block; font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--cream); }
+    .pillar-text span { font-size: 0.82rem; color: var(--text-muted); }
+
+    /* ── Gallery ── */
+    #gallery { background: var(--stone-mid); }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto;
+      gap: 6px;
+      margin-top: 3.5rem;
+    }
+
+    .gallery-item {
+      background: var(--stone-lt);
+      aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; position: relative;
+      border: 1px solid rgba(201,169,110,0.08);
+      transition: border-color 0.3s;
+      cursor: pointer;
+    }
+
+    .gallery-item.tall { grid-row: span 2; aspect-ratio: auto; }
+    .gallery-item.wide { grid-column: span 2; aspect-ratio: auto; min-height: 220px; }
+
+    .gallery-item:hover { border-color: rgba(201,169,110,0.4); }
+
+    .gallery-placeholder {
+      display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+      color: var(--stone-lt);
+      transition: color 0.3s;
+    }
+
+    .gallery-item:hover .gallery-placeholder { color: rgba(201,169,110,0.3); }
+
+    .gallery-placeholder svg { width: 40px; height: 40px; }
+    .gallery-placeholder span { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; }
+
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: rgba(201,169,110,0.08);
+      opacity: 0; transition: opacity 0.3s;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+    /* ── FAQ ── */
+    #faq { background: var(--stone); }
+
+    .faq-list { max-width: 760px; margin: 3.5rem auto 0; }
+
+    .faq-item {
+      border-bottom: 1px solid rgba(201,169,110,0.12);
+      overflow: hidden;
+    }
+
+    .faq-question {
+      padding: 1.5rem 0;
+      display: flex; justify-content: space-between; align-items: center;
+      cursor: pointer; gap: 1rem;
+    }
+
+    .faq-question h4 {
+      font-family: 'Jost', sans-serif; font-weight: 400;
+      font-size: 0.95rem; color: var(--cream);
+    }
+
+    .faq-icon {
+      width: 28px; height: 28px; flex-shrink: 0;
+      border: 1px solid rgba(201,169,110,0.3);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold); font-size: 1.1rem;
+      transition: transform 0.3s, background 0.3s;
+    }
+
+    .faq-item.open .faq-icon { transform: rotate(45deg); background: var(--gold); color: var(--stone); }
+
+    .faq-answer {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+    }
+
+    .faq-item.open .faq-answer { max-height: 200px; }
+
+    .faq-answer p {
+      font-size: 0.88rem; color: var(--text-muted);
+      line-height: 1.85; padding-bottom: 1.5rem;
+    }
+
+    /* ── Contact / CTA ── */
+    #contact {
+      background: linear-gradient(135deg, #1f1c18 0%, var(--stone) 100%);
+      text-align: center;
+    }
+
+    .contact-card {
+      background: var(--stone-mid);
+      border: 1px solid rgba(201,169,110,0.2);
+      max-width: 640px; margin: 3rem auto 0;
+      padding: 3rem 2.5rem;
+      position: relative;
+    }
+
+    .contact-card::before {
+      content: '';
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 80px; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .contact-phone {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem; color: var(--cream); margin: 1rem 0;
+      letter-spacing: 0.05em;
+    }
+
+    .contact-note { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 2rem; line-height: 1.7; }
+
+    .wa-btn {
+      display: inline-flex; align-items: center; gap: 0.7rem;
+      background: #25D366; color: #fff;
+      padding: 1rem 2.4rem;
+      font-family: 'Jost', sans-serif; font-size: 0.85rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: background 0.25s, transform 0.2s;
+      font-weight: 500;
+    }
+
+    .wa-btn:hover { background: #1ebe5d; transform: translateY(-2px); }
+
+    .wa-btn svg { width: 22px; height: 22px; }
+
+    .contact-options { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.2rem; }
+
+    .contact-opt {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: transparent; color: var(--text-muted);
+      border: 1px solid rgba(201,169,110,0.2);
+      padding: 0.7rem 1.6rem;
+      font-family: 'Jost', sans-serif; font-size: 0.78rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none; cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .contact-opt:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── Footer ── */
+    footer {
+      background: #0f0e0c;
+      border-top: 1px solid rgba(201,169,110,0.1);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; color: var(--cream); margin-bottom: 0.5rem;
+    }
+
+    .footer-logo span { color: var(--gold); }
+
+    footer p { font-size: 0.78rem; color: var(--text-muted); letter-spacing: 0.05em; }
+    footer a { color: var(--gold); text-decoration: none; }
+
+    /* ── Floating WhatsApp button ── */
+    .wa-float {
+      position: fixed; bottom: 2rem; right: 2rem;
+      width: 58px; height: 58px; border-radius: 50%;
+      background: #25D366;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 200; box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+      text-decoration: none; transition: transform 0.2s, box-shadow 0.2s;
+      animation: pulse 2.5s infinite;
+    }
+
+    .wa-float:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,0.55); }
+
+    .wa-float svg { width: 28px; height: 28px; color: #fff; }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; }
+      50%       { opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+      50%       { box-shadow: 0 4px 32px rgba(37,211,102,0.7); }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; gap: 1.2rem; }
+      .nav-links.open { display: flex; position: absolute; top: 100%; left: 0; right: 0; background: var(--stone); padding: 1.5rem 2rem; border-bottom: 1px solid rgba(201,169,110,0.15); }
+      .hamburger { display: flex; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-visual { display: none; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item.tall { grid-row: span 1; }
+      .gallery-item.wide { grid-column: span 2; }
+      .section-inner { padding: 4rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════ NAV ═══════════════════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">Pullens <span>Tombstone</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<section id="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Crafted with care &nbsp;·&nbsp; Honouring every life</p>
+    <h1 class="hero-title">
+      Pullens<br><em>Tombstone</em>
+    </h1>
+    <p class="hero-subtitle">
+      Bespoke granite &amp; marble memorials — designed and installed<br>
+      with the dignity and permanence your loved one deserves.
+    </p>
+    <div class="hero-actions">
+      <a href="https://wa.me/27833900195?text=Hello%2C%20I%20would%20like%20a%20quote%20for%20a%20tombstone." class="btn-gold" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+        Get a Free Quote
+      </a>
+      <a href="#services" class="btn-outline">View Our Work</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ SERVICES ═══════════════════════ -->
+<section id="services">
+  <div class="section-inner">
+    <p class="section-label reveal">What We Offer</p>
+    <h2 class="section-title reveal">Our Services</h2>
+    <div class="gold-rule reveal"></div>
+    <p class="section-subtitle reveal">Every memorial we create is a testament to a life fully lived — crafted with precision, respect, and enduring quality.</p>
+
+    <div class="services-grid">
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18M8 7h8M9 12h6"/></svg>
+        </div>
+        <h3>Granite Tombstones</h3>
+        <p>Premium granite sourced for its lasting durability and natural beauty. Available in a range of colours and finishes to suit your preference.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path stroke-linecap="round" d="M9 9h6M9 12h6M9 15h4"/></svg>
+        </div>
+        <h3>Marble Tombstones</h3>
+        <p>Classic marble memorials that radiate timeless elegance. Each piece is carefully selected and shaped to honour your loved one.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487z"/></svg>
+        </div>
+        <h3>Engraving &amp; Inscriptions</h3>
+        <p>Precision engraving of names, dates, epitaphs, photographs, and meaningful symbols — each letter cut with care and clarity.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0z"/></svg>
+        </div>
+        <h3>Cemetery Installation</h3>
+        <p>Professional, respectful on-site installation at cemeteries across the region. We handle all logistics with dignity and care.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 1-2.4 2.245 4.5 4.5 0 0 0 8.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 0 0 3.388-1.62m-5.043-.025a15.994 15.994 0 0 1 1.622-3.395m3.42 3.42a15.995 15.995 0 0 0 4.764-4.648l3.876-5.814a1.151 1.151 0 0 0-1.597-1.597L14.146 6.32a15.996 15.996 0 0 0-4.649 4.763m3.42 3.42a6.776 6.776 0 0 0-3.42-3.42"/></svg>
+        </div>
+        <h3>Renovations &amp; Cleaning</h3>
+        <p>Restoration of existing memorials including cleaning, re-engraving, crack repair, and base renovation to restore their original grandeur.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09z"/></svg>
+        </div>
+        <h3>Custom Designs</h3>
+        <p>Unique, personalised memorial designs created from scratch — shapes, motifs, portrait engravings, and special requests welcome.</p>
+      </div>
+
+    </div>
+
+    <div style="text-align:center; margin-top: 3rem;">
+      <a href="https://wa.me/27833900195?text=Hello%2C%20I%20would%20like%20to%20enquire%20about%20your%20services." class="btn-gold reveal" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+        Enquire on WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ ABOUT ═══════════════════════ -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+
+      <div class="about-visual reveal" style="position:relative;">
+        <div class="about-corner tl"></div>
+        <div class="about-corner br"></div>
+        <div class="about-visual-inner">
+          <svg class="stone-svg" viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 140 L10 155 H110 L100 140 V50 Q60 20 20 50 Z" stroke="#c9a96e" stroke-width="2" fill="none"/>
+            <path d="M40 80 H80 M40 95 H80 M50 110 H70" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="60" cy="60" r="12" stroke="#c9a96e" stroke-width="1.5" fill="none"/>
+          </svg>
+          <span>Your photo here</span>
+        </div>
+        <div class="about-stat-badge">
+          <div class="num">20+</div>
+          <div class="label">Years of<br>Experience</div>
+        </div>
+      </div>
+
+      <div class="about-text reveal">
+        <p class="section-label" style="text-align:left; margin-bottom:0.4rem;">Who We Are</p>
+        <h2>Pullens Tombstone</h2>
+        <p class="tagline">Dignity carved in stone.</p>
+        <p>We are a family-run memorial studio dedicated to helping families honour the lives of those they love. With over two decades of experience, every piece we create carries the weight of our commitment to quality and compassion.</p>
+        <p>From the initial consultation to the final installation, we guide families through the process with sensitivity and expertise — ensuring the memorial you choose is a true reflection of the person it represents.</p>
+        <div class="about-pillars">
+          <div class="pillar">
+            <div class="pillar-dot"></div>
+            <div class="pillar-text">
+              <strong>Quality Materials</strong>
+              <span>Only the finest granite &amp; marble</span>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-dot"></div>
+            <div class="pillar-text">
+              <strong>Compassionate Service</strong>
+              <span>Guiding you every step</span>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-dot"></div>
+            <div class="pillar-text">
+              <strong>Lasting Legacy</strong>
+              <span>Memorials that endure</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ GALLERY ═══════════════════════ -->
+<section id="gallery">
+  <div class="section-inner">
+    <p class="section-label reveal">Our Work</p>
+    <h2 class="section-title reveal">Gallery</h2>
+    <div class="gold-rule reveal"></div>
+    <p class="section-subtitle reveal">A selection of memorials we have crafted and installed. Every piece is unique — yours will be too.</p>
+
+    <div class="gallery-grid reveal">
+      <div class="gallery-item tall">
+        <div class="gallery-placeholder">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="32" height="32" rx="2"/><circle cx="14" cy="14" r="4"/><path d="M4 28l9-9 7 7 5-5 11 11"/></svg>
+          <span>Photo</span>
+        </div>
+        <div class="gallery-overlay">View</div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="32" height="32" rx="2"/><circle cx="14" cy="14" r="4"/><path d="M4 28l9-9 7 7 5-5 11 11"/></svg>
+          <span>Photo</span>
+        </div>
+        <div class="gallery-overlay">View</div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="32" height="32" rx="2"/><circle cx="14" cy="14" r="4"/><path d="M4 28l9-9 7 7 5-5 11 11"/></svg>
+          <span>Photo</span>
+        </div>
+        <div class="gallery-overlay">View</div>
+      </div>
+      <div class="gallery-item wide">
+        <div class="gallery-placeholder">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="32" height="32" rx="2"/><circle cx="14" cy="14" r="4"/><path d="M4 28l9-9 7 7 5-5 11 11"/></svg>
+          <span>Photo</span>
+        </div>
+        <div class="gallery-overlay">View</div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="32" height="32" rx="2"/><circle cx="14" cy="14" r="4"/><path d="M4 28l9-9 7 7 5-5 11 11"/></svg>
+          <span>Photo</span>
+        </div>
+        <div class="gallery-overlay">View</div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="32" height="32" rx="2"/><circle cx="14" cy="14" r="4"/><path d="M4 28l9-9 7 7 5-5 11 11"/></svg>
+          <span>Photo</span>
+        </div>
+        <div class="gallery-overlay">View</div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:2.5rem;">
+      <a href="https://wa.me/27833900195?text=Hello%2C%20I%20would%20like%20to%20see%20more%20of%20your%20work." class="btn-outline reveal" target="_blank" rel="noopener">
+        See More on WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ FAQ ═══════════════════════ -->
+<section id="faq">
+  <div class="section-inner">
+    <p class="section-label reveal">Common Questions</p>
+    <h2 class="section-title reveal">Frequently Asked</h2>
+    <div class="gold-rule reveal"></div>
+
+    <div class="faq-list">
+
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h4>How do I get a quote?</h4>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <p>Simply send us a WhatsApp message on <strong>083 390 0195</strong>. Let us know what you have in mind — stone type, size, and any engravings — and we'll provide a detailed quote promptly.</p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h4>What is the difference between granite and marble?</h4>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <p>Granite is harder and more resistant to weathering, making it ideal for outdoor memorials. Marble has a classic, elegant appearance but may require more maintenance over time. Both are beautiful options — we'll help you choose what's right.</p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h4>How long does it take to complete a tombstone?</h4>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <p>Typically 2–4 weeks from order confirmation, depending on the complexity of the design and engraving. We will give you a clear timeline when you place your order.</p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h4>Do you handle cemetery installation?</h4>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <p>Yes, we manage the full installation process. We liaise with cemetery officials and install the memorial with care, ensuring everything meets the required standards.</p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h4>Can you restore or repair an old tombstone?</h4>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <p>Absolutely. We offer cleaning, polishing, crack repair, and re-engraving services. Send us photos on WhatsApp and we'll assess what's needed and provide a quote.</p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h4>Can I include a photo or custom design?</h4>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <p>Yes — we offer portrait engraving, custom shapes, motifs, and personalised designs. Share your ideas with us on WhatsApp and we will bring your vision to life.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ CONTACT ═══════════════════════ -->
+<section id="contact">
+  <div class="section-inner">
+    <p class="section-label reveal">Reach Us</p>
+    <h2 class="section-title reveal">Get in Touch</h2>
+    <div class="gold-rule reveal"></div>
+    <p class="section-subtitle reveal">We are here to help. Reach out via WhatsApp for the fastest response — for quotes, enquiries, or to discuss your requirements.</p>
+
+    <div class="contact-card reveal">
+      <p style="font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; color: var(--text-muted);">Call or WhatsApp</p>
+      <div class="contact-phone">083 390 0195</div>
+      <p class="contact-note">Available Monday – Saturday. Send us a message any time and we will respond as soon as possible. All quotes and enquiries are handled via WhatsApp Business.</p>
+
+      <a href="https://wa.me/27833900195?text=Hello%2C%20I%20would%20like%20to%20enquire%20about%20a%20tombstone." class="wa-btn" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+        Chat on WhatsApp
+      </a>
+
+      <div class="contact-options" style="margin-top:1.5rem;">
+        <a href="https://wa.me/27833900195?text=Hello%2C%20I%20would%20like%20a%20quote%20please." class="contact-opt" target="_blank" rel="noopener">
+          💬 Request a Quote
+        </a>
+        <a href="https://wa.me/27833900195?text=Hello%2C%20I%20have%20a%20general%20enquiry." class="contact-opt" target="_blank" rel="noopener">
+          ❓ General Enquiry
+        </a>
+        <a href="https://wa.me/27833900195?text=Hello%2C%20I%20need%20a%20tombstone%20renovation." class="contact-opt" target="_blank" rel="noopener">
+          🔧 Renovation Request
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<footer>
+  <div class="footer-logo">Pullens <span>Tombstone</span></div>
+  <div class="gold-rule" style="margin:0.8rem auto;"></div>
+  <p style="margin-bottom:0.4rem;">Crafting memorials with dignity since 2004</p>
+  <p>WhatsApp &amp; Enquiries: <a href="https://wa.me/27833900195">083 390 0195</a></p>
+  <p style="margin-top:1.5rem; font-size:0.7rem; opacity:0.4;">© 2025 Pullens Tombstone. All rights reserved.</p>
+</footer>
+
+<!-- ═══════════════════════ FLOATING WA BUTTON ═══════════════════════ -->
+<a href="https://wa.me/27833900195?text=Hello%2C%20I%20would%20like%20to%20enquire." class="wa-float" target="_blank" rel="noopener" title="Chat on WhatsApp">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+</a>
+
+<script>
+  // ── Nav scroll ──
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ── Mobile menu ──
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+
+  // Close menu on link click
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+  });
+
+  // ── Scroll reveal ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        entry.target.style.transitionDelay = `${(i % 4) * 0.08}s`;
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── FAQ toggle ──
+  function toggleFaq(el) {
+    const item = el.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+</body>
+</html>
