@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NETWATCH · Infrastructure Monitor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050a0f;
+    --bg2: #080e15;
+    --bg3: #0b1520;
+    --panel: #0d1a27;
+    --panel2: #111f30;
+    --border: #1a3048;
+    --border2: #1e3a58;
+    --accent: #00d4ff;
+    --accent2: #0090cc;
+    --green: #00ff88;
+    --green2: #00cc6a;
+    --yellow: #ffc200;
+    --orange: #ff7b00;
+    --red: #ff2d55;
+    --red2: #cc1a3e;
+    --purple: #a855f7;
+    --text: #c8daea;
+    --text2: #7a9bb5;
+    --text3: #4a6a85;
+    --mono: 'Share Tech Mono', monospace;
+    --head: 'Orbitron', sans-serif;
+    --body: 'Rajdhani', sans-serif;
+    --glow-accent: 0 0 12px rgba(0,212,255,0.3);
+    --glow-green: 0 0 12px rgba(0,255,136,0.3);
+    --glow-red: 0 0 12px rgba(255,45,85,0.3);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 14px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(ellipse 80% 40% at 50% -10%, rgba(0,144,204,0.06) 0%, transparent 70%),
+      linear-gradient(180deg, rgba(0,212,255,0.02) 0%, transparent 30%);
+  }
+
+  /* SCAN LINE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  }
+
+  /* TOP BAR */
+  .topbar {
+    display: flex; align-items: center; gap: 16px;
+    padding: 0 20px;
+    height: 52px;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo {
+    font-family: var(--head);
+    font-size: 14px; font-weight: 900;
+    letter-spacing: 3px; color: var(--accent);
+    text-shadow: var(--glow-accent);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .logo-icon {
+    width: 24px; height: 24px;
+    border: 2px solid var(--accent);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; box-shadow: var(--glow-accent);
+  }
+  .logo-icon::after {
+    content: '';
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse-dot 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+
+  .topbar-status {
+    display: flex; align-items: center; gap: 6px;
+    font-family: var(--mono); font-size: 11px; color: var(--green);
+    text-shadow: var(--glow-green);
+  }
+  .status-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green); box-shadow: var(--glow-green);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  .topbar-divider { width: 1px; height: 24px; background: var(--border); margin: 0 4px; }
+  .topbar-meta { font-family: var(--mono); font-size: 11px; color: var(--text3); }
+  .topbar-meta span { color: var(--text2); }
+  .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+  .alert-badge {
+    background: var(--red); color: #fff;
+    font-family: var(--mono); font-size: 10px; font-weight: 700;
+    padding: 2px 7px; border-radius: 3px;
+    box-shadow: var(--glow-red);
+    animation: badge-pulse 3s ease-in-out infinite;
+  }
+  @keyframes badge-pulse { 0%,100%{opacity:1} 50%{opacity:0.65} }
+  .topbar-time { font-family: var(--mono); font-size: 13px; color: var(--accent); text-shadow: var(--glow-accent); }
+  .topbar-btn {
+    background: none; border: 1px solid var(--border2); color: var(--text2);
+    font-family: var(--body); font-size: 12px; font-weight: 600;
+    padding: 4px 12px; border-radius: 3px; cursor: pointer;
+    letter-spacing: 1px; transition: all 0.2s;
+  }
+  .topbar-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* SECONDARY NAV */
+  .subnav {
+    display: flex; align-items: center; gap: 0;
+    padding: 0 20px;
+    height: 36px;
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+  }
+  .subnav-tab {
+    font-family: var(--body); font-size: 12px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--text3); padding: 0 14px; height: 36px;
+    display: flex; align-items: center; cursor: pointer;
+    border-bottom: 2px solid transparent; transition: all 0.2s;
+    position: relative;
+  }
+  .subnav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .subnav-tab:hover { color: var(--text); }
+  .subnav-count {
+    margin-left: 6px; background: rgba(0,212,255,0.15);
+    color: var(--accent); font-size: 10px;
+    padding: 1px 5px; border-radius: 2px;
+    font-family: var(--mono);
+  }
+  .subnav-count.red { background: rgba(255,45,85,0.2); color: var(--red); }
+  .subnav-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+  .search-box {
+    background: var(--panel); border: 1px solid var(--border);
+    color: var(--text); font-family: var(--mono); font-size: 11px;
+    padding: 4px 10px; border-radius: 3px; width: 180px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-box::placeholder { color: var(--text3); }
+  .search-box:focus { border-color: var(--accent); }
+
+  /* LAYOUT */
+  .main { padding: 16px 20px; display: grid; gap: 14px; }
+
+  /* METRIC ROW */
+  .metric-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+  .metric-card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 4px; padding: 12px 14px;
+    position: relative; overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .metric-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--accent);
+  }
+  .metric-card.green::before { background: var(--green); }
+  .metric-card.yellow::before { background: var(--yellow); }
+  .metric-card.red::before { background: var(--red); }
+  .metric-card.purple::before { background: var(--purple); }
+  .metric-card:hover { border-color: var(--border2); }
+  .metric-label { font-family: var(--body); font-size: 11px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
+  .metric-value { font-family: var(--head); font-size: 22px; font-weight: 700; line-height: 1; }
+  .metric-value.accent { color: var(--accent); }
+  .metric-value.green { color: var(--green); }
+  .metric-value.yellow { color: var(--yellow); }
+  .metric-value.red { color: var(--red); }
+  .metric-value.purple { color: var(--purple); }
+  .metric-sub { font-family: var(--mono); font-size: 11px; color: var(--text3); margin-top: 4px; }
+  .metric-trend { font-size: 11px; margin-top: 4px; }
+  .metric-trend.up { color: var(--green); }
+  .metric-trend.down { color: var(--red); }
+
+  /* SPARKLINE */
+  .sparkline { width: 100%; height: 28px; margin-top: 6px; }
+
+  /* CONTENT GRID */
+  .content-grid { display: grid; grid-template-columns: 1fr 1fr 340px; gap: 14px; }
+  .content-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .content-grid-3 { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 14px; }
+
+  /* PANEL */
+  .panel {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 4px; overflow: hidden;
+  }
+  .panel-head {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 14px; border-bottom: 1px solid var(--border);
+    background: var(--panel2);
+  }
+  .panel-title {
+    font-family: var(--body); font-size: 12px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--text2);
+  }
+  .panel-accent { width: 3px; height: 14px; background: var(--accent); border-radius: 1px; }
+  .panel-accent.green { background: var(--green); }
+  .panel-accent.red { background: var(--red); }
+  .panel-accent.yellow { background: var(--yellow); }
+  .panel-accent.purple { background: var(--purple); }
+  .panel-badge {
+    margin-left: auto; font-family: var(--mono); font-size: 10px;
+    color: var(--text3); background: rgba(0,0,0,0.3); padding: 2px 8px; border-radius: 2px;
+  }
+  .panel-body { padding: 12px 14px; }
+
+  /* SERVER TABLE */
+  .server-table { width: 100%; border-collapse: collapse; }
+  .server-table th {
+    font-family: var(--body); font-size: 10px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3);
+    text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border);
+  }
+  .server-table td { padding: 7px 8px; border-bottom: 1px solid rgba(26,48,72,0.5); vertical-align: middle; }
+  .server-table tr:last-child td { border-bottom: none; }
+  .server-table tr:hover td { background: rgba(0,212,255,0.03); }
+  .server-name { font-family: var(--mono); font-size: 12px; color: var(--text); }
+  .server-ip { font-family: var(--mono); font-size: 10px; color: var(--text3); }
+  .status-badge {
+    font-family: var(--mono); font-size: 10px; font-weight: 700;
+    padding: 2px 7px; border-radius: 2px; letter-spacing: 0.5px;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .status-badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; }
+  .status-badge.ok { background: rgba(0,255,136,0.12); color: var(--green); }
+  .status-badge.ok::before { background: var(--green); box-shadow: var(--glow-green); animation: pulse-dot 2s infinite; }
+  .status-badge.warn { background: rgba(255,194,0,0.12); color: var(--yellow); }
+  .status-badge.warn::before { background: var(--yellow); animation: pulse-dot 1.5s infinite; }
+  .status-badge.crit { background: rgba(255,45,85,0.12); color: var(--red); }
+  .status-badge.crit::before { background: var(--red); box-shadow: var(--glow-red); animation: pulse-dot 0.8s infinite; }
+  .status-badge.off { background: rgba(74,106,133,0.2); color: var(--text3); }
+  .status-badge.off::before { background: var(--text3); }
+
+  .bar-wrap { width: 70px; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 2px; transition: width 1s ease; }
+  .bar-fill.low { background: var(--green); }
+  .bar-fill.mid { background: var(--yellow); }
+  .bar-fill.high { background: var(--orange); }
+  .bar-fill.crit { background: var(--red); }
+
+  .td-num { font-family: var(--mono); font-size: 11px; color: var(--text2); text-align: right; }
+  .td-small { font-family: var(--mono); font-size: 10px; color: var(--text3); }
+
+  /* GAUGE MINI */
+  .gauge-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; padding: 10px 14px; }
+  .gauge-mini { text-align: center; }
+  .gauge-mini canvas { display: block; margin: 0 auto; }
+  .gauge-label { font-family: var(--body); font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); margin-top: 4px; }
+  .gauge-val { font-family: var(--head); font-size: 16px; font-weight: 700; color: var(--text); }
+
+  /* TRAFFIC CHART */
+  .chart-wrap { position: relative; padding: 10px 14px; }
+  .chart-legend {
+    display: flex; gap: 16px; margin-bottom: 10px;
+    font-family: var(--mono); font-size: 10px; color: var(--text3);
+  }
+  .legend-dot { width: 8px; height: 8px; border-radius: 2px; display: inline-block; margin-right: 4px; }
+
+  /* THREAT FEED */
+  .threat-list { list-style: none; }
+  .threat-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 9px 14px; border-bottom: 1px solid rgba(26,48,72,0.5);
+    transition: background 0.15s;
+  }
+  .threat-item:last-child { border-bottom: none; }
+  .threat-item:hover { background: rgba(255,45,85,0.04); }
+  .threat-icon {
+    width: 28px; height: 28px; border-radius: 3px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
+    margin-top: 1px;
+  }
+  .threat-icon.crit { background: rgba(255,45,85,0.15); color: var(--red); border: 1px solid rgba(255,45,85,0.3); }
+  .threat-icon.warn { background: rgba(255,194,0,0.12); color: var(--yellow); border: 1px solid rgba(255,194,0,0.3); }
+  .threat-icon.info { background: rgba(0,212,255,0.1); color: var(--accent); border: 1px solid rgba(0,212,255,0.25); }
+  .threat-icon.block { background: rgba(168,85,247,0.12); color: var(--purple); border: 1px solid rgba(168,85,247,0.3); }
+  .threat-body { flex: 1; min-width: 0; }
+  .threat-title { font-family: var(--body); font-size: 12px; font-weight: 600; color: var(--text); line-height: 1.3; }
+  .threat-meta { font-family: var(--mono); font-size: 10px; color: var(--text3); margin-top: 3px; }
+  .threat-meta span { color: var(--text2); }
+  .threat-time { font-family: var(--mono); font-size: 10px; color: var(--text3); flex-shrink: 0; }
+
+  /* MAP PANEL */
+  .map-area { position: relative; height: 200px; background: var(--bg3); overflow: hidden; }
+  .map-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(0,212,255,0.06) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(0,212,255,0.06) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+  .map-node {
+    position: absolute; transform: translate(-50%,-50%);
+    cursor: pointer;
+  }
+  .map-node-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--accent); box-shadow: var(--glow-accent);
+    position: relative;
+  }
+  .map-node-dot.green { background: var(--green); box-shadow: var(--glow-green); }
+  .map-node-dot.red { background: var(--red); box-shadow: var(--glow-red); animation: pulse-dot 0.8s infinite; }
+  .map-node-dot.yellow { background: var(--yellow); }
+  .map-node-ring {
+    position: absolute; inset: -6px; border-radius: 50%;
+    border: 1px solid var(--accent); opacity: 0.4;
+    animation: ring-expand 2s ease-out infinite;
+  }
+  .map-node-dot.green + .map-node-ring { border-color: var(--green); }
+  .map-node-dot.red + .map-node-ring { border-color: var(--red); }
+  @keyframes ring-expand {
+    0% { transform: scale(0.8); opacity: 0.6; }
+    100% { transform: scale(2.5); opacity: 0; }
+  }
+  .map-label {
+    position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+    font-family: var(--mono); font-size: 9px; color: var(--text3);
+    white-space: nowrap; pointer-events: none;
+  }
+  .map-line { position: absolute; pointer-events: none; }
+  .map-footer { padding: 8px 14px; display: flex; gap: 16px; border-top: 1px solid var(--border); }
+  .map-stat { font-family: var(--mono); font-size: 10px; }
+  .map-stat-label { color: var(--text3); }
+  .map-stat-val { color: var(--accent); }
+
+  /* LOG TERMINAL */
+  .log-terminal {
+    background: #030810; font-family: var(--mono); font-size: 11px;
+    padding: 12px 14px; height: 220px; overflow-y: auto;
+    border-top: 1px solid var(--border);
+  }
+  .log-terminal::-webkit-scrollbar { width: 4px; }
+  .log-terminal::-webkit-scrollbar-track { background: transparent; }
+  .log-terminal::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+  .log-line { line-height: 1.7; display: flex; gap: 8px; }
+  .log-time { color: var(--text3); flex-shrink: 0; }
+  .log-level { flex-shrink: 0; padding: 0 4px; border-radius: 2px; font-size: 10px; font-weight: 700; }
+  .log-level.INFO { color: var(--accent); }
+  .log-level.WARN { color: var(--yellow); }
+  .log-level.CRIT { color: var(--red); }
+  .log-level.OK { color: var(--green); }
+  .log-level.BLOCK { color: var(--purple); }
+  .log-msg { color: var(--text2); flex: 1; }
+  .log-msg em { color: var(--accent); font-style: normal; }
+
+  /* PROCESS TABLE */
+  .proc-list { font-family: var(--mono); font-size: 11px; }
+  .proc-row { display: grid; grid-template-columns: 1fr 60px 60px 60px 50px; gap: 4px;
+    padding: 5px 14px; border-bottom: 1px solid rgba(26,48,72,0.4); align-items: center; }
+  .proc-row:last-child { border-bottom: none; }
+  .proc-row.header { color: var(--text3); font-size: 10px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; background: var(--panel2); padding: 6px 14px; }
+  .proc-row:not(.header):hover { background: rgba(0,212,255,0.03); cursor: default; }
+  .proc-name { color: var(--text); }
+  .proc-name .pid { color: var(--text3); font-size: 10px; margin-left: 4px; }
+  .proc-val { text-align: right; color: var(--text2); }
+  .proc-val.high { color: var(--orange); }
+  .proc-val.crit { color: var(--red); }
+  .proc-status { text-align: right; }
+
+  /* BANDWIDTH */
+  .bw-row { display: flex; align-items: center; gap: 10px; padding: 7px 14px;
+    border-bottom: 1px solid rgba(26,48,72,0.4); }
+  .bw-row:last-child { border-bottom: none; }
+  .bw-name { font-family: var(--mono); font-size: 11px; color: var(--text); width: 90px; flex-shrink: 0; }
+  .bw-bar-wrap { flex: 1; height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; }
+  .bw-bar { height: 100%; border-radius: 3px; }
+  .bw-val { font-family: var(--mono); font-size: 11px; color: var(--text2); width: 65px; text-align: right; flex-shrink: 0; }
+
+  /* UPTIME HEATMAP */
+  .heatmap-grid { display: grid; grid-template-columns: repeat(30, 1fr); gap: 2px; padding: 10px 14px; }
+  .hm-cell { height: 18px; border-radius: 2px; cursor: pointer; transition: opacity 0.15s; position: relative; }
+  .hm-cell:hover { opacity: 0.75; }
+  .hm-cell.ok { background: var(--green2); }
+  .hm-cell.warn { background: var(--yellow); }
+  .hm-cell.crit { background: var(--red2); }
+  .hm-cell.off { background: rgba(255,255,255,0.06); }
+  .heatmap-labels { display: flex; justify-content: space-between; padding: 0 14px 8px;
+    font-family: var(--mono); font-size: 10px; color: var(--text3); }
+
+  /* DONUT CHARTS */
+  .donut-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 0; }
+  .donut-item { padding: 14px; text-align: center; border-right: 1px solid var(--border); }
+  .donut-item:last-child { border-right: none; }
+  .donut-title { font-family: var(--body); font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--text3); margin-bottom: 8px; }
+
+  /* ALERTS PANEL */
+  .alert-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 14px; border-bottom: 1px solid rgba(26,48,72,0.4); cursor: pointer;
+    transition: background 0.15s;
+  }
+  .alert-item:last-child { border-bottom: none; }
+  .alert-item:hover { background: rgba(255,255,255,0.02); }
+  .alert-sev { width: 3px; height: 36px; border-radius: 1px; flex-shrink: 0; }
+  .alert-sev.p1 { background: var(--red); box-shadow: var(--glow-red); }
+  .alert-sev.p2 { background: var(--orange); }
+  .alert-sev.p3 { background: var(--yellow); }
+  .alert-sev.p4 { background: var(--accent); }
+  .alert-body { flex: 1; }
+  .alert-title { font-family: var(--body); font-size: 12px; font-weight: 600; color: var(--text); }
+  .alert-detail { font-family: var(--mono); font-size: 10px; color: var(--text3); margin-top: 2px; }
+  .alert-age { font-family: var(--mono); font-size: 10px; color: var(--text3); }
+  .alert-p { font-family: var(--mono); font-size: 9px; font-weight: 700; padding: 2px 5px; border-radius: 2px; margin-right: 6px; }
+  .alert-p.p1 { background: rgba(255,45,85,0.2); color: var(--red); }
+  .alert-p.p2 { background: rgba(255,123,0,0.2); color: var(--orange); }
+  .alert-p.p3 { background: rgba(255,194,0,0.15); color: var(--yellow); }
+  .alert-p.p4 { background: rgba(0,212,255,0.12); color: var(--accent); }
+
+  /* FOOTER */
+  .footer {
+    padding: 10px 20px; border-top: 1px solid var(--border);
+    display: flex; align-items: center; gap: 16px;
+    font-family: var(--mono); font-size: 10px; color: var(--text3);
+    background: var(--bg2);
+  }
+  .footer-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); box-shadow: var(--glow-green); }
+  .footer-right { margin-left: auto; display: flex; gap: 16px; }
+
+  /* ANIMATIONS */
+  @keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+  .metric-row, .content-grid, .content-grid-2, .content-grid-3 { animation: fadeIn 0.4s ease both; }
+  .content-grid { animation-delay: 0.05s; }
+  .content-grid-2 { animation-delay: 0.1s; }
+  .content-grid-3 { animation-delay: 0.15s; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* TOOLTIP */
+  .tooltip { position: fixed; background: var(--panel2); border: 1px solid var(--border2);
+    border-radius: 4px; padding: 6px 10px; font-family: var(--mono); font-size: 11px;
+    color: var(--text); pointer-events: none; z-index: 9998; display: none; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-icon"></div>
+    NETWATCH
+  </div>
+  <div class="topbar-divider"></div>
+  <div class="topbar-status"><div class="status-dot"></div> ALL SYSTEMS NOMINAL</div>
+  <div class="topbar-divider"></div>
+  <div class="topbar-meta">CLUSTER: <span>PROD-GLOBAL-01</span></div>
+  <div class="topbar-meta">REGION: <span>MULTI-AZ</span></div>
+  <div class="topbar-meta">NODES: <span id="node-count">48</span></div>
+  <div class="topbar-right">
+    <span class="alert-badge" id="alert-count-badge">3 ACTIVE</span>
+    <div class="topbar-time" id="clock">--:--:--</div>
+    <button class="topbar-btn">EXPORT</button>
+    <button class="topbar-btn" style="border-color:rgba(0,212,255,0.4);color:var(--accent);">▶ LIVE</button>
+  </div>
+</div>
+
+<!-- SUBNAV -->
+<div class="subnav">
+  <div class="subnav-tab active">Overview <span class="subnav-count">48</span></div>
+  <div class="subnav-tab">Servers <span class="subnav-count">32</span></div>
+  <div class="subnav-tab">Network <span class="subnav-count">8</span></div>
+  <div class="subnav-tab">Threats <span class="subnav-count red">12</span></div>
+  <div class="subnav-tab">Logs</div>
+  <div class="subnav-tab">Alerts <span class="subnav-count red">3</span></div>
+  <div class="subnav-right">
+    <input class="search-box" type="text" placeholder="/ search hosts, IPs, events...">
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- METRIC ROW -->
+  <div class="metric-row">
+    <div class="metric-card green">
+      <div class="metric-label">Servers Online</div>
+      <div class="metric-value green" id="m-online">44</div>
+      <div class="metric-sub">of 48 total</div>
+      <svg class="sparkline" id="spark-servers"></svg>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Avg CPU</div>
+      <div class="metric-value accent" id="m-cpu">62<span style="font-size:14px">%</span></div>
+      <div class="metric-trend up" id="m-cpu-trend">↑ +3.2% from avg</div>
+      <svg class="sparkline" id="spark-cpu"></svg>
+    </div>
+    <div class="metric-card yellow">
+      <div class="metric-label">Memory Used</div>
+      <div class="metric-value yellow" id="m-mem">71<span style="font-size:14px">%</span></div>
+      <div class="metric-sub" id="m-mem-sub">284 GB / 400 GB</div>
+      <svg class="sparkline" id="spark-mem"></svg>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Network In</div>
+      <div class="metric-value accent" id="m-netin">3.8<span style="font-size:14px">Gbps</span></div>
+      <div class="metric-trend up" id="m-netin-t">↑ peak 6.2 Gbps</div>
+      <svg class="sparkline" id="spark-netin"></svg>
+    </div>
+    <div class="metric-card red">
+      <div class="metric-label">Active Threats</div>
+      <div class="metric-value red" id="m-threats">12</div>
+      <div class="metric-trend down">↑ +4 in last hour</div>
+      <svg class="sparkline" id="spark-threats"></svg>
+    </div>
+    <div class="metric-card purple">
+      <div class="metric-label">Req/sec</div>
+      <div class="metric-value purple" id="m-rps">24.7K</div>
+      <div class="metric-sub">p99 lat: 42ms</div>
+      <svg class="sparkline" id="spark-rps"></svg>
+    </div>
+  </div>
+
+  <!-- ROW 2: servers + traffic + threats -->
+  <div class="content-grid">
+
+    <!-- SERVER TABLE -->
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-accent green"></div>
+        <div class="panel-title">Server Health</div>
+        <div class="panel-badge" id="server-badge">LIVE · 5s</div>
+      </div>
+      <table class="server-table" style="width:100%">
+        <thead>
+          <tr>
+            <th>Host</th>
+            <th>Status</th>
+            <th>CPU</th>
+            <th>MEM</th>
+            <th>DISK</th>
+            <th>Uptime</th>
+            <th>Load</th>
+          </tr>
+        </thead>
+        <tbody id="server-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- TRAFFIC CHART -->
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-accent"></div>
+        <div class="panel-title">Network Traffic</div>
+        <div class="panel-badge">LAST 60s</div>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-legend">
+          <span><span class="legend-dot" style="background:#00d4ff"></span>Inbound</span>
+          <span><span class="legend-dot" style="background:#00ff88"></span>Outbound</span>
+          <span><span class="legend-dot" style="background:#ff2d55"></span>Blocked</span>
+          <span id="traffic-total" style="margin-left:auto;color:var(--accent)">Total: 3.8 Gbps</span>
+        </div>
+        <div style="position:relative;height:200px">
+          <canvas id="trafficChart" role="img" aria-label="Real-time network traffic chart"></canvas>
+        </div>
+      </div>
+      <div class="gauge-row" id="gauge-row">
+        <div class="gauge-mini">
+          <canvas id="g1" width="80" height="50"></canvas>
+          <div class="gauge-val" id="gv1">62%</div>
+          <div class="gauge-label">CPU</div>
+        </div>
+        <div class="gauge-mini">
+          <canvas id="g2" width="80" height="50"></canvas>
+          <div class="gauge-val" id="gv2">71%</div>
+          <div class="gauge-label">Memory</div>
+        </div>
+        <div class="gauge-mini">
+          <canvas id="g3" width="80" height="50"></canvas>
+          <div class="gauge-val" id="gv3">48%</div>
+          <div class="gauge-label">Disk I/O</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THREAT FEED -->
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-accent red"></div>
+        <div class="panel-title">Threat Intelligence</div>
+        <div class="panel-badge" style="color:var(--red)">● LIVE</div>
+      </div>
+      <ul class="threat-list" id="threat-list"></ul>
+    </div>
+
+  </div>
+
+  <!-- ROW 3 -->
+  <div class="content-grid-3">
+
+    <!-- WORLD MAP -->
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-accent"></div>
+        <div class="panel-title">Global Node Map</div>
+        <div class="panel-badge" id="map-connections">CONNECTIONS: <span id="conn-count">1,247</span></div>
+      </div>
+      <div class="map-area" id="map-area">
+        <div class="map-grid"></div>
+        <svg id="map-svg" style="position:absolute;inset:0;width:100%;height:100%;"></svg>
+      </div>
+      <div class="map-footer">
+        <div class="map-stat"><span class="map-stat-label">LATENCY AVG </span><span class="map-stat-val" id="lat-avg">18ms</span></div>
+        <div class="map-stat"><span class="map-stat-label">PACKETS/s </span><span class="map-stat-val" id="pps">482K</span></div>
+        <div class="map-stat"><span class="map-stat-label">BGP ROUTES </span><span class="map-stat-val">2,048</span></div>
+        <div class="map-stat"><span class="map-stat-label">CDN NODES </span><span class="map-stat-val">24</span></div>
+      </div>
+    </div>
+
+    <!-- PROCESS LIST -->
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-accent yellow"></div>
+        <div class="panel-title">Top Processes</div>
+        <div class="panel-badge">PROD-WEB-01</div>
+      </div>
+      <div class="proc-list">
+        <div class="proc-row header">
+          <span>Process</span><span style="text-align:right">CPU%</span>
+          <span style="text-align:right">MEM%</span>
+          <span style="text-align:right">Threads</span>
+          <span style="text-align:right">State</span>
+        </div>
+        <div id="proc-list-body"></div>
+      </div>
+    </div>
+
+    <!-- ALERTS -->
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-accent red"></div>
+        <div class="panel-title">Active Alerts</div>
+        <div class="panel-badge" style="color:var(--red)">3 OPEN</div>
+      </div>
+      <div id="alerts-list"></div>
+    </div>
+
+  </div>
+
+  <!-- ROW 4 -->
+  <div class="content-grid-2">
+
+    <!-- UPTIME HEATMAP -->
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-accent green"></div>
+        <div class="panel-title">30-Day Uptime Heatmap</div>
+        <div class="panel-badge">99.97% SLA</div>
+      </div>
+      <div class="heatmap-grid" id="heatmap"></div>
+      <div class="heatmap-labels">
+        <span>30 days ago</span>
+        <span style="display:flex;gap:12px">
+          <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--green2);vertical-align:middle;margin-right:4px"></span>Healthy</span>
+          <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--yellow);vertical-align:middle;margin-right:4px"></span>Degraded</span>
+          <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--red2);vertical-align:middle;margin-right:4px"></span>Outage</span>
+        </span>
+        <span>Today</span>
+      </div>
+    </div>
+
+    <!-- BANDWIDTH BY SERVICE -->
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-accent"></div>
+        <div class="panel-title">Bandwidth by Service</div>
+        <div class="panel-badge">TOTAL: 3.8 Gbps</div>
+      </div>
+      <div id="bw-list" style="padding-top:6px"></div>
+    </div>
+
+  </div>
+
+  <!-- LOG TERMINAL -->
+  <div class="panel">
+    <div class="panel-head">
+      <div class="panel-accent" style="background:var(--green)"></div>
+      <div class="panel-title">System Event Log</div>
+      <div class="panel-badge" id="log-count">● STREAMING</div>
+    </div>
+    <div class="log-terminal" id="log-terminal"></div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-dot"></div>
+  <span>NETWATCH v4.2.1</span>
+  <span style="color:var(--border2)">·</span>
+  <span>CLUSTER: PROD-GLOBAL-01</span>
+  <span style="color:var(--border2)">·</span>
+  <span>REFRESH: <span style="color:var(--accent)">5s</span></span>
+  <span style="color:var(--border2)">·</span>
+  <span>DB: <span style="color:var(--green)">CONNECTED</span></span>
+  <div class="footer-right">
+    <span>MONITORING ENGINE: <span style="color:var(--accent)">PROMETHEUS 2.47</span></span>
+    <span>ALERTS: <span style="color:var(--accent)">PAGERDUTY</span></span>
+    <span>© NETWATCH OPS · ALL RIGHTS RESERVED</span>
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+// === DATA CONFIG ===
+const servers = [
+  { name:'prod-web-01', ip:'10.0.1.10', region:'US-EAST', status:'ok',  cpu:78, mem:64, disk:42, uptime:'42d 7h', load:'2.14' },
+  { name:'prod-web-02', ip:'10.0.1.11', region:'US-EAST', status:'ok',  cpu:65, mem:58, disk:39, uptime:'42d 7h', load:'1.87' },
+  { name:'prod-web-03', ip:'10.0.1.12', region:'US-EAST', status:'warn',cpu:91, mem:82, disk:71, uptime:'12d 3h', load:'4.21' },
+  { name:'prod-db-01',  ip:'10.0.2.10', region:'US-EAST', status:'ok',  cpu:45, mem:88, disk:76, uptime:'89d 2h', load:'1.23' },
+  { name:'prod-db-02',  ip:'10.0.2.11', region:'US-EAST', status:'ok',  cpu:43, mem:85, disk:74, uptime:'89d 2h', load:'1.19' },
+  { name:'prod-cache-01',ip:'10.0.3.10',region:'US-WEST', status:'ok',  cpu:32, mem:71, disk:28, uptime:'61d 9h', load:'0.94' },
+  { name:'prod-cache-02',ip:'10.0.3.11',region:'US-WEST', status:'ok',  cpu:29, mem:68, disk:27, uptime:'61d 9h', load:'0.88' },
+  { name:'prod-api-01', ip:'10.0.4.10', region:'EU-WEST', status:'ok',  cpu:55, mem:61, disk:44, uptime:'33d 1h', load:'1.62' },
+  { name:'prod-api-02', ip:'10.0.4.11', region:'EU-WEST', status:'crit',cpu:97, mem:94, disk:89, uptime:'0d 4h',  load:'7.88' },
+  { name:'prod-lb-01',  ip:'10.0.5.10', region:'US-EAST', status:'ok',  cpu:18, mem:34, disk:15, uptime:'102d 6h',load:'0.41' },
+  { name:'prod-lb-02',  ip:'10.0.5.11', region:'EU-WEST', status:'ok',  cpu:22, mem:38, disk:17, uptime:'102d 6h',load:'0.52' },
+  { name:'prod-mon-01', ip:'10.0.6.10', region:'US-EAST', status:'ok',  cpu:14, mem:42, disk:55, uptime:'201d 4h',load:'0.31' },
+];
+
+const threats = [
+  { lvl:'crit', icon:'⚠', title:'SQL Injection Attempt', src:'45.32.11.89', dst:'prod-db-01', time:'00:38' },
+  { lvl:'warn', icon:'◈', title:'Brute Force SSH', src:'185.234.77.12', dst:'prod-web-03', time:'01:14' },
+  { lvl:'block', icon:'◉', title:'DDoS Blocked — SYN Flood', src:'Multiple', dst:'prod-lb-01', time:'02:07' },
+  { lvl:'crit', icon:'⚠', title:'Privilege Escalation', src:'10.0.4.11', dst:'Local', time:'04:22' },
+  { lvl:'info', icon:'◇', title:'Port Scan Detected', src:'91.108.4.200', dst:'Perimeter', time:'05:51' },
+  { lvl:'warn', icon:'◈', title:'Anomalous DNS Query', src:'10.0.3.11', dst:'8.8.8.8', time:'07:30' },
+  { lvl:'block', icon:'◉', title:'Geo-Block: TOR Exit Node', src:'176.10.104.240', dst:'Gateway', time:'09:11' },
+  { lvl:'info', icon:'◇', title:'SSL Cert Expiry — 7 days', src:'prod-api-02', dst:'N/A', time:'11:00' },
+];
+
+const alerts = [
+  { p:'p1', title:'CRITICAL: prod-api-02 CPU 97%', detail:'Host: 10.0.4.11 · Threshold: >90% for 5m', age:'4m ago' },
+  { p:'p2', title:'HIGH: prod-web-03 load 4.21', detail:'Host: 10.0.1.12 · Threshold: >3.5 sustained', age:'13m ago' },
+  { p:'p3', title:'WARN: prod-db-01 disk 76%', detail:'Host: 10.0.2.10 · Threshold: >70% capacity', age:'1h ago' },
+];
+
+const processes = [
+  { name:'nginx',      pid:'1028', cpu:12.4, mem:3.1, threads:16, state:'ok' },
+  { name:'node',       pid:'2341', cpu:31.7, mem:18.4, threads:32, state:'ok' },
+  { name:'postgres',   pid:'3012', cpu:8.9,  mem:22.1, threads:8,  state:'ok' },
+  { name:'redis-srv',  pid:'4403', cpu:4.2,  mem:6.8,  threads:4,  state:'ok' },
+  { name:'prometheus', pid:'5671', cpu:6.1,  mem:9.4,  threads:12, state:'ok' },
+  { name:'docker-d',   pid:'6234', cpu:18.3, mem:7.2,  threads:24, state:'warn' },
+  { name:'filebeat',   pid:'7102', cpu:2.8,  mem:4.1,  threads:6,  state:'ok' },
+];
+
+const bwServices = [
+  { name:'HTTP/HTTPS', val: 1480, max: 4000, color: '#00d4ff' },
+  { name:'Database',   val: 840,  max: 4000, color: '#a855f7' },
+  { name:'Internal',   val: 620,  max: 4000, color: '#00ff88' },
+  { name:'CDN',        val: 480,  max: 4000, color: '#ffc200' },
+  { name:'Backup',     val: 220,  max: 4000, color: '#ff7b00' },
+  { name:'Monitoring', val: 90,   max: 4000, color: '#4a6a85' },
+];
+
+// === CLOCK ===
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent =
+    now.toUTCString().slice(17,25) + ' UTC';
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// === SPARKLINES ===
+function drawSparkline(id, data, color) {
+  const svg = document.getElementById(id);
+  if (!svg) return;
+  const w = svg.getBoundingClientRect().width || 120;
+  const h = 28;
+  const max = Math.max(...data);
+  const min = Math.min(...data);
+  const pts = data.map((v, i) => {
+    const x = (i / (data.length - 1)) * w;
+    const y = h - 4 - ((v - min) / (max - min + 0.001)) * (h - 8);
+    return `${x},${y}`;
+  }).join(' ');
+  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  svg.innerHTML = `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>`;
+}
+
+function randArr(len, min, max, smooth = true) {
+  const arr = [];
+  let v = Math.random() * (max - min) + min;
+  for (let i = 0; i < len; i++) {
+    if (smooth) v = Math.max(min, Math.min(max, v + (Math.random() - 0.5) * (max - min) * 0.15));
+    else v = Math.random() * (max - min) + min;
+    arr.push(+v.toFixed(1));
+  }
+  return arr;
+}
+
+const sparkData = {
+  servers:  randArr(30, 40, 48),
+  cpu:      randArr(30, 40, 90),
+  mem:      randArr(30, 60, 82),
+  netin:    randArr(30, 1, 6),
+  threats:  randArr(30, 0, 20, false),
+  rps:      randArr(30, 15, 35),
+};
+
+function drawAllSparks() {
+  drawSparkline('spark-servers', sparkData.servers, '#00ff88');
+  drawSparkline('spark-cpu',     sparkData.cpu,    '#00d4ff');
+  drawSparkline('spark-mem',     sparkData.mem,    '#ffc200');
+  drawSparkline('spark-netin',   sparkData.netin,  '#00d4ff');
+  drawSparkline('spark-threats', sparkData.threats,'#ff2d55');
+  drawSparkline('spark-rps',     sparkData.rps,    '#a855f7');
+}
+setTimeout(drawAllSparks, 100);
+
+// === SERVER TABLE ===
+function barColor(v) {
+  if (v < 50) return 'low';
+  if (v < 75) return 'mid';
+  if (v < 90) return 'high';
+  return 'crit';
+}
+function renderServers() {
+  const tbody = document.getElementById('server-tbody');
+  tbody.innerHTML = servers.map(s => `
+    <tr>
+      <td><div class="server-name">${s.name}</div><div class="server-ip">${s.ip} · ${s.region}</div></td>
+      <td><span class="status-badge ${s.status}">${s.status.toUpperCase()}</span></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div class="bar-wrap"><div class="bar-fill ${barColor(s.cpu)}" style="width:${s.cpu}%"></div></div>
+          <span class="td-num">${s.cpu}%</span>
+        </div>
+      </td>
+      <td>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div class="bar-wrap"><div class="bar-fill ${barColor(s.mem)}" style="width:${s.mem}%"></div></div>
+          <span class="td-num">${s.mem}%</span>
+        </div>
+      </td>
+      <td>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div class="bar-wrap"><div class="bar-fill ${barColor(s.disk)}" style="width:${s.disk}%"></div></div>
+          <span class="td-num">${s.disk}%</span>
+        </div>
+      </td>
+      <td class="td-small">${s.uptime}</td>
+      <td class="td-num">${s.load}</td>
+    </tr>
+  `).join('');
+}
+renderServers();
+
+// === THREATS ===
+function renderThreats() {
+  document.getElementById('threat-list').innerHTML = threats.map(t => `
+    <li class="threat-item">
+      <div class="threat-icon ${t.lvl}">${t.icon}</div>
+      <div class="threat-body">
+        <div class="threat-title">${t.title}</div>
+        <div class="threat-meta">SRC <span>${t.src}</span> → DST <span>${t.dst}</span></div>
+      </div>
+      <div class="threat-time">${t.time}</div>
+    </li>
+  `).join('');
+}
+renderThreats();
+
+// === ALERTS ===
+function renderAlerts() {
+  document.getElementById('alerts-list').innerHTML = alerts.map(a => `
+    <div class="alert-item">
+      <div class="alert-sev ${a.p}"></div>
+      <div class="alert-body">
+        <div class="alert-title"><span class="alert-p ${a.p}">${a.p.toUpperCase()}</span>${a.title}</div>
+        <div class="alert-detail">${a.detail}</div>
+      </div>
+      <div class="alert-age">${a.age}</div>
+    </div>
+  `).join('');
+}
+renderAlerts();
+
+// === PROCESSES ===
+function renderProcs() {
+  document.getElementById('proc-list-body').innerHTML = processes.map(p => `
+    <div class="proc-row">
+      <span class="proc-name">${p.name}<span class="pid">${p.pid}</span></span>
+      <span class="proc-val ${p.cpu > 25 ? 'high' : ''}">${p.cpu.toFixed(1)}</span>
+      <span class="proc-val ${p.mem > 15 ? 'high' : ''}">${p.mem.toFixed(1)}</span>
+      <span class="proc-val">${p.threads}</span>
+      <span class="proc-status"><span class="status-badge ${p.state}">${p.state.toUpperCase()}</span></span>
+    </div>
+  `).join('');
+}
+renderProcs();
+
+// === BANDWIDTH ===
+function renderBW() {
+  document.getElementById('bw-list').innerHTML = bwServices.map(b => `
+    <div class="bw-row">
+      <div class="bw-name">${b.name}</div>
+      <div class="bw-bar-wrap">
+        <div class="bw-bar" style="width:${(b.val/b.max*100).toFixed(1)}%;background:${b.color}"></div>
+      </div>
+      <div class="bw-val">${b.val >= 1000 ? (b.val/1000).toFixed(1)+'Gbps' : b.val+'Mbps'}</div>
+    </div>
+  `).join('');
+}
+renderBW();
+
+// === HEATMAP ===
+function renderHeatmap() {
+  const cells = [];
+  for (let i = 0; i < 30; i++) {
+    const r = Math.random();
+    let cls = 'ok';
+    if (i === 12) cls = 'warn';
+    else if (i === 24) cls = 'crit';
+    else if (r > 0.96) cls = 'warn';
+    else if (r > 0.99) cls = 'crit';
+    cells.push(`<div class="hm-cell ${cls}" title="Day ${30-i}: ${cls.toUpperCase()}"></div>`);
+  }
+  document.getElementById('heatmap').innerHTML = cells.join('');
+}
+renderHeatmap();
+
+// === TRAFFIC CHART ===
+const trafficLabels = Array.from({length:60}, (_,i) => i === 0 ? '60s' : i === 29 ? '30s' : i === 59 ? 'Now' : '');
+const inData  = randArr(60, 2, 6);
+const outData = randArr(60, 1.5, 4.5);
+const blkData = randArr(60, 0, 0.8, false);
+
+const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+const trafficChart = new Chart(trafficCtx, {
+  type: 'line',
+  data: {
+    labels: trafficLabels,
+    datasets: [
+      { label:'In',  data: inData,  borderColor:'#00d4ff', borderWidth:1.5, fill:true,
+        backgroundColor:'rgba(0,212,255,0.07)', tension:0.4, pointRadius:0 },
+      { label:'Out', data: outData, borderColor:'#00ff88', borderWidth:1.5, fill:true,
+        backgroundColor:'rgba(0,255,136,0.06)', tension:0.4, pointRadius:0 },
+      { label:'Blk', data: blkData, borderColor:'#ff2d55', borderWidth:1.5, fill:true,
+        backgroundColor:'rgba(255,45,85,0.08)', tension:0.4, pointRadius:0 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, animation: false,
+    plugins: { legend: { display:false }, tooltip: { mode:'index', intersect:false,
+      backgroundColor:'#0d1a27', borderColor:'#1a3048', borderWidth:1,
+      titleColor:'#7a9bb5', bodyColor:'#c8daea', titleFont:{family:'Share Tech Mono',size:10},
+      bodyFont:{family:'Share Tech Mono',size:11},
+    }},
+    scales: {
+      x: { grid:{color:'rgba(26,48,72,0.6)',lineWidth:0.5}, ticks:{color:'#4a6a85',font:{family:'Share Tech Mono',size:9}},
+           border:{color:'rgba(26,48,72,0.6)'} },
+      y: { grid:{color:'rgba(26,48,72,0.6)',lineWidth:0.5}, ticks:{color:'#4a6a85',font:{family:'Share Tech Mono',size:9},
+           callback: v => v+'Gbps'}, border:{color:'rgba(26,48,72,0.6)'} }
+    }
+  }
+});
+
+// === MINI GAUGES ===
+function drawGauge(id, value, color) {
+  const canvas = document.getElementById(id);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const cx = 40, cy = 46, r = 32;
+  const start = Math.PI * 0.8, end = Math.PI * 2.2;
+  ctx.clearRect(0, 0, 80, 50);
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, start, end);
+  ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+  ctx.lineWidth = 5; ctx.lineCap = 'round';
+  ctx.stroke();
+  const pct = value / 100;
+  const vEnd = start + pct * (end - start);
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, start, vEnd);
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 5; ctx.lineCap = 'round';
+  ctx.shadowColor = color; ctx.shadowBlur = 8;
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+}
+
+function gaugeColor(v) {
+  if (v < 60) return '#00ff88';
+  if (v < 80) return '#ffc200';
+  return '#ff2d55';
+}
+
+function updateGauges(cpu, mem, diskio) {
+  drawGauge('g1', cpu, gaugeColor(cpu));
+  drawGauge('g2', mem, gaugeColor(mem));
+  drawGauge('g3', diskio, gaugeColor(diskio));
+  document.getElementById('gv1').textContent = cpu + '%';
+  document.getElementById('gv2').textContent = mem + '%';
+  document.getElementById('gv3').textContent = diskio + '%';
+}
+updateGauges(62, 71, 48);
+
+// === WORLD MAP NODES ===
+const nodes = [
+  { id:'NYC', x:22, y:38, label:'New York', status:'green' },
+  { id:'LON', x:44, y:27, label:'London', status:'green' },
+  { id:'FRA', x:48, y:28, label:'Frankfurt', status:'green' },
+  { id:'SIN', x:76, y:55, label:'Singapore', status:'warn' },
+  { id:'SYD', x:86, y:75, label:'Sydney', status:'green' },
+  { id:'TKY', x:84, y:34, label:'Tokyo', status:'green' },
+  { id:'SFO', x:8,  y:38, label:'San Francisco', status:'green' },
+  { id:'AMS', x:46, y:26, label:'Amsterdam', status:'green' },
+  { id:'SAO', x:30, y:67, label:'São Paulo', status:'green' },
+  { id:'MUM', x:66, y:47, label:'Mumbai', status:'red' },
+  { id:'JNB', x:52, y:70, label:'Johannesburg', status:'green' },
+  { id:'DXB', x:60, y:43, label:'Dubai', status:'green' },
+];
+
+const connections = [
+  ['NYC','LON'],['NYC','SFO'],['NYC','SAO'],['LON','FRA'],
+  ['LON','AMS'],['FRA','DXB'],['DXB','MUM'],['MUM','SIN'],
+  ['SIN','TKY'],['SIN','SYD'],['TKY','SFO'],['MUM','JNB'],
+  ['FRA','JNB'],
+];
+
+function renderMap() {
+  const area = document.getElementById('map-area');
+  const W = area.offsetWidth || 600;
+  const H = area.offsetHeight || 200;
+  const svg = document.getElementById('map-svg');
+
+  const px = (x) => W * x / 100;
+  const py = (y) => H * y / 100;
+
+  const lines = connections.map(([a, b]) => {
+    const na = nodes.find(n=>n.id===a), nb = nodes.find(n=>n.id===b);
+    return `<line x1="${px(na.x)}" y1="${py(na.y)}" x2="${px(nb.x)}" y2="${py(nb.y)}" stroke="rgba(0,212,255,0.18)" stroke-width="0.8"/>`;
+  }).join('');
+
+  const dots = nodes.map(n => {
+    const colors = { green:'#00ff88', warn:'#ffc200', red:'#ff2d55' };
+    const glows  = { green:'rgba(0,255,136,0.4)', warn:'rgba(255,194,0,0.4)', red:'rgba(255,45,85,0.5)' };
+    const c = colors[n.status]; const g = glows[n.status];
+    return `<g>
+      <circle cx="${px(n.x)}" cy="${py(n.y)}" r="5" fill="${c}" opacity="0.9">
+        <animate attributeName="opacity" values="0.9;0.4;0.9" dur="${n.status==='red'?'0.8':'2'}s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="${px(n.x)}" cy="${py(n.y)}" r="5" fill="none" stroke="${c}" stroke-width="1">
+        <animate attributeName="r" values="5;12;5" dur="2.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.6;0;0.6" dur="2.5s" repeatCount="indefinite"/>
+      </circle>
+      <text x="${px(n.x)}" y="${py(n.y)+18}" text-anchor="middle" fill="#4a6a85" font-size="8" font-family="Share Tech Mono">${n.id}</text>
+    </g>`;
+  }).join('');
+
+  svg.innerHTML = lines + dots;
+}
+setTimeout(renderMap, 50);
+window.addEventListener('resize', renderMap);
+
+// === LOG STREAM ===
+const logMessages = [
+  ['OK',   'nginx', 'TLS handshake complete — 192.168.1.44'],
+  ['INFO', 'kernel', 'CPU governor: performance mode active'],
+  ['WARN', 'postgres', 'Slow query detected: 4.2s · table: sessions'],
+  ['INFO', 'prometheus', 'Scrape complete: 48 targets, 0 errors'],
+  ['CRIT', 'prod-api-02', 'CPU threshold breach: 97.4% for 5m'],
+  ['INFO', 'nginx', 'Upstream health check: 4/4 backends OK'],
+  ['WARN', 'docker', 'Container restart: api-worker-3 (OOMKilled)'],
+  ['BLOCK','firewall', 'Blocked SYN flood: 45.32.11.89:4421 → :443'],
+  ['INFO', 'redis', 'Keyspace hit ratio: 94.2% (1.2M ops/sec)'],
+  ['OK',   'certbot', 'Certificate renewed: api.prod.internal'],
+  ['INFO', 'cron', 'Backup job started: prod-db-01 → s3://backups'],
+  ['WARN', 'disk', 'inode usage at 72% on /dev/sda1 (prod-db-01)'],
+  ['INFO', 'loadbalancer', 'Sticky session expired: session_8f3a2c'],
+  ['CRIT', 'security', 'SQL injection attempt blocked: 45.32.11.89'],
+  ['INFO', 'k8s', 'Pod autoscale: api-deployment 3→5 replicas'],
+  ['OK',   'haproxy', 'Backend prod-web-03 recovered after 2m'],
+  ['WARN', 'net', 'Packet loss >1% on bond0 (prod-cache-01)'],
+  ['INFO', 'snmp', 'Switch 10.0.0.1 polled: 1Gbps uplink OK'],
+  ['BLOCK','ids', 'Signature match: ET.SCAN Port Scan TCP'],
+  ['INFO', 'syslog', 'Log rotation complete: 12 files archived'],
+];
+
+const terminal = document.getElementById('log-terminal');
+let logIdx = 0;
+function addLog() {
+  const [level, src, msg] = logMessages[logIdx % logMessages.length];
+  logIdx++;
+  const now = new Date();
+  const ts = now.toTimeString().slice(0,8);
+  const line = document.createElement('div');
+  line.className = 'log-line';
+  line.innerHTML = `<span class="log-time">${ts}</span><span class="log-level ${level}">${level}</span><span style="color:var(--accent2);font-size:11px">[${src}]</span><span class="log-msg">${msg}</span>`;
+  terminal.appendChild(line);
+  if (terminal.children.length > 60) terminal.removeChild(terminal.firstChild);
+  terminal.scrollTop = terminal.scrollHeight;
+}
+for (let i = 0; i < 18; i++) addLog();
+setInterval(addLog, 2200);
+
+// === LIVE UPDATE ===
+let tick = 0;
+setInterval(() => {
+  tick++;
+
+  // Update traffic chart
+  inData.shift(); inData.push(+(Math.random() * 4 + 1.5).toFixed(2));
+  outData.shift(); outData.push(+(Math.random() * 3 + 1.2).toFixed(2));
+  blkData.shift(); blkData.push(+(Math.random() * 0.6).toFixed(2));
+  trafficChart.update('none');
+
+  // Update total
+  const cur = inData[inData.length-1];
+  document.getElementById('traffic-total').textContent = 'Total: ' + cur.toFixed(1) + ' Gbps';
+  document.getElementById('m-netin').innerHTML = cur.toFixed(1) + '<span style="font-size:14px">Gbps</span>';
+
+  // Update gauges
+  const cpu = Math.round(55 + Math.sin(tick * 0.3) * 15 + Math.random() * 8);
+  const mem = Math.round(68 + Math.sin(tick * 0.15) * 7 + Math.random() * 4);
+  const diskio = Math.round(40 + Math.sin(tick * 0.2) * 12 + Math.random() * 8);
+  updateGauges(Math.min(99, cpu), Math.min(99, mem), Math.min(99, diskio));
+  document.getElementById('m-cpu').innerHTML = Math.min(99,cpu) + '<span style="font-size:14px">%</span>';
+  document.getElementById('m-mem').innerHTML = Math.min(99,mem) + '<span style="font-size:14px">%</span>';
+
+  // Update sparklines
+  sparkData.cpu.shift(); sparkData.cpu.push(cpu);
+  sparkData.mem.shift(); sparkData.mem.push(mem);
+  sparkData.netin.shift(); sparkData.netin.push(cur);
+  sparkData.rps.shift(); sparkData.rps.push(Math.round(20000 + Math.random() * 10000));
+  drawAllSparks();
+
+  // Update map counters
+  document.getElementById('conn-count').textContent = (1200 + Math.round(Math.random() * 100)).toLocaleString();
+  document.getElementById('lat-avg').textContent = (14 + Math.round(Math.random() * 10)) + 'ms';
+  document.getElementById('pps').textContent = (460 + Math.round(Math.random() * 50)) + 'K';
+  document.getElementById('m-rps').textContent = ((22 + Math.random() * 6).toFixed(1)) + 'K';
+
+  // Randomize a server value slightly
+  const si = Math.floor(Math.random() * servers.length);
+  servers[si].cpu = Math.max(10, Math.min(99, servers[si].cpu + Math.round((Math.random()-0.5)*6)));
+  if (tick % 3 === 0) renderServers();
+
+}, 1500);
+
+// === BADGE/CLOCK ticker ===
+setInterval(() => {
+  document.getElementById('server-badge').textContent = 'LIVE · ' + (new Date().getSeconds() % 5 + 1) + 's';
+}, 1000);
+
+</script>
+</body>
+</html>
