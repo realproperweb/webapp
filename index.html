@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y4B2D833V9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Y4B2D833V9');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LaunchPad 1BIZ AI — Grow Your Business With AI-Powered Services</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root {
+    --pink: #ff4d6d;
+    --yellow: #ffd60a;
+    --black: #0a0a0a;
+    --cream: #fffbf5;
+    --gray: #f5f0e8;
+    --mid: #c8c0b0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--black);
+    overflow-x: hidden;
+  }
+  h1, h2, h3 { font-family: 'DM Serif Display', serif; }
+  .syne { font-family: 'Syne', sans-serif; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--cream);
+    border-bottom: 2px solid var(--black);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.4rem;
+    letter-spacing: -0.03em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .nav-logo span { color: var(--pink); }
+  .nav-links { display: flex; align-items: center; gap: 2rem; }
+  .nav-links a {
+    font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 600;
+    text-decoration: none; color: var(--black); letter-spacing: 0.05em;
+    text-transform: uppercase; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--pink); }
+  .btn-nav {
+    background: var(--black); color: var(--cream);
+    border: 2px solid var(--black);
+    padding: 8px 20px; font-family: 'Syne', sans-serif;
+    font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; cursor: pointer;
+    transition: all 0.2s; text-decoration: none;
+    white-space: nowrap;
+  }
+  .btn-nav:hover { background: var(--pink); border-color: var(--pink); }
+
+  /* Mobile hamburger */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column; gap: 5px; cursor: pointer;
+    padding: 6px; border: 2px solid var(--black); background: none;
+  }
+  .nav-hamburger span {
+    display: block; width: 22px; height: 2px;
+    background: var(--black); transition: all 0.3s;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed; top: 64px; left: 0; right: 0; z-index: 99;
+    background: var(--cream); border-bottom: 2px solid var(--black);
+    flex-direction: column; padding: 1.5rem 1.5rem;
+    gap: 1.25rem;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700;
+    text-decoration: none; color: var(--black); letter-spacing: 0.05em;
+    text-transform: uppercase; padding: 0.5rem 0;
+    border-bottom: 1px solid #e5e0d8;
+  }
+  .mobile-menu .btn-nav { text-align: center; margin-top: 0.5rem; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding-top: 64px;
+    border-bottom: 2px solid var(--black);
+  }
+  .hero-left {
+    padding: 5rem 4rem;
+    border-right: 2px solid var(--black);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--yellow); border: 2px solid var(--black);
+    padding: 6px 16px; font-family: 'Syne', sans-serif;
+    font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.1em; margin-bottom: 2rem; width: fit-content;
+  }
+  .hero-badge::before { content: '✦'; }
+  .hero-h1 {
+    font-size: clamp(2.4rem, 5vw, 5.5rem);
+    line-height: 1.0; letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+  .hero-h1 em { font-style: italic; color: var(--pink); }
+  .hero-sub {
+    font-size: 1.1rem; line-height: 1.7; color: #444;
+    max-width: 480px; margin-bottom: 2.5rem;
+  }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--pink); color: white;
+    border: 2px solid var(--black);
+    padding: 14px 32px; font-family: 'Syne', sans-serif;
+    font-size: 0.9rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; cursor: pointer;
+    transition: all 0.2s; text-decoration: none;
+    box-shadow: 4px 4px 0 var(--black);
+    display: inline-block; text-align: center;
+  }
+  .btn-primary:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); }
+  .btn-secondary {
+    background: transparent; color: var(--black);
+    border: 2px solid var(--black);
+    padding: 14px 32px; font-family: 'Syne', sans-serif;
+    font-size: 0.9rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; cursor: pointer;
+    transition: all 0.2s; text-decoration: none;
+    box-shadow: 4px 4px 0 var(--black);
+    display: inline-block; text-align: center;
+  }
+  .btn-secondary:hover { background: var(--yellow); transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); }
+  .hero-stats {
+    margin-top: 3rem; display: flex; gap: 2rem; flex-wrap: wrap;
+    border-top: 2px solid var(--black); padding-top: 2rem;
+  }
+  .stat-num {
+    font-family: 'DM Serif Display', serif; font-size: 2rem;
+    line-height: 1;
+  }
+  .stat-num span { color: var(--pink); }
+  .stat-label {
+    font-family: 'Syne', sans-serif; font-size: 0.7rem;
+    text-transform: uppercase; letter-spacing: 0.1em; color: #666;
+    margin-top: 4px;
+  }
+
+  .hero-right {
+    background: var(--black);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 3rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-card {
+    background: var(--cream);
+    border: 2px solid var(--black);
+    width: 100%; max-width: 400px;
+    padding: 2rem;
+    box-shadow: 8px 8px 0 var(--pink);
+    position: relative; z-index: 2;
+  }
+  .hero-card-tag {
+    background: var(--pink); color: white;
+    font-family: 'Syne', sans-serif; font-size: 0.7rem;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 4px 12px; display: inline-block; margin-bottom: 1rem;
+  }
+  .hero-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+  .hero-card p { font-size: 0.9rem; color: #555; margin-bottom: 1.5rem; }
+  .price-block { margin-bottom: 1.5rem; }
+  .price-was {
+    font-family: 'Syne', sans-serif; font-size: 0.85rem;
+    text-decoration: line-through; color: #999;
+  }
+  .price-now {
+    font-family: 'DM Serif Display', serif; font-size: 3rem;
+    line-height: 1; color: var(--black);
+  }
+  .price-note {
+    font-family: 'Syne', sans-serif; font-size: 0.75rem;
+    color: #666; margin-top: 4px;
+  }
+  .feature-list { list-style: none; margin-bottom: 1.5rem; }
+  .feature-list li {
+    font-size: 0.85rem; padding: 6px 0;
+    border-bottom: 1px solid #e5e0d8;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .feature-list li::before { content: '✓'; color: var(--pink); font-weight: 700; }
+  .btn-full {
+    width: 100%; background: var(--pink); color: white;
+    border: 2px solid var(--black);
+    padding: 14px; font-family: 'Syne', sans-serif;
+    font-size: 0.9rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 4px 4px 0 var(--black);
+    text-decoration: none; display: block; text-align: center;
+  }
+  .btn-full:hover { background: var(--black); transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--pink); }
+  .hero-deco {
+    position: absolute;
+    font-size: 12rem; opacity: 0.04;
+    font-family: 'DM Serif Display', serif;
+    color: white; line-height: 1;
+  }
+
+  /* ── MARQUEE ── */
+  .marquee-wrap {
+    background: var(--yellow); border-bottom: 2px solid var(--black);
+    overflow: hidden; white-space: nowrap; padding: 12px 0;
+  }
+  .marquee-inner {
+    display: inline-flex; gap: 3rem;
+    animation: marquee 25s linear infinite;
+  }
+  .marquee-item {
+    font-family: 'Syne', sans-serif; font-size: 0.8rem;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .marquee-item::after { content: '✦'; opacity: 0.5; }
+  @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 2rem; }
+  .container { max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    font-family: 'Syne', sans-serif; font-size: 0.75rem;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em;
+    color: var(--pink); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-label::before { content: ''; display: block; width: 24px; height: 2px; background: var(--pink); }
+  .section-title {
+    font-size: clamp(1.8rem, 4vw, 3.5rem);
+    line-height: 1.1; letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+  .section-title em { font-style: italic; color: var(--pink); }
+
+  /* ── SERVICES GRID ── */
+  .services-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    border: 2px solid var(--black);
+    margin-top: 3rem;
+  }
+  .service-card {
+    padding: 2rem;
+    border-right: 2px solid var(--black);
+    border-bottom: 2px solid var(--black);
+    transition: background 0.2s;
+    cursor: pointer;
+    position: relative; overflow: hidden;
+  }
+  .service-card:nth-child(3n) { border-right: none; }
+  .service-card:nth-child(4),.service-card:nth-child(5),.service-card:nth-child(6) { border-bottom: none; }
+  .service-card:hover { background: var(--black); color: var(--cream); }
+  .service-card:hover .service-icon { background: var(--pink); color: white; }
+  .service-card:hover .service-num { color: rgba(255,255,255,0.1); }
+  .service-card:hover .service-desc { color: #aaa; }
+  .service-card:hover .service-tags span { background: rgba(255,255,255,0.1); color: #ccc; }
+  .service-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 5rem; color: #f0ebe3;
+    line-height: 1; margin-bottom: 0.5rem;
+    transition: color 0.2s;
+  }
+  .service-icon {
+    width: 48px; height: 48px;
+    background: var(--yellow); border: 2px solid var(--black);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 1.5rem; transition: all 0.2s;
+  }
+  .service-name {
+    font-family: 'DM Serif Display', serif; font-size: 1.3rem;
+    margin-bottom: 0.75rem; line-height: 1.2;
+  }
+  .service-desc { font-size: 0.85rem; line-height: 1.6; color: #555; margin-bottom: 1rem; transition: color 0.2s; }
+  .service-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .service-tags span {
+    font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    background: var(--gray); border: 1px solid var(--mid);
+    padding: 3px 8px; transition: all 0.2s;
+  }
+  .view-all-btn {
+    margin-top: 2rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  }
+
+  /* ── PACKAGE ── */
+  .package-section {
+    background: var(--black); color: var(--cream);
+    border-top: 2px solid var(--black); border-bottom: 2px solid var(--black);
+  }
+  .package-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; border: 2px solid rgba(255,255,255,0.1);
+  }
+  .package-left {
+    padding: 3rem; border-right: 2px solid rgba(255,255,255,0.1);
+  }
+  .package-right { padding: 3rem; }
+  .pkg-badge {
+    background: var(--pink); color: white;
+    font-family: 'Syne', sans-serif; font-size: 0.7rem;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+    padding: 6px 16px; display: inline-block; margin-bottom: 1.5rem;
+  }
+  .pkg-title { font-size: clamp(1.6rem, 3vw, 3rem); line-height: 1.1; margin-bottom: 1rem; }
+  .pkg-subtitle { font-size: 1rem; color: #aaa; margin-bottom: 2rem; line-height: 1.6; }
+  .pkg-includes {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    border: 1px solid rgba(255,255,255,0.1); margin-bottom: 2rem;
+  }
+  .pkg-item {
+    padding: 1rem 1.25rem;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex; align-items: center; gap: 10px;
+    font-size: 0.85rem;
+  }
+  .pkg-item:nth-child(2n) { border-right: none; }
+  .pkg-item::before { content: '✓'; color: var(--yellow); font-weight: 700; flex-shrink: 0; }
+  .pkg-pricing { margin-bottom: 2rem; }
+  .pkg-was { font-size: 1rem; text-decoration: line-through; color: #666; }
+  .pkg-price { font-family: 'DM Serif Display', serif; font-size: 4.5rem; line-height: 1; }
+  .pkg-price span { font-size: 2rem; vertical-align: top; margin-top: 0.5rem; display: inline-block; }
+  .pkg-install { font-size: 0.85rem; color: #888; margin-top: 0.5rem; }
+  .pkg-bonuses h4 {
+    font-family: 'Syne', sans-serif; font-size: 0.75rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--yellow);
+    margin-bottom: 1rem;
+  }
+  .bonus-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size: 0.9rem;
+  }
+  .bonus-icon {
+    width: 36px; height: 36px; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+  }
+  .bonus-title { font-weight: 600; margin-bottom: 2px; }
+  .bonus-desc { font-size: 0.8rem; color: #888; }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    border: 2px solid var(--black);
+    margin-top: 3rem;
+  }
+  .testimonial {
+    padding: 2rem;
+    border-right: 2px solid var(--black);
+    transition: background 0.2s;
+  }
+  .testimonial:last-child { border-right: none; }
+  .testimonial:hover { background: var(--gray); }
+  .t-stars { color: var(--pink); font-size: 1.1rem; margin-bottom: 1rem; }
+  .t-quote {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+  .t-author { display: flex; align-items: center; gap: 12px; }
+  .t-avatar {
+    width: 44px; height: 44px;
+    border: 2px solid var(--black);
+    background: var(--yellow);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .t-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; }
+  .t-biz { font-size: 0.75rem; color: #888; }
+
+  /* ── HOW IT WORKS ── */
+  .how-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border: 2px solid var(--black); margin-top: 3rem;
+  }
+  .how-step {
+    padding: 2rem;
+    border-right: 2px solid var(--black);
+    position: relative;
+  }
+  .how-step:last-child { border-right: none; }
+  .step-num {
+    font-family: 'DM Serif Display', serif; font-size: 3.5rem;
+    color: var(--pink); line-height: 1; margin-bottom: 1rem;
+  }
+  .step-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .step-desc { font-size: 0.85rem; color: #555; line-height: 1.6; }
+
+  /* ── FAQ ── */
+  .faq-list { margin-top: 3rem; border: 2px solid var(--black); }
+  .faq-item { border-bottom: 2px solid var(--black); }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q {
+    padding: 1.5rem 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; font-family: 'Syne', sans-serif;
+    font-weight: 600; font-size: 1rem;
+    transition: background 0.2s; gap: 1rem;
+  }
+  .faq-q:hover { background: var(--gray); }
+  .faq-icon { font-size: 1.5rem; transition: transform 0.3s; flex-shrink: 0; }
+  .faq-a {
+    padding: 0 2rem;
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    font-size: 0.9rem; line-height: 1.7; color: #555;
+  }
+  .faq-item.open .faq-a { max-height: 400px; padding: 0 2rem 1.5rem; }
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+  /* ── CTA SECTION ── */
+  .cta-section {
+    background: var(--pink);
+    border-top: 2px solid var(--black);
+    border-bottom: 2px solid var(--black);
+    text-align: center; padding: 5rem 2rem;
+    position: relative; overflow: hidden;
+  }
+  .cta-section h2 { color: white; font-size: clamp(1.8rem, 4vw, 4rem); margin-bottom: 1.5rem; }
+  .cta-section p { color: rgba(255,255,255,0.8); font-size: 1.1rem; margin-bottom: 2.5rem; }
+  .btn-cta-white {
+    background: white; color: var(--black);
+    border: 2px solid var(--black);
+    padding: 16px 40px; font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.08em; cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 5px 5px 0 var(--black);
+    text-decoration: none; display: inline-block;
+  }
+  .btn-cta-white:hover { transform: translate(-2px,-2px); box-shadow: 7px 7px 0 var(--black); }
+  .cta-deco {
+    position: absolute; font-size: 20rem; opacity: 0.07;
+    font-family: 'DM Serif Display', serif; color: white;
+    pointer-events: none; line-height: 1;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black); color: var(--cream);
+    padding: 4rem 2rem 2rem;
+  }
+  .footer-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem; padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 2rem;
+  }
+  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.6rem; margin-bottom: 1rem; }
+  .footer-logo span { color: var(--pink); }
+  .footer-desc { font-size: 0.85rem; color: #888; line-height: 1.7; margin-bottom: 1.5rem; }
+  .footer-social { display: flex; gap: 12px; }
+  .social-icon {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(255,255,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; transition: all 0.2s; cursor: pointer;
+  }
+  .social-icon:hover { background: var(--pink); border-color: var(--pink); }
+  .footer-col h4 {
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.8rem;
+    text-transform: uppercase; letter-spacing: 0.12em; color: #ccc;
+    margin-bottom: 1.25rem;
+  }
+  .footer-col a {
+    display: block; font-size: 0.85rem; color: #888;
+    text-decoration: none; margin-bottom: 0.6rem; transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--yellow); }
+  .footer-bottom {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.8rem; color: #555;
+    flex-wrap: wrap; gap: 0.5rem;
+  }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.8);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  }
+  .modal-overlay.active { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--cream);
+    border: 2px solid var(--black);
+    width: 100%; max-width: 560px;
+    max-height: 90vh; overflow-y: auto;
+    padding: 2.5rem;
+    box-shadow: 10px 10px 0 var(--pink);
+    transform: translateY(20px); transition: transform 0.3s;
+  }
+  .modal-overlay.active .modal { transform: translateY(0); }
+  .modal-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 2rem; gap: 1rem;
+  }
+  .modal-title { font-size: 1.8rem; line-height: 1.1; }
+  .modal-close {
+    width: 36px; height: 36px; background: var(--black); color: white;
+    border: none; font-size: 1.2rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: background 0.2s;
+  }
+  .modal-close:hover { background: var(--pink); }
+  .modal-ctas { display: flex; flex-direction: column; gap: 0.75rem; }
+  .modal-note {
+    font-size: 0.8rem; color: #888; margin-top: 1rem; text-align: center;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.6s ease forwards; }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+
+  /* ═══════════════════════════
+     RESPONSIVE BREAKPOINTS
+  ═══════════════════════════ */
+
+  /* ── Tablet (≤1024px) ── */
+  @media (max-width: 1024px) {
+    .hero-left { padding: 4rem 3rem; }
+    .hero-right { padding: 2rem; }
+    .hero-card { padding: 1.75rem; }
+  }
+
+  /* ── Small Tablet / Large Mobile (≤900px) ── */
+  @media (max-width: 900px) {
+    /* Nav */
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+
+    /* Hero: stack vertically */
+    .hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .hero-left {
+      padding: 3rem 1.5rem;
+      border-right: none;
+      border-bottom: 2px solid var(--black);
+    }
+    .hero-right {
+      display: flex;
+      padding: 2.5rem 1.5rem;
+    }
+
+    /* Services: 2 cols */
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .service-card { border-right: 2px solid var(--black) !important; border-bottom: 2px solid var(--black) !important; }
+    .service-card:nth-child(2n) { border-right: none !important; }
+    .service-card:last-child,
+    .service-card:nth-last-child(2):nth-child(odd) { border-bottom: none !important; }
+
+    /* Package */
+    .package-grid { grid-template-columns: 1fr; }
+    .package-left { border-right: none; border-bottom: 2px solid rgba(255,255,255,0.1); }
+    .package-left,
+    .package-right { padding: 2.5rem 2rem; }
+
+    /* How it works: 2 cols */
+    .how-grid { grid-template-columns: 1fr 1fr; }
+    .how-step { border-right: 2px solid var(--black); border-bottom: 2px solid var(--black); }
+    .how-step:nth-child(2n) { border-right: none; }
+    .how-step:nth-child(3),
+    .how-step:nth-child(4) { border-bottom: none; }
+
+    /* Testimonials: 1 col */
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .testimonial { border-right: none; border-bottom: 2px solid var(--black); }
+    .testimonial:last-child { border-bottom: none; }
+
+    /* Footer */
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  }
+
+  /* ── Mobile (≤640px) ── */
+  @media (max-width: 640px) {
+    section { padding: 4rem 1.25rem; }
+    nav { padding: 0 1.25rem; }
+
+    /* Hero */
+    .hero-left { padding: 2.5rem 1.25rem; }
+    .hero-h1 { font-size: 2.2rem; }
+    .hero-sub { font-size: 1rem; }
+    .hero-ctas { flex-direction: column; }
+    .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+    .hero-stats { gap: 1.5rem; }
+    .hero-right { padding: 2rem 1.25rem; }
+
+    /* Services: 1 col */
+    .services-grid { grid-template-columns: 1fr; }
+    .service-card { border-right: none !important; border-bottom: 2px solid var(--black) !important; }
+    .service-card:last-child { border-bottom: none !important; }
+    .service-num { font-size: 3.5rem; }
+
+    /* Package */
+    .pkg-includes { grid-template-columns: 1fr; }
+    .pkg-item { border-right: none !important; }
+    .pkg-price { font-size: 3.5rem; }
+    .package-left, .package-right { padding: 2rem 1.25rem; }
+
+    /* How it works: 1 col */
+    .how-grid { grid-template-columns: 1fr; }
+    .how-step { border-right: none; border-bottom: 2px solid var(--black); }
+    .how-step:last-child { border-bottom: none; }
+
+    /* FAQ */
+    .faq-q { padding: 1.25rem; font-size: 0.9rem; }
+    .faq-a { padding: 0 1.25rem; }
+    .faq-item.open .faq-a { padding: 0 1.25rem 1.25rem; }
+
+    /* Footer */
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+
+    /* CTA */
+    .cta-section { padding: 3.5rem 1.25rem; }
+    .btn-cta-white { width: 100%; text-align: center; padding: 16px 24px; }
+    .cta-deco { font-size: 10rem; }
+
+    /* Modal */
+    .modal { padding: 1.75rem 1.25rem; box-shadow: 6px 6px 0 var(--pink); }
+    .modal-title { font-size: 1.5rem; }
+
+    /* View all btn */
+    .view-all-btn { flex-direction: column; align-items: flex-start; }
+    .view-all-btn .btn-secondary { width: 100%; text-align: center; }
+  }
+
+  /* ── Very small (≤380px) ── */
+  @media (max-width: 380px) {
+    .nav-logo { font-size: 1.15rem; }
+    .hero-h1 { font-size: 1.9rem; }
+    .hero-stats { flex-direction: column; gap: 1rem; }
+    .pkg-price { font-size: 3rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Launch<span>Pad</span> AI</div>
+  <div class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#package">Packages</a>
+    <a href="#how">How It Works</a>
+    <a href="#testimonials">Reviews</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:0.75rem;">
+    <a href="#" class="btn-nav" onclick="openModal()">Get Started</a>
+    <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" onclick="closeMenu()">Services</a>
+  <a href="#package" onclick="closeMenu()">Packages</a>
+  <a href="#how" onclick="closeMenu()">How It Works</a>
+  <a href="#testimonials" onclick="closeMenu()">Reviews</a>
+  <a href="#faq" onclick="closeMenu()">FAQ</a>
+  <a href="#" class="btn-nav" onclick="closeMenu(); openModal()">Get Started</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge fade-up">AI-Powered Business Growth</div>
+    <h1 class="hero-h1 fade-up delay-1">Grow your <em>business</em> with AI-powered services</h1>
+    <p class="hero-sub fade-up delay-2">Everything your business needs to launch and scale — brand strategy, design, web presence, content, and digital marketing. All powered by cutting-edge AI.</p>
+    <div class="hero-ctas fade-up delay-3">
+      <a href="#package" class="btn-primary">View Complete Package</a>
+      <a href="#services" class="btn-secondary">Explore Services</a>
+    </div>
+    <div class="hero-stats fade-up delay-3">
+      <div>
+        <div class="stat-num">500<span>+</span></div>
+        <div class="stat-label">Businesses Launched</div>
+      </div>
+      <div>
+        <div class="stat-num">12</div>
+        <div class="stat-label">AI Service Categories</div>
+      </div>
+      <div>
+        <div class="stat-num">98<span>%</span></div>
+        <div class="stat-label">Client Satisfaction</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-deco">AI</div>
+    <div class="hero-card">
+      <div class="hero-card-tag">🔥 Best Value</div>
+      <h3>Complete Business Toolkit</h3>
+      <p>Launch your business with everything you need in one powerful package.</p>
+      <div class="price-block">
+        <div class="price-was">Was $3800</div>
+        <div class="price-now">$500</div>
+        <div class="price-note">or 5 payments of $100/mo — Interest free</div>
+      </div>
+      <ul class="feature-list">
+        <li>Brand Strategy Session</li>
+        <li>Logo Design & Identity</li>
+        <li>Social Media Setup</li>
+        <li>SEO Optimization</li>
+        <li>Free Domain & Hosting (1 Year)</li>
+        <li>85% Off Web Development</li>
+      </ul>
+      <button class="btn-full" onclick="openModal()">Get This Package →</button>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    <span class="marquee-item">Brand Strategy</span>
+    <span class="marquee-item">Logo Design</span>
+    <span class="marquee-item">Web Development</span>
+    <span class="marquee-item">SEO Optimization</span>
+    <span class="marquee-item">Social Media</span>
+    <span class="marquee-item">Video Production</span>
+    <span class="marquee-item">Email Marketing</span>
+    <span class="marquee-item">PPC Advertising</span>
+    <span class="marquee-item">Content Creation</span>
+    <span class="marquee-item">Brand Strategy</span>
+    <span class="marquee-item">Logo Design</span>
+    <span class="marquee-item">Web Development</span>
+    <span class="marquee-item">SEO Optimization</span>
+    <span class="marquee-item">Social Media</span>
+    <span class="marquee-item">Video Production</span>
+    <span class="marquee-item">Email Marketing</span>
+    <span class="marquee-item">PPC Advertising</span>
+    <span class="marquee-item">Content Creation</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="section-label">What We Offer</div>
+    <h2 class="section-title">AI-Powered Services for<br><em>Every Business Need</em></h2>
+    <p style="font-size:1rem;color:#555;max-width:560px;line-height:1.7;">Six core service categories — all supercharged with artificial intelligence to deliver faster results, smarter strategies, and measurable growth.</p>
+
+    <div class="services-grid">
+      <div class="service-card" onclick="openModal('Brand Strategy & Identity')">
+        <div class="service-num">01</div>
+        <div class="service-icon">🎯</div>
+        <div class="service-name">Brand Strategy & Identity</div>
+        <p class="service-desc">Build a brand that resonates and stands out. We develop your positioning, story, and visual identity from the ground up.</p>
+        <div class="service-tags">
+          <span>Brand Discovery</span>
+          <span>Positioning</span>
+          <span>Mission & Vision</span>
+          <span>Competitive Analysis</span>
+        </div>
+      </div>
+      <div class="service-card" onclick="openModal('Creative & Design Services')">
+        <div class="service-num">02</div>
+        <div class="service-icon">🎨</div>
+        <div class="service-name">Creative & Design Services</div>
+        <p class="service-desc">Eye-catching visuals that communicate your brand's value. From logos to pitch decks — design that converts.</p>
+        <div class="service-tags">
+          <span>Logo Design</span>
+          <span>Brand Identity</span>
+          <span>Social Kits</span>
+          <span>Pitch Decks</span>
+        </div>
+      </div>
+      <div class="service-card" onclick="openModal('Website & Digital Presence')">
+        <div class="service-num">03</div>
+        <div class="service-icon">🌐</div>
+        <div class="service-name">Website & Digital Presence</div>
+        <p class="service-desc">Your online home, built for performance. SEO-ready websites that attract visitors and drive conversions.</p>
+        <div class="service-tags">
+          <span>Web Design</span>
+          <span>SEO Content</span>
+          <span>E-Commerce</span>
+          <span>Analytics</span>
+        </div>
+      </div>
+      <div class="service-card" onclick="openModal('Social Media Management')">
+        <div class="service-num">04</div>
+        <div class="service-icon">📱</div>
+        <div class="service-name">Social Media Management</div>
+        <p class="service-desc">Consistent, engaging social presence that builds your audience and turns followers into customers.</p>
+        <div class="service-tags">
+          <span>Strategy & Calendar</span>
+          <span>Content Creation</span>
+          <span>Engagement</span>
+          <span>Influencer Partnerships</span>
+        </div>
+      </div>
+      <div class="service-card" onclick="openModal('Content Production')">
+        <div class="service-num">05</div>
+        <div class="service-icon">🎬</div>
+        <div class="service-name">Content Production</div>
+        <p class="service-desc">Professional content that tells your story. Video, photography, copy and motion graphics that captivate.</p>
+        <div class="service-tags">
+          <span>Video Production</span>
+          <span>Photography</span>
+          <span>Copywriting</span>
+          <span>Motion Graphics</span>
+        </div>
+      </div>
+      <div class="service-card" onclick="openModal('Digital Marketing & Advertising')">
+        <div class="service-num">06</div>
+        <div class="service-icon">📈</div>
+        <div class="service-name">Digital Marketing & Advertising</div>
+        <p class="service-desc">Data-driven campaigns that reach the right audience. Maximize ROI with intelligent advertising across all channels.</p>
+        <div class="service-tags">
+          <span>SEO</span>
+          <span>PPC Ads</span>
+          <span>Social Ads</span>
+          <span>Email Campaigns</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="view-all-btn">
+      <button class="btn-secondary" onclick="openModal()">View All 12 AI-Powered Service Categories →</button>
+      <span style="font-size:0.85rem;color:#888;">Including 6 more specialized offerings</span>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGE -->
+<section id="package" class="package-section">
+  <div class="container">
+    <div class="package-grid">
+      <div class="package-left">
+        <div class="pkg-badge">★ Most Popular</div>
+        <h2 class="pkg-title">Complete Business Toolkit</h2>
+        <p class="pkg-subtitle">Everything you need to launch, brand, and grow your business — in one streamlined package powered by AI and delivered by experts.</p>
+        <div class="pkg-includes">
+          <div class="pkg-item">Brand Strategy Session</div>
+          <div class="pkg-item">Logo Design</div>
+          <div class="pkg-item">Social Media Setup</div>
+          <div class="pkg-item">SEO Optimization</div>
+          <div class="pkg-item">Brand Identity System</div>
+          <div class="pkg-item">Competitor Analysis</div>
+          <div class="pkg-item">Content Calendar</div>
+          <div class="pkg-item">Marketing Roadmap</div>
+        </div>
+        <div class="pkg-pricing">
+          <div class="pkg-was">Regular price: $3800</div>
+          <div class="pkg-price"><span>$</span>500</div>
+          <div class="pkg-install">or 5 interest-free payments of $100/month</div>
+        </div>
+        <button class="btn-full" onclick="openModal('Complete Business Package')" style="max-width:320px;">Get Started Today →</button>
+      </div>
+      <div class="package-right">
+        <div class="pkg-bonuses">
+          <h4>🎁 Included Free Bonuses</h4>
+          <div class="bonus-item">
+            <div class="bonus-icon">🌐</div>
+            <div>
+              <div class="bonus-title">Free Domain Name</div>
+              <div class="bonus-desc">Your custom domain for 1 full year — yours to keep</div>
+            </div>
+          </div>
+          <div class="bonus-item">
+            <div class="bonus-icon">☁️</div>
+            <div>
+              <div class="bonus-title">Free Hosting (1 Year)</div>
+              <div class="bonus-desc">Fast, reliable cloud hosting included at no extra cost</div>
+            </div>
+          </div>
+          <div class="bonus-item">
+            <div class="bonus-icon">💻</div>
+            <div>
+              <div class="bonus-title">85% Off Web Development</div>
+              <div class="bonus-desc">Massive discount on your professional website build</div>
+            </div>
+          </div>
+          <div class="bonus-item">
+            <div class="bonus-icon">🤖</div>
+            <div>
+              <div class="bonus-title">AI Business Toolkit</div>
+              <div class="bonus-desc">Templates, prompts and tools to run your business smarter</div>
+            </div>
+          </div>
+          <div class="bonus-item">
+            <div class="bonus-icon">📊</div>
+            <div>
+              <div class="bonus-title">90-Day Growth Plan</div>
+              <div class="bonus-desc">A custom roadmap to hit your first revenue milestones</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:2rem;padding:1.5rem;border:1px solid rgba(255,255,255,0.1);font-size:0.8rem;color:#888;line-height:1.6;">
+          <strong style="color:#ccc;">✦ 30-Day Money Back Guarantee</strong><br>
+          If you're not completely satisfied within 30 days, we'll refund every penny. No questions asked.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="container">
+    <div class="section-label">Simple Process</div>
+    <h2 class="section-title">From Sign-Up to <em>Launch</em> in 4 Steps</h2>
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="step-num">01</div>
+        <div class="step-title">Choose Your Service</div>
+        <p class="step-desc">Browse our 12 AI-powered service categories and select what your business needs most — or grab the complete package for everything.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">02</div>
+        <div class="step-title">Discovery Session</div>
+        <p class="step-desc">We schedule a focused strategy call to understand your business, goals, target audience, and competitive landscape.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">03</div>
+        <div class="step-title">AI-Powered Execution</div>
+        <p class="step-desc">Our team uses cutting-edge AI tools combined with expert human oversight to deliver faster, higher-quality results.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">04</div>
+        <div class="step-title">Launch & Grow</div>
+        <p class="step-desc">You get the final deliverables, a growth roadmap, and ongoing support to scale your business with confidence.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" style="background:var(--gray);border-top:2px solid var(--black);border-bottom:2px solid var(--black);">
+  <div class="container">
+    <div class="section-label">Social Proof</div>
+    <h2 class="section-title">Businesses That <em>Trusted</em> Us</h2>
+    <div class="testimonials-grid">
+      <div class="testimonial">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-quote">"LaunchPad AI transformed my small bakery into a real brand. The logo, the social media setup, the website — everything looks incredibly professional. I've tripled my online orders in 3 months."</p>
+        <div class="t-author">
+          <div class="t-avatar">SK</div>
+          <div>
+            <div class="t-name">Sarah K.</div>
+            <div class="t-biz">Sweet Layers Bakery</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-quote">"The Complete Business Package was worth every cent. Within weeks I had a full brand identity, a stunning website, and an SEO strategy. My consulting business feels legitimate now."</p>
+        <div class="t-author">
+          <div class="t-avatar">MR</div>
+          <div>
+            <div class="t-name">Marcus R.</div>
+            <div class="t-biz">Reeves Consulting</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-quote">"As a fitness trainer trying to go online, I was overwhelmed. LaunchPad AI handled everything — brand, content, ads — and now I'm booked out 6 weeks. The ROI is unbelievable."</p>
+        <div class="t-author">
+          <div class="t-avatar">JT</div>
+          <div>
+            <div class="t-name">Jordan T.</div>
+            <div class="t-biz">FitWithJordan</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-label">Questions & Answers</div>
+    <h2 class="section-title">Frequently Asked <em>Questions</em></h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>What's included in the Complete Business Package?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">The Complete Business Package includes a full brand strategy session, logo design, social media setup, SEO optimization, brand identity system, competitor analysis, and a 90-day growth roadmap. You also receive a free domain name and 12 months of hosting, plus 85% off your website development.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>How does the installment plan work?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Instead of paying $500 upfront, you can split the cost into 5 equal monthly payments of $100 each. There's no interest, no hidden fees. Payments are automatically charged each month until the balance is complete. Work begins immediately upon your first payment.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>How long does it take to complete the services?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Timelines vary depending on the service selected. Brand strategy sessions typically take 2–4 days. Logo and identity design usually takes 3–7 days. Website development ranges from 7–21 days depending on complexity. The Complete Business Package is typically delivered within 14–21 days from your discovery call.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>What makes your services "AI-powered"?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">We use advanced AI tools throughout our workflow — from market research and competitive analysis to content generation, design iterations, and SEO recommendations. This allows us to work faster and deliver more comprehensive insights than traditional agencies, while our expert team ensures every output is refined and on-brand.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Can I purchase individual services instead of the full package?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Absolutely. All six core service categories — Brand Strategy, Creative & Design, Website & Digital Presence, Social Media Management, Content Production, and Digital Marketing — are available individually. Contact us to get a custom quote for the specific services you need.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Is there a money-back guarantee?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Yes! We offer a 30-day money-back guarantee. If you're not completely satisfied with the quality of our work within 30 days of receiving your first deliverables, we'll issue a full refund — no questions asked. We're confident in what we deliver.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-deco" style="top:-60px;left:-80px;">AI</div>
+  <div class="cta-deco" style="bottom:-60px;right:-80px;">✦</div>
+  <div style="position:relative;z-index:2;">
+    <h2>Ready to Launch Your<br>Business the <em style="font-style:italic;">Smart Way?</em></h2>
+    <p>Join 500+ entrepreneurs who chose AI-powered growth. Start today, see results this month.</p>
+    <a href="#" class="btn-cta-white" onclick="openModal()">Get Started — From $500</a>
+    <div style="margin-top:1.5rem;font-size:0.85rem;color:rgba(255,255,255,0.6);">30-Day Money Back Guarantee · No Hidden Fees · AI-Powered</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">Launch<span>Pad</span> AI</div>
+      <p class="footer-desc">AI-powered business services for entrepreneurs and small businesses ready to launch, grow, and scale with confidence.</p>
+      <div class="footer-social">
+        <div class="social-icon">𝕏</div>
+        <div class="social-icon">in</div>
+        <div class="social-icon">f</div>
+        <div class="social-icon">📸</div>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <a href="#services">Brand Strategy</a>
+      <a href="#services">Web Development</a>
+      <a href="#services">Social Media Management</a>
+      <a href="#services">Digital Marketing</a>
+      <a href="#services">Content Production</a>
+      <a href="#services">Creative & Design</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">About Us</a>
+      <a href="#">Case Studies</a>
+      <a href="#">Blog</a>
+      <a href="#">Careers</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Refund Policy</a>
+      <a href="#">Cookie Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 LaunchPad AI. All rights reserved.</span>
+    <span>Made with ✦ & AI</span>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <h2 class="modal-title">Get Started</h2>
+        <p style="font-size:0.85rem;color:#888;margin-top:4px;">We'll reach out within 24 hours to begin your journey.</p>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-ctas">
+      <a href="https://gumroad.com/checkout?product=fxtpx&quantity=1" class="btn-full">
+        Pay in Full & Get Started →
+      </a>
+      <a href="https://gumroad.com/checkout?product=fxtpx&quantity=1&pay_in_installments=true" class="btn-full" style="background:var(--black);">
+        Pay in Installments →
+      </a>
+    </div>
+    <p class="modal-note">🔒 Your info is 100% secure. No spam, ever.</p>
+  </div>
+</div>
+
+<!-- SUCCESS TOAST -->
+<div id="toast" style="
+  position:fixed;bottom:2rem;right:2rem;z-index:2000;
+  background:var(--black);color:var(--cream);
+  border:2px solid var(--black);
+  padding:1rem 1.5rem;
+  font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:600;
+  box-shadow:5px 5px 0 var(--pink);
+  transform:translateY(100px);opacity:0;
+  transition:all 0.4s;
+  max-width:320px;
+">
+  ✓ We received your request! We'll be in touch within 24 hours.
+</div>
+
+<script>
+  /* ── Modal ── */
+  function openModal(service) {
+    document.getElementById('modal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('modal').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function closeModalOutside(e) {
+    if (e.target === document.getElementById('modal')) closeModal();
+  }
+
+  /* ── Mobile menu ── */
+  function toggleMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const btn = document.getElementById('hamburger');
+    menu.classList.toggle('open');
+    btn.classList.toggle('open');
+    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+  }
+  function closeMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  /* ── FAQ ── */
+  function toggleFaq(el) {
+    el.parentElement.classList.toggle('open');
+  }
+
+  /* ── Keyboard ── */
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeMenu(); } });
+
+  /* ── Scroll animations ── */
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.style.opacity = '1'; });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.service-card,.testimonial,.how-step').forEach(el => {
+    el.style.transition = 'opacity 0.5s ease';
+    obs.observe(el);
+  });
+</script>
+</body>
+</html>
