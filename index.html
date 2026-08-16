@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LaunchKit · all‑in‑one media platform</title>
+  <!-- Tailwind via CDN + subtle base -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome icons (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* micro-interaction & smoothness */
+    .hover-lift {
+      transition: all 0.2s ease;
+    }
+    .hover-lift:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.15);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #0b1e33, #2d4b6e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .card-border {
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    body {
+      background: #f8fafc;
+    }
+    .global-badge {
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(2px);
+    }
+  </style>
+</head>
+<body class="antialiased font-sans text-gray-800">
+
+  <!-- HERO / header -->
+  <header class="relative bg-gradient-to-br from-[#0b1e33] to-[#1f3a57] text-white overflow-hidden">
+    <div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48cGF0aCBkPSJNMzAgMTBhMjAgMjAgMCAwIDEgMCA0MCAyMCAyMCAwIDAgMSAwLTQweiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvc3ZnPg==')] bg-repeat"></div>
+    <div class="max-w-6xl mx-auto px-6 py-16 md:py-24 relative z-10">
+      <div class="flex flex-wrap items-center justify-between">
+        <div class="w-full md:w-3/5">
+          <span class="inline-block bg-white/10 backdrop-blur-sm text-xs font-semibold tracking-wider uppercase px-4 py-1.5 rounded-full mb-6 border border-white/10">
+            <i class="fas fa-globe-americas mr-2"></i> worldwide · launch ready
+          </span>
+          <h1 class="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
+            Your <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-indigo-200">media platform</span><br>
+            <span class="text-3xl md:text-5xl font-light text-white/80">from domain to app &amp; video</span>
+          </h1>
+          <p class="text-lg md:text-xl text-white/70 max-w-2xl mt-6 leading-relaxed">
+            Everything you need to start, grow, and scale your business — 
+            domains, web &amp; app design, video, graphics, and media. 
+            <span class="text-white font-medium">One kit. Infinite possibilities.</span>
+          </p>
+          <div class="mt-10 flex flex-wrap gap-4">
+            <a href="#" class="bg-white text-[#0b1e33] font-semibold px-8 py-3.5 rounded-full shadow-lg shadow-blue-900/30 hover:shadow-blue-800/40 transition hover:scale-105 inline-flex items-center gap-2">
+              <i class="fas fa-rocket"></i> Start your kit
+            </a>
+            <a href="#" class="bg-white/10 backdrop-blur-sm border border-white/20 text-white font-medium px-8 py-3.5 rounded-full hover:bg-white/20 transition inline-flex items-center gap-2">
+              <i class="fas fa-play-circle"></i> See how it works
+            </a>
+          </div>
+          <div class="flex items-center gap-6 mt-8 text-sm text-white/50">
+            <span><i class="fas fa-check-circle text-emerald-300 mr-1.5"></i> no hidden fees</span>
+            <span><i class="fas fa-check-circle text-emerald-300 mr-1.5"></i> global support</span>
+            <span><i class="fas fa-check-circle text-emerald-300 mr-1.5"></i> 24/7 media studio</span>
+          </div>
+        </div>
+        <div class="w-full md:w-2/5 mt-10 md:mt-0 flex justify-center">
+          <div class="relative w-64 h-64 md:w-80 md:h-80">
+            <div class="absolute inset-0 bg-gradient-to-tr from-sky-400/20 to-indigo-400/20 rounded-full blur-2xl"></div>
+            <div class="relative bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-2xl rotate-3 hover:rotate-0 transition duration-500 w-full">
+              <div class="flex flex-col items-center">
+                <i class="fas fa-layer-group text-6xl text-sky-300 mb-3"></i>
+                <div class="text-2xl font-bold text-white">Kit<span class="text-sky-300">+</span></div>
+                <div class="text-xs uppercase tracking-wider text-white/50 mt-1">domain · design · media</div>
+                <div class="flex gap-3 mt-4 text-white/70 text-sm">
+                  <span><i class="fas fa-globe mr-1 text-sky-300"></i> .com</span>
+                  <span><i class="fas fa-code mr-1 text-sky-300"></i> web/app</span>
+                  <span><i class="fas fa-video mr-1 text-sky-300"></i> graphics</span>
+                </div>
+                <div class="mt-4 w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                  <div class="w-3/4 h-full bg-gradient-to-r from-sky-400 to-indigo-400 rounded-full"></div>
+                </div>
+                <div class="text-[10px] text-white/30 mt-2">100% ready to launch</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- world map subtle decoration -->
+    <div class="absolute bottom-0 right-0 opacity-5 text-9xl select-none pointer-events-none">🌍</div>
+  </header>
+
+  <!-- FEATURES / what’s included -->
+  <section class="max-w-6xl mx-auto px-6 py-20">
+    <div class="text-center mb-16">
+      <span class="text-sm font-semibold tracking-widest text-sky-700 uppercase bg-sky-100 px-4 py-1.5 rounded-full"><i class="fas fa-cube mr-2"></i> all‑in‑one starter kit</span>
+      <h2 class="text-3xl md:text-5xl font-bold mt-5 gradient-text">Everything you need,<br class="md:hidden"> from A to Z</h2>
+      <p class="text-gray-500 max-w-2xl mx-auto mt-4 text-lg">Domains, web &amp; app design, video, graphics — bundled for a seamless global launch.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <!-- card 1 -->
+      <div class="bg-white rounded-2xl p-7 shadow-md hover-lift card-border transition-all">
+        <div class="w-14 h-14 bg-sky-100 rounded-2xl flex items-center justify-center text-sky-700 text-2xl mb-5">
+          <i class="fas fa-globe"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800">Domain &amp; hosting</h3>
+        <p class="text-gray-500 text-sm mt-2 leading-relaxed">Choose your perfect .com, .io, or .co — worldwide DNS, SSL, and 24/7 uptime.</p>
+        <div class="mt-4 flex items-center text-xs font-medium text-sky-600"><i class="fas fa-check-circle mr-1.5"></i> 50+ TLDs</div>
+      </div>
+      <!-- card 2 -->
+      <div class="bg-white rounded-2xl p-7 shadow-md hover-lift card-border transition-all">
+        <div class="w-14 h-14 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-700 text-2xl mb-5">
+          <i class="fas fa-paint-brush"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800">Web &amp; app design</h3>
+        <p class="text-gray-500 text-sm mt-2 leading-relaxed">Stunning, responsive websites + native mobile apps (iOS/Android) with modern UX.</p>
+        <div class="mt-4 flex items-center text-xs font-medium text-indigo-600"><i class="fas fa-check-circle mr-1.5"></i> pixel‑perfect</div>
+      </div>
+      <!-- card 3 -->
+      <div class="bg-white rounded-2xl p-7 shadow-md hover-lift card-border transition-all">
+        <div class="w-14 h-14 bg-rose-100 rounded-2xl flex items-center justify-center text-rose-700 text-2xl mb-5">
+          <i class="fas fa-video"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800">Video &amp; media</h3>
+        <p class="text-gray-500 text-sm mt-2 leading-relaxed">Professional explainer videos, social clips, motion graphics — studio quality.</p>
+        <div class="mt-4 flex items-center text-xs font-medium text-rose-600"><i class="fas fa-check-circle mr-1.5"></i> 4K · animation</div>
+      </div>
+      <!-- card 4 -->
+      <div class="bg-white rounded-2xl p-7 shadow-md hover-lift card-border transition-all">
+        <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-700 text-2xl mb-5">
+          <i class="fas fa-image"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800">Graphics &amp; branding</h3>
+        <p class="text-gray-500 text-sm mt-2 leading-relaxed">Logos, social assets, infographics, presentations — cohesive brand identity.</p>
+        <div class="mt-4 flex items-center text-xs font-medium text-emerald-600"><i class="fas fa-check-circle mr-1.5"></i> unlimited revisions</div>
+      </div>
+    </div>
+
+    <!-- extra row: worldwide + media studio -->
+    <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 bg-white/60 backdrop-blur-sm rounded-3xl p-8 border border-gray-100/60 shadow-sm">
+      <div class="flex items-center gap-4">
+        <div class="bg-sky-100 w-12 h-12 rounded-full flex items-center justify-center text-sky-700 text-xl"><i class="fas fa-map-pin"></i></div>
+        <div><span class="font-semibold block">Global reach</span><span class="text-sm text-gray-500">Serve customers in 190+ countries</span></div>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="bg-indigo-100 w-12 h-12 rounded-full flex items-center justify-center text-indigo-700 text-xl"><i class="fas fa-headset"></i></div>
+        <div><span class="font-semibold block">Media studio</span><span class="text-sm text-gray-500">Dedicated team &amp; production pipeline</span></div>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="bg-emerald-100 w-12 h-12 rounded-full flex items-center justify-center text-emerald-700 text-xl"><i class="fas fa-infinity"></i></div>
+        <div><span class="font-semibold block">All‑in‑one</span><span class="text-sm text-gray-500">Domain → design → media → launch</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY US / trust + worldwide -->
+  <section class="bg-[#0b1e33] text-white py-16 px-6 relative overflow-hidden">
+    <div class="absolute right-0 bottom-0 opacity-5 text-8xl select-none">🌎</div>
+    <div class="max-w-6xl mx-auto relative z-10">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="inline-block bg-white/10 text-xs font-semibold tracking-wider uppercase px-4 py-1.5 rounded-full border border-white/10"><i class="fas fa-globe-americas mr-2"></i> worldwide</span>
+          <h2 class="text-3xl md:text-4xl font-bold mt-5">Built for global<br>business builders</h2>
+          <p class="text-white/60 text-lg mt-4 leading-relaxed">We combine domain, design, and media into one streamlined kit — so you can focus on your vision, not the tools. From San Francisco to Singapore, we speak your business language.</p>
+          <ul class="mt-6 space-y-3">
+            <li class="flex items-center gap-3"><i class="fas fa-check-circle text-emerald-400 w-5"></i> <span>Over 2,500 startups launched worldwide</span></li>
+            <li class="flex items-center gap-3"><i class="fas fa-check-circle text-emerald-400 w-5"></i> <span>Support in 12 languages, 24/7</span></li>
+            <li class="flex items-center gap-3"><i class="fas fa-check-circle text-emerald-400 w-5"></i> <span>Enterprise-grade infrastructure</span></li>
+          </ul>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/5 text-center">
+            <div class="text-3xl font-black text-sky-300">+190</div>
+            <div class="text-sm text-white/40">countries served</div>
+          </div>
+          <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/5 text-center">
+            <div class="text-3xl font-black text-indigo-300">99.9%</div>
+            <div class="text-sm text-white/40">uptime SLA</div>
+          </div>
+          <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/5 text-center">
+            <div class="text-3xl font-black text-rose-300">4.9★</div>
+            <div class="text-sm text-white/40">avg. client rating</div>
+          </div>
+          <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/5 text-center">
+            <div class="text-3xl font-black text-emerald-300">1‑kit</div>
+            <div class="text-sm text-white/40">everything included</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL / social proof -->
+  <section class="max-w-4xl mx-auto px-6 py-16 text-center">
+    <i class="fas fa-quote-left text-4xl text-sky-200 opacity-60 mb-4"></i>
+    <blockquote class="text-2xl md:text-3xl font-light text-gray-700 leading-relaxed">
+      “The LaunchKit gave us a domain, a gorgeous app, and a video pitch in under 2 weeks. 
+      We launched globally without a hitch.”
+    </blockquote>
+    <div class="mt-6 flex items-center justify-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-sky-200 flex items-center justify-center text-sky-800 font-bold">JD</div>
+      <div class="text-left">
+        <div class="font-semibold">Jenna Delgado</div>
+        <div class="text-sm text-gray-400">Founder, Nimbus Health · UK</div>
+      </div>
+    </div>
+    <div class="mt-8 flex justify-center gap-6 text-gray-400 text-sm flex-wrap">
+      <span><i class="fas fa-map-marker-alt text-sky-500 mr-1"></i> London</span>
+      <span><i class="fas fa-map-marker-alt text-sky-500 mr-1"></i> Berlin</span>
+      <span><i class="fas fa-map-marker-alt text-sky-500 mr-1"></i> Tokyo</span>
+      <span><i class="fas fa-map-marker-alt text-sky-500 mr-1"></i> São Paulo</span>
+      <span><i class="fas fa-map-marker-alt text-sky-500 mr-1"></i> Dubai</span>
+    </div>
+  </section>
+
+  <!-- CTA / final -->
+  <section class="bg-gradient-to-r from-[#0b1e33] to-[#1a3455] text-white py-20 px-6">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl md:text-5xl font-bold">Ready to launch your<br>business worldwide?</h2>
+      <p class="text-white/60 text-lg mt-4 max-w-2xl mx-auto">Get the complete media kit — domain, web &amp; app design, video, graphics. One price, global impact.</p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="#" class="bg-white text-[#0b1e33] font-bold px-10 py-4 rounded-full shadow-2xl shadow-blue-900/40 hover:scale-105 transition inline-flex items-center gap-2">
+          <i class="fas fa-bolt"></i> Claim your kit
+        </a>
+        <a href="#" class="bg-white/10 backdrop-blur border border-white/20 px-10 py-4 rounded-full hover:bg-white/20 transition inline-flex items-center gap-2">
+          <i class="fas fa-calendar-alt"></i> Book a demo
+        </a>
+      </div>
+      <div class="mt-8 text-sm text-white/30 flex justify-center gap-6 flex-wrap">
+        <span><i class="fas fa-check-circle text-emerald-300 mr-1"></i> no credit card required</span>
+        <span><i class="fas fa-check-circle text-emerald-300 mr-1"></i> 14‑day risk‑free</span>
+        <span><i class="fas fa-check-circle text-emerald-300 mr-1"></i> worldwide support</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#07131f] text-white/50 text-sm py-8 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="flex items-center gap-2">
+        <i class="fas fa-cube text-sky-400/60"></i>
+        <span class="font-medium text-white/70">LaunchKit<span class="text-sky-400/60">+</span></span>
+        <span class="hidden md:inline-block w-px h-4 bg-white/10 mx-3"></span>
+        <span class="text-xs">© 2026 · global media platform</span>
+      </div>
+      <div class="flex gap-6 text-xs">
+        <a href="#" class="hover:text-white transition">Privacy</a>
+        <a href="#" class="hover:text-white transition">Terms</a>
+        <a href="#" class="hover:text-white transition">Support</a>
+        <span><i class="fas fa-globe-asia mr-1"></i> EN</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- tiny JS : interactive demo (just for fun) -->
+  <script>
+    (function() {
+      // simple console greet
+      console.log("🌍 LaunchKit+ · worldwide media platform");
+      // add a subtle interaction on card hover (already via css)
+    })();
+  </script>
+</body>
+</html>
