@@ -40,6 +40,8 @@
       --modal-radius: 32px;
       --legal-dark: #1a1728;
       --legal-dark-2: #252238;
+      --telegram: #0088cc;
+      --telegram-hover: #0077b3;
     }
 
     h1, h2, h3 {
@@ -158,6 +160,16 @@
       background: var(--primary-light);
       transform: translateY(-2px);
       box-shadow: 0 8px 16px rgba(108, 92, 231, 0.12);
+    }
+
+    .btn-telegram {
+      background: var(--telegram);
+      box-shadow: 0 4px 10px rgba(0, 136, 204, 0.3);
+    }
+
+    .btn-telegram:hover {
+      background: var(--telegram-hover);
+      box-shadow: 0 10px 20px rgba(0, 136, 204, 0.35);
     }
 
     .btn-small {
@@ -356,7 +368,7 @@
 
     .modal-container {
       background: var(--card-bg);
-      max-width: 900px;
+      max-width: 920px;
       width: 100%;
       max-height: 90vh;
       border-radius: var(--modal-radius);
@@ -444,6 +456,34 @@
       font-size: 0.95rem;
       letter-spacing: 0.3px;
       text-transform: uppercase;
+    }
+
+    /* Telegram modal header */
+    .modal-telegram-header {
+      background: linear-gradient(135deg, #0088cc 0%, #006699 100%);
+      padding: 2.5rem 3rem 2rem;
+      color: white;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .modal-telegram-header h2 {
+      color: white;
+      font-size: 1.9rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      padding-right: 2.5rem;
+    }
+
+    .modal-telegram-header .telegram-subhead {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .modal-close {
@@ -697,6 +737,76 @@
       min-width: 20px;
     }
 
+    /* Telegram content styling */
+    .telegram-content {
+      text-align: center;
+      padding: 0.5rem 0;
+    }
+
+    .telegram-content .telegram-icon-large {
+      font-size: 4rem;
+      color: var(--telegram);
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .telegram-content h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--text-dark);
+    }
+
+    .telegram-content p {
+      font-size: 1.05rem;
+      color: var(--text-soft);
+      margin-bottom: 1rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .telegram-username {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gray-bg);
+      padding: 1rem 2rem;
+      border-radius: 16px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--telegram);
+      margin: 1.5rem 0;
+      border: 2px dashed #b8dce8;
+      letter-spacing: 0.5px;
+    }
+
+    .telegram-username i {
+      font-size: 1.4rem;
+    }
+
+    .telegram-benefits {
+      text-align: left;
+      max-width: 500px;
+      margin: 2rem auto 0;
+    }
+
+    .telegram-benefits li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 1rem;
+      color: var(--text-soft);
+      font-size: 1rem;
+      list-style: none;
+    }
+
+    .telegram-benefits li i {
+      color: var(--telegram);
+      font-size: 1.2rem;
+      margin-top: 2px;
+      min-width: 20px;
+    }
+
     /* ---------- FOOTER ---------- */
     footer {
       margin-top: auto;
@@ -750,8 +860,8 @@
       .nav-links { gap: 1.2rem; font-size: 0.9rem; }
       .nav-links span { font-size: 0.9rem; }
       .logo { font-size: 1.5rem; }
-      .modal-legal-header { padding: 2rem 1.5rem 1.5rem; }
-      .modal-legal-header h2 { font-size: 1.5rem; }
+      .modal-legal-header, .modal-telegram-header { padding: 2rem 1.5rem 1.5rem; }
+      .modal-legal-header h2, .modal-telegram-header h2 { font-size: 1.5rem; }
       .modal-body { padding: 1.8rem 1.5rem; }
       .modal-standard-header { padding: 2rem 1.5rem 0; }
       .btn { padding: 0.7rem 1.5rem; font-size: 0.95rem; }
@@ -772,7 +882,9 @@
       <span data-modal="modal-ai">AI Agents</span>
       <span data-modal="modal-about">About</span>
     </div>
-    <button class="btn btn-small" data-modal="modal-contact">Let's talk</button>
+    <button class="btn btn-small btn-telegram" data-modal="modal-telegram">
+      <i class="fab fa-telegram-plane" style="margin-right: 6px;"></i>Connect Now
+    </button>
   </header>
 
   <!-- MAIN -->
@@ -871,13 +983,13 @@
     </section>
   </main>
 
-  <!-- FOOTER with TOS & Shipping links -->
+  <!-- FOOTER -->
   <footer>
     <div class="container" style="padding: 0 2rem;">
       <div class="footer-links">
         <span data-modal="modal-tos"><i class="fas fa-file-contract"></i> Terms of Service</span>
         <span data-modal="modal-shipping"><i class="fas fa-truck-fast"></i> Shipping & Handling</span>
-        <span data-modal="modal-contact"><i class="fas fa-envelope"></i> Contact</span>
+        <span data-modal="modal-telegram"><i class="fab fa-telegram-plane"></i> Connect on Telegram</span>
       </div>
       <p>© 2025 EngageMedia · Helping you deliver engaging media & intelligent agents.</p>
       <p style="font-size: 0.85rem; margin-top: 0.5rem; color: #8f94b0;">
@@ -903,101 +1015,163 @@
     (function() {
       // ----- MODAL DATA -----
       const modalPages = {
+        // ---------- CONTENT CREATION ----------
         'modal-content': {
           headerType: 'standard',
           title: 'Content Creation',
           subhead: 'Story-driven · Multi-format · Results',
           content: `
-            <p>We produce engaging content that connects with your audience — from short-form video and podcasts to long-form articles and social campaigns.</p>
+            <p>We produce engaging content that connects with your audience — from short-form video and podcasts to long-form articles and social campaigns. Every piece is crafted to boost engagement and drive measurable action.</p>
+            <h3 style="font-size: 1.15rem; margin-top: 1.5rem;">What we deliver</h3>
             <ul class="modal-feature-list">
-              <li><i class="fas fa-check-circle"></i> <span><strong>Video production</strong> — concept, script, editing, and distribution.</span></li>
-              <li><i class="fas fa-check-circle"></i> <span><strong>Copywriting & articles</strong> — SEO-friendly, brand-aligned writing.</span></li>
-              <li><i class="fas fa-check-circle"></i> <span><strong>Social media kits</strong> — carousels, reels, and story templates.</span></li>
-              <li><i class="fas fa-check-circle"></i> <span><strong>Podcast launch & management</strong> — end-to-end production.</span></li>
+              <li><i class="fas fa-video"></i> <span><strong>Video production</strong> — concept, scripting, filming, editing, motion graphics, and distribution across YouTube, TikTok, Instagram, and LinkedIn.</span></li>
+              <li><i class="fas fa-pen-nib"></i> <span><strong>Copywriting & articles</strong> — SEO-optimized blog posts, whitepapers, email sequences, and website copy that reads well and ranks well.</span></li>
+              <li><i class="fas fa-hashtag"></i> <span><strong>Social media kits</strong> — carousels, reels, story templates, and content calendars designed for consistency and growth.</span></li>
+              <li><i class="fas fa-podcast"></i> <span><strong>Podcast production</strong> — launch strategy, recording, editing, show notes, and distribution to all major platforms.</span></li>
+              <li><i class="fas fa-image"></i> <span><strong>Graphic content</strong> — infographics, quote cards, thumbnails, and ad creatives that stop the scroll.</span></li>
             </ul>
-            <p>Every piece is crafted to boost engagement and drive measurable action.</p>
+            <div class="legal-highlight">
+              <p><i class="fas fa-chart-line"></i> <strong>Results-driven:</strong> Our content is designed around your KPIs — engagement, leads, conversions, or brand awareness.</p>
+            </div>
+            <h3 style="font-size: 1.15rem;">Our process</h3>
+            <ul class="modal-feature-list">
+              <li><i class="fas fa-1"></i> <span><strong>Discovery</strong> — we learn your brand, audience, and goals.</span></li>
+              <li><i class="fas fa-2"></i> <span><strong>Strategy</strong> — we build a content plan tailored to your objectives.</span></li>
+              <li><i class="fas fa-3"></i> <span><strong>Production</strong> — we create, edit, and polish every asset.</span></li>
+              <li><i class="fas fa-4"></i> <span><strong>Delivery & optimization</strong> — we publish, monitor, and refine.</span></li>
+            </ul>
             <div class="modal-footer-actions">
-              <button class="btn" onclick="alert('Request a content consult (demo)')">Start a project</button>
+              <a href="https://t.me/engagemedia" target="_blank" class="btn btn-telegram"><i class="fab fa-telegram-plane" style="margin-right: 6px;"></i>Start a content project</a>
               <button class="btn btn-outline" onclick="closeModal()">Close</button>
             </div>
           `
         },
+        // ---------- WEB & GRAPHICS DESIGN ----------
         'modal-design': {
           headerType: 'standard',
           title: 'Web & Graphics Design',
           subhead: 'Clean · Modern · Conversion-focused',
           content: `
-            <p>We design websites, brand identities, and visual assets that look great and perform even better.</p>
+            <p>We design websites, brand identities, and visual assets that look great and perform even better. From your first landing page to a full brand system, we merge aesthetics with strategy.</p>
+            <h3 style="font-size: 1.15rem; margin-top: 1.5rem;">What we deliver</h3>
             <ul class="modal-feature-list">
-              <li><i class="fas fa-check-circle"></i> <span><strong>Web design & development</strong> — responsive, fast, and SEO-ready.</span></li>
-              <li><i class="fas fa-check-circle"></i> <span><strong>Brand identity</strong> — logos, typography, color systems.</span></li>
-              <li><i class="fas fa-check-circle"></i> <span><strong>Marketing graphics</strong> — banners, infographics, and ad creatives.</span></li>
-              <li><i class="fas fa-check-circle"></i> <span><strong>UI/UX audits</strong> — improve engagement and usability.</span></li>
+              <li><i class="fas fa-laptop-code"></i> <span><strong>Web design & development</strong> — responsive, fast-loading, SEO-ready websites built on modern frameworks (React, Next.js, Webflow, WordPress).</span></li>
+              <li><i class="fas fa-fingerprint"></i> <span><strong>Brand identity</strong> — logos, typography, color palettes, brand guidelines, and complete visual systems.</span></li>
+              <li><i class="fas fa-bullhorn"></i> <span><strong>Marketing graphics</strong> — banners, infographics, ad creatives, and pitch deck design.</span></li>
+              <li><i class="fas fa-mobile-alt"></i> <span><strong>UI/UX design</strong> — wireframes, prototypes, and user flows that turn visitors into customers.</span></li>
+              <li><i class="fas fa-search"></i> <span><strong>UI/UX audits</strong> — detailed reviews of your existing site with actionable improvements.</span></li>
             </ul>
-            <p>We merge aesthetics with strategy, so your brand stands out and converts.</p>
+            <div class="legal-highlight">
+              <p><i class="fas fa-bullseye"></i> <strong>Conversion-focused:</strong> Every design decision is made to guide users toward action — sign-ups, purchases, or inquiries.</p>
+            </div>
+            <h3 style="font-size: 1.15rem;">Our process</h3>
+            <ul class="modal-feature-list">
+              <li><i class="fas fa-search"></i> <span><strong>Research</strong> — competitor analysis, user personas, and goal alignment.</span></li>
+              <li><i class="fas fa-pencil-ruler"></i> <span><strong>Design</strong> — wireframes, mockups, and interactive prototypes.</span></li>
+              <li><i class="fas fa-code"></i> <span><strong>Build</strong> — pixel-perfect development with performance optimization.</span></li>
+              <li><i class="fas fa-rocket"></i> <span><strong>Launch & iterate</strong> — deployment, analytics setup, and ongoing improvements.</span></li>
+            </ul>
             <div class="modal-footer-actions">
-              <button class="btn" onclick="alert('Design inquiry (demo)')">See our portfolio</button>
+              <a href="https://t.me/engagemedia" target="_blank" class="btn btn-telegram"><i class="fab fa-telegram-plane" style="margin-right: 6px;"></i>Start a design project</a>
               <button class="btn btn-outline" onclick="closeModal()">Close</button>
             </div>
           `
         },
+        // ---------- AI AGENTS ----------
         'modal-ai': {
           headerType: 'standard',
           title: 'AI Agents for Everyday Business',
           subhead: 'Automate · Monitor · Improve',
           content: `
-            <p>We build custom AI agents that support your daily life and business operations — especially in marketing, admin, and customer engagement.</p>
+            <p>We build custom AI agents that support your daily life and business operations — especially in marketing, admin, and customer engagement. We don't just deploy — we monitor and continuously improve your agents to help you succeed.</p>
+            <h3 style="font-size: 1.15rem; margin-top: 1.5rem;">What we deliver</h3>
             <ul class="modal-feature-list">
-              <li><i class="fas fa-check-circle"></i> <span><strong>Marketing agents</strong> — generate posts, schedule, and reply to leads.</span></li>
-              <li><i class="fas fa-check-circle"></i> <span><strong>Business assistants</strong> — manage emails, calendars, and reminders.</span></li>
-              <li><i class="fas fa-check-circle"></i> <span><strong>Monitoring & improvement</strong> — we track KPI, refine prompts, and retrain.</span></li>
-              <li><i class="fas fa-check-circle"></i> <span><strong>Goal alignment</strong> — agents that learn your business objectives.</span></li>
+              <li><i class="fas fa-bullhorn"></i> <span><strong>Marketing agents</strong> — generate social posts, schedule content, reply to leads, and optimize ad copy automatically.</span></li>
+              <li><i class="fas fa-user-tie"></i> <span><strong>Business assistants</strong> — manage emails, calendars, reminders, and task prioritization.</span></li>
+              <li><i class="fas fa-headset"></i> <span><strong>Customer support agents</strong> — handle FAQs, route tickets, and escalate complex issues.</span></li>
+              <li><i class="fas fa-chart-bar"></i> <span><strong>Monitoring & improvement</strong> — we track KPIs, refine prompts, retrain models, and optimize performance weekly.</span></li>
+              <li><i class="fas fa-bullseye"></i> <span><strong>Goal alignment</strong> — agents that learn your business objectives and adapt over time.</span></li>
             </ul>
-            <p>We don't just deploy — we monitor and continuously improve your agents to help you succeed.</p>
+            <div class="legal-highlight">
+              <p><i class="fas fa-clock"></i> <strong>Save 15+ hours per week:</strong> Our clients automate repetitive tasks and focus on high-value work.</p>
+            </div>
+            <h3 style="font-size: 1.15rem;">Our AI agent process</h3>
+            <ul class="modal-feature-list">
+              <li><i class="fas fa-1"></i> <span><strong>Discovery</strong> — we identify tasks that can be automated and define success metrics.</span></li>
+              <li><i class="fas fa-2"></i> <span><strong>Build</strong> — we design, train, and configure your custom agent.</span></li>
+              <li><i class="fas fa-3"></i> <span><strong>Deploy</strong> — we integrate the agent into your existing tools and workflows.</span></li>
+              <li><i class="fas fa-4"></i> <span><strong>Monitor & improve</strong> — we track performance and retrain the agent continuously.</span></li>
+            </ul>
             <div class="modal-footer-actions">
-              <button class="btn" onclick="alert('AI agent consultation (demo)')">Book a demo</button>
+              <a href="https://t.me/engagemedia" target="_blank" class="btn btn-telegram"><i class="fab fa-telegram-plane" style="margin-right: 6px;"></i>Book an AI demo</a>
               <button class="btn btn-outline" onclick="closeModal()">Close</button>
             </div>
           `
         },
+        // ---------- MONITORING & GROWTH ----------
         'modal-about': {
           headerType: 'standard',
           title: 'Monitoring & Growth',
           subhead: 'Data-backed · Iterative · Success',
           content: `
-            <p>Our engagement doesn't stop at delivery. We actively monitor your media performance and AI agents, then make improvements to hit your business goals.</p>
+            <p>Our engagement doesn't stop at delivery. We actively monitor your media performance and AI agents, then make improvements to hit your business goals. We treat your goals as our own — and iterate until we succeed together.</p>
+            <h3 style="font-size: 1.15rem; margin-top: 1.5rem;">What we deliver</h3>
             <ul class="modal-feature-list">
-              <li><i class="fas fa-check-circle"></i> <span><strong>Analytics dashboards</strong> — real-time metrics for content and agents.</span></li>
-              <li><i class="fas fa-check-circle"></i> <span><strong>A/B testing</strong> — optimize messaging and agent responses.</span></li>
-              <li><i class="fas fa-check-circle"></i> <span><strong>Monthly strategy reviews</strong> — align with your objectives.</span></li>
-              <li><i class="fas fa-check-circle"></i> <span><strong>Agent retraining</strong> — keep AI sharp and effective.</span></li>
+              <li><i class="fas fa-chart-pie"></i> <span><strong>Analytics dashboards</strong> — real-time metrics for content, campaigns, and AI agents in one place.</span></li>
+              <li><i class="fas fa-flask"></i> <span><strong>A/B testing</strong> — optimize messaging, design elements, and agent responses through controlled experiments.</span></li>
+              <li><i class="fas fa-calendar-check"></i> <span><strong>Monthly strategy reviews</strong> — deep-dive sessions to align with your evolving objectives.</span></li>
+              <li><i class="fas fa-robot"></i> <span><strong>Agent retraining</strong> — keep AI sharp and effective with regular performance tuning.</span></li>
+              <li><i class="fas fa-file-alt"></i> <span><strong>Reporting</strong> — clear, actionable reports that show exactly what's working and what's next.</span></li>
             </ul>
-            <p>We treat your goals as our own — and iterate until we succeed together.</p>
+            <div class="legal-highlight">
+              <p><i class="fas fa-chart-line"></i> <strong>Continuous improvement:</strong> We don't set it and forget it. Your campaigns and agents get better every month.</p>
+            </div>
+            <h3 style="font-size: 1.15rem;">Why it matters</h3>
+            <ul class="modal-feature-list">
+              <li><i class="fas fa-check-circle"></i> <span>You see exactly where your investment is going.</span></li>
+              <li><i class="fas fa-check-circle"></i> <span>Your AI agents learn and adapt to your business.</span></li>
+              <li><i class="fas fa-check-circle"></i> <span>You get proactive recommendations, not just reports.</span></li>
+            </ul>
             <div class="modal-footer-actions">
-              <button class="btn" onclick="alert('Growth audit request (demo)')">Get a growth plan</button>
+              <a href="https://t.me/engagemedia" target="_blank" class="btn btn-telegram"><i class="fab fa-telegram-plane" style="margin-right: 6px;"></i>Get a growth plan</a>
               <button class="btn btn-outline" onclick="closeModal()">Close</button>
             </div>
           `
         },
-        'modal-contact': {
-          headerType: 'standard',
-          title: 'Let\\'s talk',
-          subhead: 'We usually respond within 2 hours',
+        // ---------- TELEGRAM CONNECT ----------
+        'modal-telegram': {
+          headerType: 'telegram',
+          title: 'Connect on Telegram',
+          subhead: 'Fast · Direct · Personal',
           content: `
-            <p>Ready to create engaging media, design stand-out experiences, or deploy AI agents? Reach out — we'd love to hear about your project.</p>
-            <ul class="modal-feature-list">
-              <li><i class="fas fa-envelope"></i> <span>hello@engagemedia.example</span></li>
-              <li><i class="fas fa-phone-alt"></i> <span>+1 (555) 123-4567</span></li>
-              <li><i class="fas fa-calendar"></i> <span>Book a free 30-min discovery call</span></li>
-            </ul>
-            <p>Or just click below to send a quick message (demo).</p>
-            <div class="modal-footer-actions">
-              <button class="btn" onclick="alert('Message sent (demo) — we will contact you soon!')">Send message</button>
+            <div class="telegram-content">
+              <i class="fab fa-telegram-plane telegram-icon-large"></i>
+              <h3>Let's talk on Telegram</h3>
+              <p>We use Telegram for fast, direct communication with our clients. Reach out and get a response within minutes — not hours.</p>
+              <div class="telegram-username">
+                <i class="fab fa-telegram-plane"></i>
+                @engagemedia
+              </div>
+              <p style="font-size: 0.95rem; color: #8f94b0;">Click the button below to open Telegram and start a conversation.</p>
+              <ul class="telegram-benefits">
+                <li><i class="fas fa-bolt"></i> <span><strong>Instant responses</strong> — we're usually online and reply within minutes.</span></li>
+                <li><i class="fas fa-lock"></i> <span><strong>Private & secure</strong> — end-to-end encrypted messaging.</span></li>
+                <li><i class="fas fa-paperclip"></i> <span><strong>Share files easily</strong> — briefs, assets, and feedback all in one place.</span></li>
+                <li><i class="fas fa-robot"></i> <span><strong>AI agent demos</strong> — we can walk you through live demos on Telegram.</span></li>
+                <li><i class="fas fa-headset"></i> <span><strong>Ongoing support</strong> — stay connected throughout your project.</span></li>
+              </ul>
+              <div style="margin-top: 2rem;">
+                <a href="https://t.me/engagemedia" target="_blank" class="btn btn-telegram" style="font-size: 1.1rem; padding: 1rem 2.5rem;">
+                  <i class="fab fa-telegram-plane" style="margin-right: 8px;"></i>Open Telegram & Connect
+                </a>
+              </div>
+            </div>
+            <div class="modal-footer-actions" style="justify-content: center;">
               <button class="btn btn-outline" onclick="closeModal()">Close</button>
             </div>
           `
         },
-        // ---- DETAILED SHIPPING & HANDLING ----
+        // ---------- DETAILED SHIPPING & HANDLING ----------
         'modal-shipping': {
           headerType: 'legal',
           title: 'Shipping & Handling Policy',
@@ -1081,7 +1255,7 @@
               <div class="legal-section">
                 <h3><span class="section-num">5</span> No Physical Shipping — Ever</h3>
                 <p>To be completely clear: <strong>EngageMedia does not and will not ship any physical products.</strong> All services are digital, all deliverables are electronic, and all delivery is immediate and direct. This policy applies to every service we offer, including content creation, web and graphic design, AI agent development, and monitoring services.</p>
-                <p>If you have any questions about how your specific deliverables will be delivered, please contact us before engaging our services.</p>
+                <p>If you have any questions about how your specific deliverables will be delivered, please contact us on Telegram before engaging our services.</p>
               </div>
 
               <div class="legal-footer-note">
@@ -1090,13 +1264,13 @@
               </div>
 
               <div class="modal-footer-actions">
-                <button class="btn" onclick="alert('Thank you for reviewing our Shipping Policy (demo)')">I understand</button>
+                <a href="https://t.me/engagemedia" target="_blank" class="btn btn-telegram"><i class="fab fa-telegram-plane" style="margin-right: 6px;"></i>Questions? Ask on Telegram</a>
                 <button class="btn btn-outline" onclick="closeModal()">Close</button>
               </div>
             </div>
           `
         },
-        // ---- DETAILED TERMS OF SERVICE ----
+        // ---------- DETAILED TERMS OF SERVICE ----------
         'modal-tos': {
           headerType: 'legal',
           title: 'Terms of Service',
@@ -1110,7 +1284,7 @@
               <div class="legal-section">
                 <h3><span class="section-num">1</span> Definitions & Scope</h3>
                 <p>"EngageMedia," "we," "us," or "our" refers to EngageMedia and its affiliates. "You" or "Client" refers to the individual or entity engaging our services. "Services" includes content creation, web and graphic design, AI agent development, monitoring, and any related offerings.</p>
-                <p>These Terms apply to all services provided by EngageMedia, whether delivered through our website, email, or any other digital channel.</p>
+                <p>These Terms apply to all services provided by EngageMedia, whether delivered through our website, email, Telegram, or any other digital channel.</p>
               </div>
 
               <div class="legal-section">
@@ -1201,6 +1375,7 @@
                 <h3><span class="section-num">12</span> Contact Information</h3>
                 <p>If you have any questions about these Terms of Service, please contact us:</p>
                 <ul>
+                  <li><strong>Telegram</strong> — @engagemedia (fastest response)</li>
                   <li><strong>Email</strong> — legal@engagemedia.example</li>
                   <li><strong>Phone</strong> — +1 (555) 123-4567</li>
                   <li><strong>Mail</strong> — EngageMedia Legal, 123 Innovation Drive, Wilmington, DE 19801</li>
@@ -1213,7 +1388,7 @@
               </div>
 
               <div class="modal-footer-actions">
-                <button class="btn" onclick="alert('Thank you for reviewing our Terms of Service (demo)')">I agree</button>
+                <a href="https://t.me/engagemedia" target="_blank" class="btn btn-telegram"><i class="fab fa-telegram-plane" style="margin-right: 6px;"></i>Agree & Connect on Telegram</a>
                 <button class="btn btn-outline" onclick="closeModal()">Close</button>
               </div>
             </div>
@@ -1242,6 +1417,22 @@
               </div>
               <div class="modal-legal-badge">
                 <i class="fas fa-shield-alt"></i> Official Policy
+              </div>
+            </div>
+            <div class="modal-body">
+              ${pageData.content}
+            </div>
+          `;
+        } else if (pageData.headerType === 'telegram') {
+          closeBtn.classList.remove('dark');
+          modalContentDiv.innerHTML = `
+            <div class="modal-telegram-header">
+              <h2>${pageData.title}</h2>
+              <div class="telegram-subhead">
+                <i class="fab fa-telegram-plane"></i> ${pageData.subhead}
+              </div>
+              <div class="modal-legal-badge" style="background: rgba(255,255,255,0.15);">
+                <i class="fas fa-comments"></i> Direct Messaging
               </div>
             </div>
             <div class="modal-body">
