@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Discover Local - South Africa Business Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f5f5;
+            margin: 0;
+            padding-bottom: 70px;
+        }
+
+        .main-gradient {
+            background: linear-gradient(100deg, #0076c0 0%, #00c3d0 20%, #ffffff 50%, #ffd000 80%, #ff6a00 100%);
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        /* Creative Radar Button Animations */
+        @keyframes radar-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.7); }
+            70% { box-shadow: 0 0 0 30px rgba(14, 165, 233, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); }
+        }
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .radar-btn {
+            animation: radar-pulse 2s infinite;
+        }
+        
+        .radar-ring {
+            position: absolute;
+            border: 2px solid rgba(14, 165, 233, 0.3);
+            border-radius: 50%;
+            animation: radar-pulse 3s infinite;
+        }
+
+        .radar-sweep {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, transparent 70%, rgba(14, 165, 233, 0.4) 100%);
+            animation: spin-slow 3s linear infinite;
+        }
+
+        .search-active .hero-section {
+            display: none;
+        }
+        .search-active .results-section {
+            display: block;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        .results-section { display: none; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .business-card {
+            animation: slideUp 0.4s ease-out forwards;
+            opacity: 0;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP HEADER -->
+    <header class="w-full bg-white shadow-sm flex items-center justify-between px-4 md:px-8 py-3 sticky top-0 z-40">
+        <div class="flex items-center">
+            <img src="logo.png" alt="Logo" class="w-10 h-10 md:w-12 md:h-12 object-contain mr-3">
+            <div class="flex flex-col">
+                <h1 class="text-sm md:text-base font-bold text-[#0f1f40] leading-tight">Discover Local</h1>
+                <p class="text-[10px] md:text-xs text-gray-500 font-medium">Find businesses near you</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 md:px-8 mt-4 relative">
+        
+        <!-- ================= HERO SECTION (Before Search) ================= -->
+        <div class="hero-section flex flex-col items-center justify-center min-h-[70vh] text-center">
+            
+            <!-- Creative Radar Animation -->
+            <div class="relative w-64 h-64 flex items-center justify-center mb-8">
+                <!-- Background Rings -->
+                <div class="radar-ring w-64 h-64" style="animation-delay: 0s;"></div>
+                <div class="radar-ring w-48 h-48" style="animation-delay: 1s;"></div>
+                <div class="radar-ring w-32 h-32" style="animation-delay: 2s;"></div>
+                
+                <!-- Sweeping Light -->
+                <div class="radar-sweep"></div>
+                
+                <!-- The Main Button -->
+                <button id="locateBtn" class="radar-btn relative z-10 w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-xl border-4 border-blue-500 hover:scale-105 transition-transform duration-200 group">
+                    <svg class="w-10 h-10 text-blue-500 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <h2 class="text-3xl font-extrabold text-[#0f1f40] mb-2">Discover Local Gems</h2>
+            <p class="text-sm text-gray-500 max-w-xs mb-6">Tap the radar to find amazing businesses right around your corner.</p>
+            
+            <!-- Radius Selector (Pre-Search) -->
+            <div class="bg-white p-2 rounded-full shadow-sm border border-gray-200 flex items-center gap-2">
+                <span class="text-xs font-bold text-gray-500 ml-2">Within</span>
+                <select id="radiusSelect" class="bg-transparent text-sm font-bold text-blue-600 outline-none cursor-pointer py-1 pr-4">
+                    <option value="2">2 km</option>
+                    <option value="5">5 km</option>
+                    <option value="10" selected>10 km</option>
+                    <option value="25">25 km</option>
+                    <option value="50">50 km</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- ================= RESULTS SECTION (After Search) ================= -->
+        <div class="results-section pb-8">
+            
+            <!-- Search Header -->
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-[#0f1f40]">Found Nearby</h2>
+                    <p class="text-xs text-gray-500" id="locationStatus">Locating you...</p>
+                </div>
+                <div class="flex items-center gap-2 bg-white p-2 rounded-full shadow-sm border border-gray-200">
+                    <span class="text-xs font-bold text-gray-500 ml-2">Radius:</span>
+                    <select id="radiusSelectResults" class="bg-transparent text-sm font-bold text-blue-600 outline-none cursor-pointer py-1 pr-4">
+                        <option value="2">2 km</option>
+                        <option value="5">5 km</option>
+                        <option value="10" selected>10 km</option>
+                        <option value="25">25 km</option>
+                        <option value="50">50 km</option>
+                    </select>
+                    <button id="refreshBtn" class="bg-blue-50 text-blue-600 p-2 rounded-full hover:bg-blue-100 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Business Cards Container -->
+            <div id="businessList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Cards will be injected here by JS -->
+            </div>
+            
+            <div class="text-center mt-8">
+                <button onclick="resetSearch()" class="text-sm font-bold text-blue-600 hover:underline">← Start a new search</button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200 flex justify-around items-center text-gray-500 text-[10px] md:text-xs py-2 md:py-3">
+        <a href="dashboard.html" class="flex flex-col items-center flex-1 py-1 hover:text-gray-800 transition">
+            <svg class="w-5 h-5 md:w-6 md:h-6 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            <span>Dashboard</span>
+        </a>
+        <a href="#" class="flex flex-col items-center flex-1 py-1 text-[#0ea5e9]">
+            <svg class="w-5 h-5 md:w-6 md:h-6 mb-1" fill="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span>Discover</span>
+        </a>
+        <a href="https://wa.me/27000000000" target="_blank" class="flex flex-col items-center flex-1 py-1 hover:text-gray-800 transition">
+            <svg class="w-5 h-5 md:w-6 md:h-6 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+            <span>Support</span>
+        </a>
+    </nav>
+
+    <!-- Logic Scripts -->
+    <script>
+        const locateBtn = document.getElementById('locateBtn');
+        const heroSection = document.querySelector('.hero-section');
+        const resultsSection = document.querySelector('.results-section');
+        const businessList = document.getElementById('businessList');
+        const locationStatus = document.getElementById('locationStatus');
+        const radiusSelect = document.getElementById('radiusSelect');
+        const radiusSelectResults = document.getElementById('radiusSelectResults');
+        const refreshBtn = document.getElementById('refreshBtn');
+
+        // --- 1. FAKE DATA GENERATOR ---
+        // In the future, this is where you would call your backend/Firebase.
+        const mockBusinesses = [
+            { name: "The Local Roast", category: "Coffee Shop", rating: 4.8, distance: 1.2, image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=400&h=200" },
+            { name: "Sipho's Auto Repairs", category: "Mechanic", rating: 4.5, distance: 2.5, image: "https://images.unsplash.com/photo-1613214150384-21071bc8406a?auto=format&fit=crop&q=80&w=400&h=200" },
+            { name: "Green Leaf Organics", category: "Grocery", rating: 4.9, distance: 3.1, image: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=400&h=200" },
+            { name: "Creative Edge Design", category: "Marketing", rating: 5.0, distance: 4.8, image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=400&h=200" },
+            { name: "Thandi's Bakery", category: "Bakery", rating: 4.7, distance: 6.2, image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=400&h=200" },
+            { name: "Fix-It Plumbing", category: "Services", rating: 4.2, distance: 8.5, image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=400&h=200" },
+            { name: "Urban Threads", category: "Clothing", rating: 4.6, distance: 12.0, image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=400&h=200" },
+            { name: "Elite Fitness Studio", category: "Gym", rating: 4.8, distance: 15.4, image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=400&h=200" }
+        ];
+
+        // --- 2. GEOLOCATION LOGIC ---
+        locateBtn.addEventListener('click', () => {
+            // Check if browser supports geolocation
+            if (!navigator.geolocation) {
+                alert("Geolocation is not supported by your browser.");
+                return;
+            }
+
+            // Change button state
+            locateBtn.innerHTML = '<svg class="w-8 h-8 text-blue-500 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+
+            // Request location
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    // Success! We got the coordinates.
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    
+                    // Show results screen
+                    performSearch(lat, lon);
+                },
+                (error) => {
+                    // Error or user denied permission
+                    locateBtn.innerHTML = '<svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>';
+                    setTimeout(() => {
+                        alert("Location access denied. Please enable GPS/Location permissions in your browser settings to find nearby businesses.");
+                        resetButton();
+                    }, 500);
+                },
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+            );
+        });
+
+        // --- 3. RENDER RESULTS ---
+        function performSearch(lat, lon) {
+            heroSection.style.display = 'none';
+            resultsSection.style.display = 'block';
+            
+            // Simulate getting the city name (in reality, use Reverse Geocoding API)
+            locationStatus.innerText = "Showing businesses around your current location.";
+            
+            const radius = parseInt(radiusSelect.value);
+            renderBusinesses(radius);
+        }
+
+        function renderBusinesses(maxDistance) {
+            businessList.innerHTML = ''; // Clear old results
+            
+            // Filter mock data by selected radius
+            const filtered = mockBusinesses.filter(b => b.distance <= maxDistance);
+
+            if (filtered.length === 0) {
+                businessList.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <div class="text-4xl mb-3">🔍</div>
+                        <h3 class="text-lg font-bold text-gray-800">No businesses found</h3>
+                        <p class="text-sm text-gray-500 mt-1">Try increasing your search radius.</p>
+                    </div>`;
+                return;
+            }
+
+            // Loop and create cards
+            filtered.forEach((biz, index) => {
+                const card = document.createElement('div');
+                card.className = 'card overflow-hidden border border-gray-100 flex flex-col business-card';
+                card.style.animationDelay = `${index * 0.1}s`; // Staggered animation
+                
+                card.innerHTML = `
+                    <div class="h-32 w-full bg-gray-200 relative">
+                        <img src="${biz.image}" alt="${biz.name}" class="w-full h-full object-cover">
+                        <span class="absolute top-2 right-2 bg-white/90 backdrop-blur text-xs font-bold px-2 py-1 rounded-md text-[#0f1f40] shadow-sm">
+                            ${biz.distance} km away
+                        </span>
+                    </div>
+                    <div class="p-4 flex flex-col flex-1">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="text-base font-bold text-gray-900 leading-tight">${biz.name}</h3>
+                            <div class="flex items-center text-yellow-500 text-xs font-bold bg-yellow-50 px-1.5 py-0.5 rounded">
+                                ★ ${biz.rating}
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 font-medium mb-3">${biz.category}</p>
+                        <div class="mt-auto flex gap-2">
+                            <button class="flex-1 bg-blue-50 text-blue-700 text-xs font-bold py-2 rounded-lg hover:bg-blue-100 transition">View Profile</button>
+                            <a href="https://wa.me/27000000000" target="_blank" class="flex-1 bg-green-500 text-white text-xs font-bold py-2 rounded-lg hover:bg-green-600 transition text-center">WhatsApp</a>
+                        </div>
+                    </div>
+                `;
+                businessList.appendChild(card);
+            });
+        }
+
+        // --- 4. INTERACTIVITY ---
+        // Sync the two dropdowns
+        radiusSelect.addEventListener('change', (e) => {
+            radiusSelectResults.value = e.target.value;
+        });
+        
+        radiusSelectResults.addEventListener('change', (e) => {
+            radiusSelect.value = e.target.value;
+            renderBusinesses(parseInt(e.target.value));
+        });
+
+        refreshBtn.addEventListener('click', () => {
+            renderBusinesses(parseInt(radiusSelectResults.value));
+        });
+
+        function resetSearch() {
+            resultsSection.style.display = 'none';
+            heroSection.style.display = 'flex';
+            resetButton();
+        }
+
+        function resetButton() {
+            locateBtn.innerHTML = '<svg class="w-10 h-10 text-blue-500 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>';
+        }
+    </script>
+</body>
+</html>
