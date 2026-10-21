@@ -1,0 +1,881 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b141a">
+  <meta name="color-scheme" content="dark">
+  <title>1biz.online · Activate your business bot</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <!-- Google Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --bg: #0b141a;
+      --panel: #111b21;
+      --raised: #1a262d;
+      --raised-2: #202c33;
+      --line: #2a3942;
+      --text: #e9edef;
+      --muted: #8696a0;
+      --green: #25d366;
+      --teal: #00a884;
+      --bubble: #005c4b;
+      --amber: #ffd166;
+      --danger: #f15c6d;
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background:
+        radial-gradient(900px 500px at 85% -10%, rgba(0,168,132,.18), transparent 60%),
+        radial-gradient(700px 420px at -10% 110%, rgba(37,211,102,.10), transparent 60%),
+        var(--bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: calc(1.5rem + env(safe-area-inset-top, 0px)) 1rem calc(2rem + env(safe-area-inset-bottom, 0px));
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3 { font-family: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif; }
+    :focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+
+    .mosaic-bar {
+      width: 100%;
+      max-width: 720px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, var(--teal), var(--green), var(--teal), transparent);
+      margin-bottom: 1.25rem;
+      opacity: .85;
+    }
+    .bot-card {
+      background: var(--panel);
+      border-radius: 1.75rem;
+      box-shadow: 0 30px 60px -20px rgba(0,0,0,.7), 0 0 0 1px var(--line);
+      padding: 2rem 1.5rem;
+      width: 100%;
+      max-width: 720px;
+    }
+    @media (min-width: 640px) { .bot-card { padding: 2.5rem; } }
+
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(145deg, var(--teal), var(--green));
+      border-radius: 50%;
+      color: #04130c;
+      font-size: 1.9rem;
+      box-shadow: 0 0 0 5px rgba(37,211,102,.14), 0 12px 28px -10px rgba(37,211,102,.6);
+      margin-bottom: 1rem;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: .8rem;
+      font-weight: 600;
+      padding: .35rem .9rem;
+      border-radius: 999px;
+      background: var(--raised-2);
+      color: var(--muted);
+      border: 1px solid var(--line);
+      transition: background .2s, color .2s, border-color .2s;
+    }
+    .status-badge i { font-size: .55rem; color: var(--muted); }
+    .status-badge.live { background: rgba(37,211,102,.1); color: var(--green); border-color: rgba(37,211,102,.28); }
+    .status-badge.live i { color: var(--green); animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 50% { opacity: .35; } }
+
+    /* incoming chat bubble */
+    .bot-message {
+      background: var(--raised-2);
+      padding: .85rem 1.1rem;
+      border-radius: .25rem 1.1rem 1.1rem 1.1rem;
+      font-size: .92rem;
+      color: var(--text);
+      line-height: 1.55;
+      margin: 1.2rem 0;
+      max-width: 34rem;
+    }
+    .bot-message i { color: var(--green); margin-right: 6px; }
+    .bot-message strong { color: var(--green); font-weight: 600; }
+
+    .footnote { font-size: .72rem; color: var(--muted); text-align: center; margin-top: 1.5rem; }
+    .footnote a { color: var(--green); text-decoration: none; font-weight: 500; }
+    .footnote a:hover { text-decoration: underline; }
+    .hidden { display: none !important; }
+
+    /* ---- CTA (outgoing bubble style) ---- */
+    .cta-section {
+      margin-top: 1.8rem;
+      padding: 1.5rem 1.25rem;
+      background: linear-gradient(160deg, rgba(0,92,75,.55), rgba(0,92,75,.22));
+      border-radius: 1.5rem;
+      border: 1px solid rgba(37,211,102,.35);
+      text-align: center;
+    }
+    .cta-section h2 { font-size: 1.25rem; font-weight: 800; color: var(--text); margin-bottom: .3rem; letter-spacing: -.01em; }
+    .cta-section p {
+      font-size: .85rem;
+      color: #b6c8c2;
+      margin-bottom: 1.1rem;
+      line-height: 1.5;
+      max-width: 28rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .phone-highlight {
+      font-weight: 700;
+      color: var(--text);
+      background: rgba(0,0,0,.3);
+      padding: .25rem .8rem;
+      border-radius: 999px;
+      display: inline-block;
+      font-size: .9rem;
+      border: 1px solid rgba(37,211,102,.3);
+      margin-bottom: .5rem;
+      letter-spacing: .02em;
+    }
+
+    /* ---- Buttons ---- */
+    .wa-btn, .primary-btn {
+      color: #04130c;
+      font-weight: 700;
+      padding: 1rem 1.5rem;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      max-width: 26rem;
+      font-size: 1rem;
+      margin-top: .75rem;
+      font-family: inherit;
+    }
+    .wa-btn { background: var(--green); box-shadow: 0 12px 28px -10px rgba(37,211,102,.65); }
+    .wa-btn:hover { background: #3be07c; transform: translateY(-2px); box-shadow: 0 18px 32px -10px rgba(37,211,102,.75); }
+    .primary-btn { background: var(--teal); box-shadow: 0 12px 28px -10px rgba(0,168,132,.65); }
+    .primary-btn:hover { background: #07c29a; transform: translateY(-2px); box-shadow: 0 18px 32px -10px rgba(0,168,132,.75); }
+    .wa-btn:active, .primary-btn:active { transform: translateY(1px); }
+    .wa-btn i { font-size: 1.25rem; }
+    .primary-btn:disabled { opacity: .5; pointer-events: none; }
+
+    /* ---- Step indicator ---- */
+    .step-indicator {
+      display: flex; align-items: center; justify-content: center;
+      gap: .5rem; margin-bottom: 1rem;
+      font-size: .7rem; font-weight: 600; color: var(--muted);
+    }
+    .step-dot {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--panel);
+      border: 2px solid var(--line);
+      font-size: .7rem; font-weight: 700;
+      color: var(--muted);
+    }
+    .step-dot.active { background: var(--teal); border-color: var(--teal); color: #04130c; }
+    .step-dot.done { background: var(--green); border-color: var(--green); color: #04130c; }
+    .step-line { width: 22px; height: 2px; background: var(--line); border-radius: 2px; }
+
+    /* ---- Activated state ---- */
+    .activated-banner {
+      background: linear-gradient(160deg, rgba(37,211,102,.18), rgba(0,168,132,.08));
+      border: 1px solid rgba(37,211,102,.5);
+      border-radius: 1.5rem;
+      padding: 1.5rem 1.25rem;
+      text-align: center;
+      margin-top: 1.8rem;
+      box-shadow: 0 0 40px -10px rgba(37,211,102,.35);
+    }
+    .activated-banner i.fa-check-circle { font-size: 2.2rem; color: var(--green); margin-bottom: .5rem; display: block; }
+    .activated-banner h2 { font-size: 1.3rem; font-weight: 800; color: var(--text); margin-bottom: .3rem; }
+    .activated-banner p { font-size: .88rem; color: #b6c8c2; line-height: 1.5; }
+    .activated-banner .phone-highlight { margin-top: .6rem; margin-bottom: 0; }
+
+    /* ---- Capability tiles ---- */
+    .cap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; margin-top: 1rem; }
+    @media (min-width: 560px) { .cap-grid { grid-template-columns: 1fr 1fr 1fr; } }
+    .cap-btn {
+      display: flex; flex-direction: column; align-items: flex-start;
+      padding: .9rem .85rem .8rem;
+      background: var(--raised);
+      border: 1px solid var(--line);
+      border-radius: 1.1rem;
+      transition: border-color .15s ease, background .15s ease, transform .15s ease;
+      cursor: pointer; text-align: left; position: relative;
+      color: var(--text); font-family: inherit;
+    }
+    .cap-btn:hover { border-color: var(--teal); background: var(--raised-2); transform: translateY(-2px); }
+    .cap-btn:active { transform: translateY(0); }
+    .cap-btn .cap-icon {
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(37,211,102,.12); color: var(--green);
+      font-size: 1rem; margin-bottom: .55rem;
+    }
+    .cap-btn .cap-label { font-size: .8rem; font-weight: 600; color: var(--text); line-height: 1.2; }
+    .cap-btn .cap-meta { font-size: .68rem; font-weight: 400; color: var(--muted); margin-top: .15rem; }
+    .cap-btn .cap-badge {
+      position: absolute; top: 8px; right: 8px;
+      font-size: .6rem; background: var(--amber); color: #1b1400;
+      padding: .1rem .5rem; border-radius: 999px; font-weight: 700;
+    }
+
+    /* ---- Modal ---- */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(5,10,14,.72);
+      backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1rem; z-index: 1000;
+      opacity: 0; visibility: hidden;
+      transition: opacity .2s ease, visibility .2s ease;
+    }
+    .modal-overlay.active { opacity: 1; visibility: visible; }
+    .modal-content {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 1.75rem;
+      max-width: 520px; width: 100%;
+      max-height: 85vh; overflow-y: auto;
+      padding: 1.8rem 1.5rem 1.5rem;
+      box-shadow: 0 40px 80px -20px rgba(0,0,0,.8);
+      transform: scale(.95);
+      transition: transform .2s ease;
+      position: relative;
+    }
+    .modal-overlay.active .modal-content { transform: scale(1); }
+    .modal-close {
+      position: absolute; top: 1rem; right: 1rem;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--raised-2); border: none; color: var(--text);
+      font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background .15s;
+    }
+    .modal-close:hover { background: var(--line); }
+    .modal-icon-large {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(37,211,102,.12); color: var(--green);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin-bottom: 1rem;
+    }
+    .modal-content h3 { font-size: 1.4rem; font-weight: 800; color: var(--text); margin-bottom: .4rem; line-height: 1.2; }
+    .modal-content .modal-sub { font-size: .9rem; color: var(--muted); margin-bottom: 1.2rem; line-height: 1.55; }
+    .modal-content .modal-detail { font-size: .9rem; color: var(--text); line-height: 1.6; padding: 1rem 0 .5rem; border-top: 1px solid var(--line); }
+    .modal-content .modal-detail ul { list-style: none; margin-top: .5rem; }
+    .modal-content .modal-detail li { margin-bottom: .5rem; font-size: .9rem; color: #c5d0d5; padding-left: 1.6rem; position: relative; }
+    .modal-content .modal-detail li::before {
+      content: "\f00c";
+      font-family: "Font Awesome 6 Free"; font-weight: 900;
+      position: absolute; left: 0; top: .1rem;
+      font-size: .7rem; color: var(--green);
+    }
+    .modal-content .modal-footnote { font-size: .72rem; color: var(--muted); margin-top: 1.2rem; border-top: 1px solid var(--line); padding-top: .8rem; }
+    .modal-content::-webkit-scrollbar { width: 6px; }
+    .modal-content::-webkit-scrollbar-track { background: var(--panel); }
+    .modal-content::-webkit-scrollbar-thumb { background: var(--line); border-radius: 10px; }
+
+    /* ---- Form ---- */
+    .form-group { margin: 1.2rem 0 .5rem; }
+    .form-group label { display: block; font-size: .82rem; font-weight: 600; color: var(--text); margin-bottom: .4rem; }
+    .form-group input {
+      width: 100%;
+      max-width: 26rem;
+      padding: .85rem 1rem;
+      border: 2px solid var(--line);
+      border-radius: 1rem;
+      font-size: 1.2rem;
+      font-family: 'Inter', monospace;
+      letter-spacing: .3em;
+      text-align: center;
+      color: var(--text);
+      font-weight: 600;
+      background: var(--bg);
+      transition: border-color .15s, box-shadow .15s;
+      outline: none;
+    }
+    .form-group input:focus { border-color: var(--green); box-shadow: 0 0 0 4px rgba(37,211,102,.18); }
+    .form-group input:disabled { opacity: .6; }
+    .form-group input::placeholder { letter-spacing: .1em; font-weight: 400; color: #4b5c66; }
+    .form-hint { font-size: .72rem; color: #9fb0b8; margin-top: .35rem; text-align: center; }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+      .spin { animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="mosaic-bar"></div>
+
+  <main class="bot-card">
+    <div class="logo-badge">
+      <i class="fas fa-robot"></i>
+    </div>
+
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-[#e9edef] tracking-tight">
+        1biz<span class="text-[#25d366]">.online</span>
+      </h1>
+      <span id="statusBadge" class="status-badge">
+        <i class="fas fa-circle"></i> <span id="statusText">bot offline</span>
+      </span>
+    </div>
+    <p class="text-sm text-[#8696a0] mb-4 font-medium">
+      Activate your AI business assistant — ready to engage, qualify and convert.
+    </p>
+
+    <!-- Primary message -->
+    <div class="bot-message" id="mainMessage">
+      <i class="fas fa-comment-dots"></i>
+      <span>Follow the two steps below to activate your bot. First, request a security code via WhatsApp. Then enter the code you receive.</span>
+    </div>
+
+    <!-- ========== STEP 1: REQUEST CODE VIA WHATSAPP ========== -->
+    <div class="cta-section" id="step1Section">
+      <div class="step-indicator">
+        <span class="step-dot active" id="stepDot1">1</span>
+        <span class="step-line"></span>
+        <span class="step-dot" id="stepDot2">2</span>
+      </div>
+      <h2><i class="fab fa-whatsapp mr-1.5" style="color:#25D366;"></i> Request your security code</h2>
+      <p>Tap the button below. It will open WhatsApp with a pre-filled message to request your bot security code.</p>
+      <div class="phone-highlight">
+        <i class="fab fa-whatsapp mr-1" style="color:#25D366;"></i> 068 912 4033
+      </div>
+      <div>
+        <button id="requestCodeBtn" class="wa-btn">
+          <i class="fab fa-whatsapp"></i> Request security code via WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- ========== STEP 2: ENTER CODE TO ACTIVATE ========== -->
+    <div class="cta-section hidden" id="step2Section" style="margin-top:1.2rem;">
+      <div class="step-indicator">
+        <span class="step-dot done" id="stepDot1Done">✓</span>
+        <span class="step-line"></span>
+        <span class="step-dot active" id="stepDot2Active">2</span>
+      </div>
+      <h2><i class="fas fa-key mr-1.5" style="color:#25d366;"></i> Enter your security code</h2>
+      <p>Check WhatsApp for the security code we sent you. Enter it below to activate your bot.</p>
+
+      <form id="activateForm" autocomplete="off">
+        <div class="form-group">
+          <label for="securityCodeInput">Your 6-digit security code</label>
+          <input
+            type="text"
+            id="securityCodeInput"
+            name="securityCode"
+            placeholder="000000"
+            maxlength="6"
+            inputmode="numeric"
+            pattern="[0-9]{6}"
+            required
+            autocomplete="one-time-code"
+            aria-describedby="codeHint"
+          >
+          <p class="form-hint" id="codeHint">Exactly 6 digits, no spaces</p>
+        </div>
+
+        <button type="submit" id="activateBotBtn" class="primary-btn">
+          <i class="fas fa-power-off"></i> Activate bot
+        </button>
+      </form>
+    </div>
+
+    <!-- ========== ACTIVATED STATE ========== -->
+    <div class="activated-banner hidden" id="activatedBanner">
+      <i class="fas fa-check-circle"></i>
+      <h2>Bot activated!</h2>
+      <p>Your business bot is now live and ready to engage, qualify and convert. You can close this page.</p>
+      <div class="phone-highlight">
+        <i class="fab fa-whatsapp mr-1" style="color:#25D366;"></i> 068 912 4033
+      </div>
+    </div>
+
+    <!-- CORE CAPABILITIES GRID -->
+    <div class="mt-8" id="capabilitiesSection">
+      <div class="flex items-center justify-between mb-2">
+        <h2 class="text-base font-bold text-[#e9edef]">
+          <i class="fas fa-cube mr-1.5 text-[#25d366]"></i> Core capabilities
+        </h2>
+        <span class="text-[0.65rem] font-medium text-[#8696a0] bg-[#1a262d] border border-[#2a3942] px-2 py-0.5 rounded-full">tap to explore</span>
+      </div>
+
+      <div class="cap-grid" id="capabilityGrid">
+        <button class="cap-btn" data-capability="faq" aria-label="FAQ and routine inquiries">
+          <span class="cap-icon"><i class="fas fa-question-circle"></i></span>
+          <span class="cap-label">FAQ & routine</span>
+          <span class="cap-meta">24/7 answers</span>
+          <span class="cap-badge">popular</span>
+        </button>
+        <button class="cap-btn" data-capability="lead-gen" aria-label="Lead generation and qualification">
+          <span class="cap-icon"><i class="fas fa-user-plus"></i></span>
+          <span class="cap-label">Lead capture</span>
+          <span class="cap-meta">qualify & score</span>
+        </button>
+        <button class="cap-btn" data-capability="orders" aria-label="Order tracking and returns">
+          <span class="cap-icon"><i class="fas fa-box"></i></span>
+          <span class="cap-label">Order tracking</span>
+          <span class="cap-meta">status & returns</span>
+        </button>
+        <button class="cap-btn" data-capability="sales" aria-label="Sales assistance and recommendations">
+          <span class="cap-icon"><i class="fas fa-chart-line"></i></span>
+          <span class="cap-label">Sales assist</span>
+          <span class="cap-meta">upsell & guide</span>
+        </button>
+        <button class="cap-btn" data-capability="scheduling" aria-label="Appointment and booking scheduling">
+          <span class="cap-icon"><i class="fas fa-calendar-check"></i></span>
+          <span class="cap-label">Scheduling</span>
+          <span class="cap-meta">bookings & demos</span>
+        </button>
+        <button class="cap-btn" data-capability="handoff" aria-label="Human handoff with context">
+          <span class="cap-icon"><i class="fas fa-user-headset"></i></span>
+          <span class="cap-label">Human handoff</span>
+          <span class="cap-meta">full context</span>
+        </button>
+        <button class="cap-btn" data-capability="internal" aria-label="Internal employee assistance">
+          <span class="cap-icon"><i class="fas fa-building"></i></span>
+          <span class="cap-label">Internal help</span>
+          <span class="cap-meta">HR & IT</span>
+        </button>
+        <button class="cap-btn" data-capability="multilingual" aria-label="Multilingual and multichannel support">
+          <span class="cap-icon"><i class="fas fa-globe"></i></span>
+          <span class="cap-label">Multilingual</span>
+          <span class="cap-meta">all channels</span>
+        </button>
+        <button class="cap-btn" data-capability="crm" aria-label="CRM updates and workflow triggers">
+          <span class="cap-icon"><i class="fas fa-database"></i></span>
+          <span class="cap-label">CRM & workflows</span>
+          <span class="cap-meta">data sync</span>
+        </button>
+        <button class="cap-btn" data-capability="analytics" aria-label="Conversation analytics and insights">
+          <span class="cap-icon"><i class="fas fa-chart-pie"></i></span>
+          <span class="cap-label">Analytics</span>
+          <span class="cap-meta">sentiment & gaps</span>
+        </button>
+        <button class="cap-btn" data-capability="personalization" aria-label="Personalized recommendations">
+          <span class="cap-icon"><i class="fas fa-user-cog"></i></span>
+          <span class="cap-label">Personalized</span>
+          <span class="cap-meta">guided experiences</span>
+        </button>
+        <button class="cap-btn" data-capability="onboarding" aria-label="Onboarding and training support">
+          <span class="cap-icon"><i class="fas fa-graduation-cap"></i></span>
+          <span class="cap-label">Onboarding</span>
+          <span class="cap-meta">training & support</span>
+        </button>
+        <button class="cap-btn" data-capability="proactive" aria-label="Proactive outreach and follow-ups">
+          <span class="cap-icon"><i class="fas fa-bullhorn"></i></span>
+          <span class="cap-label">Proactive</span>
+          <span class="cap-meta">follow-ups</span>
+        </button>
+        <button class="cap-btn" data-capability="transactions" aria-label="Simple transactions and form-filling">
+          <span class="cap-icon"><i class="fas fa-credit-card"></i></span>
+          <span class="cap-label">Transactions</span>
+          <span class="cap-meta">payments & forms</span>
+        </button>
+        <button class="cap-btn" data-capability="sentiment" aria-label="Sentiment detection and adaptive responses">
+          <span class="cap-icon"><i class="fas fa-smile"></i></span>
+          <span class="cap-label">Sentiment</span>
+          <span class="cap-meta">adaptive tone</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="footnote">
+      <i class="fas fa-shield-alt mr-1"></i> secure activation · <a href="https://wa.me/27689124033" target="_blank" rel="noopener">support</a> · <a href="#" id="termsLink">terms</a>
+    </div>
+  </main>
+
+  <div class="text-center text-[0.68rem] text-[#8696a0] mt-4 tracking-wide">
+    <i class="fas fa-robot mr-1"></i> 1biz.online · business bot activation
+  </div>
+
+  <!-- ========== CAPABILITY MODAL ========== -->
+  <div id="capabilityModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content" id="modalContent">
+      <button class="modal-close" id="modalCloseBtn" aria-label="Close modal"><i class="fas fa-times"></i></button>
+      <div class="modal-icon-large" id="modalIcon"><i class="fas fa-question-circle"></i></div>
+      <h3 id="modalTitle">FAQ & routine inquiries</h3>
+      <p class="modal-sub" id="modalSub">Answer FAQs and provide product/service information from company knowledge bases.</p>
+      <div class="modal-detail" id="modalDetail">
+        <ul>
+          <li>Instantly answers common questions from your knowledge base.</li>
+          <li>Delivers 24/7 support and resolves routine inquiries.</li>
+          <li>Reduces human workload by handling repetitive queries.</li>
+        </ul>
+      </div>
+      <div class="modal-footnote">
+        <i class="fas fa-circle-info mr-1"></i> Capability detail
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // ---------- DOM refs ----------
+      const mainMessage = document.getElementById('mainMessage').querySelector('span');
+      const requestCodeBtn = document.getElementById('requestCodeBtn');
+      const step1Section = document.getElementById('step1Section');
+      const step2Section = document.getElementById('step2Section');
+      const activatedBanner = document.getElementById('activatedBanner');
+      const activateForm = document.getElementById('activateForm');
+      const securityCodeInput = document.getElementById('securityCodeInput');
+      const statusBadge = document.getElementById('statusBadge');
+      const statusText = document.getElementById('statusText');
+
+      // capability modal refs
+      const modalOverlay = document.getElementById('capabilityModal');
+      const modalCloseBtn = document.getElementById('modalCloseBtn');
+      const modalIcon = document.getElementById('modalIcon');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalSub = document.getElementById('modalSub');
+      const modalDetail = document.getElementById('modalDetail');
+
+      // step state
+      let codeRequested = false;
+      let botActivated = false;
+
+      // ---------- WhatsApp number ----------
+      const WHATSAPP_PHONE = '27689124033'; // 068 912 4033 in international format
+
+      // ---------- STEP 1: Request security code via WhatsApp ----------
+      requestCodeBtn.addEventListener('click', function() {
+        // Pre-populated message asking for the security code
+        const message = encodeURIComponent(
+          'Hello 1biz team, please send me the security code for the bot. Thank you.'
+        );
+        const waUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${message}`;
+
+        // Open WhatsApp in new tab
+        window.open(waUrl, '_blank', 'noopener,noreferrer');
+
+        // Mark code as requested and reveal step 2
+        if (!codeRequested) {
+          codeRequested = true;
+
+          // Show step 2, hide step 1 highlight
+          step2Section.classList.remove('hidden');
+
+          // Update step dots
+          document.getElementById('stepDot1').classList.remove('active');
+          document.getElementById('stepDot1').classList.add('done');
+          document.getElementById('stepDot1').textContent = '✓';
+          document.getElementById('stepDot2').classList.add('active');
+          document.getElementById('stepDot2').classList.remove('hidden');
+
+          // Update main message
+          mainMessage.innerHTML =
+            '<i class="fas fa-check-circle" style="color:#25d366;"></i> <strong>Step 1 complete.</strong> Check WhatsApp for your security code, then enter it in step 2 below to activate your bot.';
+
+          // Scroll step 2 into view
+          setTimeout(() => {
+            step2Section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            securityCodeInput.focus();
+          }, 300);
+        } else {
+          // If already requested, just remind them
+          mainMessage.innerHTML =
+            '<i class="fas fa-info-circle" style="color:#25d366;"></i> <strong>Code already requested.</strong> Check WhatsApp (068 912 4033) for your security code, then enter it below.';
+        }
+      });
+
+      // ---------- STEP 2: Activate bot with code ----------
+      activateForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const code = securityCodeInput.value.trim();
+
+        // Validate exactly 6 digits
+        if (!/^\d{6}$/.test(code)) {
+          securityCodeInput.style.borderColor = '#f15c6d';
+          securityCodeInput.style.boxShadow = '0 0 0 4px rgba(241, 92, 109, 0.2)';
+          securityCodeInput.focus();
+          return;
+        }
+
+        // Reset error style
+        securityCodeInput.style.borderColor = '';
+        securityCodeInput.style.boxShadow = '';
+
+        // Show loading state
+        const activateBtn = document.getElementById('activateBotBtn');
+        const originalBtnHtml = activateBtn.innerHTML;
+        activateBtn.innerHTML = '<i class="fas fa-spinner spin"></i> Activating...';
+        activateBtn.disabled = true;
+        securityCodeInput.disabled = true;
+
+        // Simulate activation (in production, you'd verify the code against a backend)
+        setTimeout(() => {
+          botActivated = true;
+
+          // Update status badge
+          statusBadge.innerHTML = '<i class="fas fa-circle"></i> <span id="statusText">bot active</span>';
+          statusBadge.classList.add('live');
+
+          // Hide step sections and show activated banner
+          step1Section.classList.add('hidden');
+          step2Section.classList.add('hidden');
+          activatedBanner.classList.remove('hidden');
+
+          // Update main message
+          mainMessage.innerHTML =
+            '<i class="fas fa-check-circle" style="color:#25d366;"></i> <strong>Success!</strong> Your bot is now activated and ready to engage customers.';
+
+          // Scroll banner into view
+          setTimeout(() => {
+            activatedBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 100);
+
+          // Reset button (in case they come back)
+          activateBtn.innerHTML = originalBtnHtml;
+          activateBtn.disabled = false;
+          securityCodeInput.disabled = false;
+          securityCodeInput.value = '';
+        }, 1200);
+      });
+
+      // Clear error styling as user types
+      securityCodeInput.addEventListener('input', function() {
+        this.style.borderColor = '';
+        this.style.boxShadow = '';
+      });
+
+      // Only allow digits in the input
+      securityCodeInput.addEventListener('keypress', function(e) {
+        if (!/[0-9]/.test(e.key)) {
+          e.preventDefault();
+        }
+      });
+
+      // ---------- TERMS link ----------
+      document.getElementById('termsLink').addEventListener('click', function(e) {
+        e.preventDefault();
+        alert('Terms: Bot activation is subject to 1biz.online fair usage policy.');
+      });
+
+      // ---------- CAPABILITY MODAL DATA ----------
+      const capabilityData = {
+        'faq': {
+          icon: 'fa-question-circle',
+          title: 'FAQ & routine inquiries',
+          sub: 'Answer FAQs and provide product/service information from company knowledge bases.',
+          detail: `<ul>
+            <li>Instantly answers common questions from your knowledge base.</li>
+            <li>Delivers 24/7 support and resolves routine inquiries.</li>
+            <li>Reduces human workload by handling repetitive queries.</li>
+            <li>Most popular capability — often 60–70%+ of deployments.</li>
+          </ul>`
+        },
+        'lead-gen': {
+          icon: 'fa-user-plus',
+          title: 'Lead generation & qualification',
+          sub: 'Capture and qualify leads (collect contact info, ask qualifying questions, score interest).',
+          detail: `<ul>
+            <li>Collects contact details and asks qualifying questions.</li>
+            <li>Scores interest and routes hot leads to sales.</li>
+            <li>Works 24/7 to capture leads even when you’re offline.</li>
+          </ul>`
+        },
+        'orders': {
+          icon: 'fa-box',
+          title: 'Order tracking & returns',
+          sub: 'Track orders, check status, handle returns, refunds, cancellations, or address changes.',
+          detail: `<ul>
+            <li>Real-time order status and tracking updates.</li>
+            <li>Handles return, refund, and cancellation requests.</li>
+            <li>Manages address changes and basic account actions.</li>
+          </ul>`
+        },
+        'sales': {
+          icon: 'fa-chart-line',
+          title: 'Sales assistance & recommendations',
+          sub: 'Assist with sales (product recommendations, guided selling, upselling/cross-selling).',
+          detail: `<ul>
+            <li>Recommends products based on customer needs.</li>
+            <li>Guided selling and upselling/cross-selling.</li>
+            <li>Increases average order value with personalized suggestions.</li>
+          </ul>`
+        },
+        'scheduling': {
+          icon: 'fa-calendar-check',
+          title: 'Appointment & booking scheduling',
+          sub: 'Schedule appointments, bookings, or demos (calendar integration).',
+          detail: `<ul>
+            <li>Books appointments, demos, and meetings.</li>
+            <li>Syncs with your calendar in real time.</li>
+            <li>Reduces no-shows with automated reminders.</li>
+          </ul>`
+        },
+        'handoff': {
+          icon: 'fa-user-headset',
+          title: 'Human handoff / escalation',
+          sub: 'Escalate complex issues to human agents with full conversation context.',
+          detail: `<ul>
+            <li>Seamlessly transfers to human agents.</li>
+            <li>Provides full conversation context and history.</li>
+            <li>Ensures complex issues are resolved faster.</li>
+          </ul>`
+        },
+        'internal': {
+          icon: 'fa-building',
+          title: 'Internal employee assistance',
+          sub: 'Assist internal employees (HR policies, IT helpdesk, knowledge retrieval, onboarding).',
+          detail: `<ul>
+            <li>HR policy lookup and IT helpdesk support.</li>
+            <li>Company knowledge search and onboarding.</li>
+            <li>Reduces internal support tickets significantly.</li>
+          </ul>`
+        },
+        'multilingual': {
+          icon: 'fa-globe',
+          title: 'Multilingual & multichannel',
+          sub: 'Support multiple languages and channels (website chat, email, social messaging, voice).',
+          detail: `<ul>
+            <li>Operates across web chat, email, social, and voice.</li>
+            <li>Supports multiple languages automatically.</li>
+            <li>Provides consistent support everywhere your customers are.</li>
+          </ul>`
+        },
+        'crm': {
+          icon: 'fa-database',
+          title: 'CRM updates & workflows',
+          sub: 'Update CRM records or trigger workflows.',
+          detail: `<ul>
+            <li>Automatically updates CRM records.</li>
+            <li>Triggers workflows and data collection.</li>
+            <li>Keeps your systems in sync without manual entry.</li>
+          </ul>`
+        },
+        'analytics': {
+          icon: 'fa-chart-pie',
+          title: 'Analytics & insights',
+          sub: 'Analyze conversations for insights (common questions, sentiment, knowledge gaps).',
+          detail: `<ul>
+            <li>Identifies common questions and knowledge gaps.</li>
+            <li>Sentiment analysis and conversation insights.</li>
+            <li>Helps improve your knowledge base and service.</li>
+          </ul>`
+        },
+        'personalization': {
+          icon: 'fa-user-cog',
+          title: 'Personalized recommendations',
+          sub: 'Personalize responses using customer data or conversation history.',
+          detail: `<ul>
+            <li>Uses customer data for personalized experiences.</li>
+            <li>Adapts based on conversation history.</li>
+            <li>Delivers guided experiences that feel human.</li>
+          </ul>`
+        },
+        'onboarding': {
+          icon: 'fa-graduation-cap',
+          title: 'Onboarding & training support',
+          sub: 'Onboarding / training support (customer or employee).',
+          detail: `<ul>
+            <li>Guides new customers through onboarding.</li>
+            <li>Provides training support for employees.</li>
+            <li>Accelerates time-to-value for new users.</li>
+          </ul>`
+        },
+        'proactive': {
+          icon: 'fa-bullhorn',
+          title: 'Proactive outreach & follow-ups',
+          sub: 'Handle proactive outreach or follow-ups.',
+          detail: `<ul>
+            <li>Sends proactive follow-ups and reminders.</li>
+            <li>Re-engages customers at the right time.</li>
+            <li>Boosts retention and repeat business.</li>
+          </ul>`
+        },
+        'transactions': {
+          icon: 'fa-credit-card',
+          title: 'Simple transactions & form-filling',
+          sub: 'Process payments or complete simple transactions (in some setups).',
+          detail: `<ul>
+            <li>Processes simple payments and transactions.</li>
+            <li>Fills forms and collects structured data.</li>
+            <li>Completes end-to-end tasks via chat.</li>
+          </ul>`
+        },
+        'sentiment': {
+          icon: 'fa-smile',
+          title: 'Sentiment detection & adaptive responses',
+          sub: 'Sentiment detection & adaptive responses.',
+          detail: `<ul>
+            <li>Detects customer sentiment in real time.</li>
+            <li>Adapts tone and responses accordingly.</li>
+            <li>Improves satisfaction and de-escalates frustration.</li>
+          </ul>`
+        }
+      };
+
+      // ---------- CAPABILITY MODAL OPEN/CLOSE ----------
+      function openModal(capKey) {
+        const data = capabilityData[capKey];
+        if (!data) return;
+
+        modalIcon.innerHTML = `<i class="fas ${data.icon}"></i>`;
+        modalTitle.textContent = data.title;
+        modalSub.textContent = data.sub;
+        modalDetail.innerHTML = data.detail;
+
+        modalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeCapabilityModal() {
+        modalOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      document.querySelectorAll('.cap-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const cap = this.dataset.capability;
+          if (cap) openModal(cap);
+        });
+      });
+
+      modalCloseBtn.addEventListener('click', closeCapabilityModal);
+      modalOverlay.addEventListener('click', function(e) {
+        if (e.target === modalOverlay) closeCapabilityModal();
+      });
+
+      // Escape closes modal
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+          closeCapabilityModal();
+        }
+      });
+
+      // Add spin animation (reuse from previous version)
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .spin { animation: spin 1s linear infinite; }
+      `;
+      document.head.appendChild(style);
+    })();
+  </script>
+</body>
+</html>
