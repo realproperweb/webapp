@@ -42,6 +42,8 @@ nav{flex:none;display:flex;border-top:1px solid var(--line);background:var(--bar
 nav a,nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:.45rem 0;font:600 11px Archivo,system-ui,sans-serif;color:var(--muted);text-decoration:none;background:none;border:0;cursor:pointer}
 nav svg{width:24px;height:24px}
 nav .on{color:var(--navy)}
+.login{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:.35rem;padding:.45rem 1rem;border-radius:999px;background:var(--sun);color:#0c1a2b;font:700 .9rem Archivo,system-ui,sans-serif;text-decoration:none;box-shadow:0 3px 8px rgba(12,26,43,.2)}
+.login:active{transform:scale(.96)}
 :focus-visible{outline:3px solid var(--sun);outline-offset:2px}
 dialog{width:min(92vw,40rem);max-height:85vh;padding:0;border:2px solid var(--line);border-radius:1.5rem;background:var(--paper);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.35);margin:auto;overflow:hidden}
 dialog::backdrop{background:rgba(12,26,43,.6);backdrop-filter:blur(2px)}
@@ -67,6 +69,7 @@ details p{margin:.5rem 0 0;color:var(--muted)}
   <header>
     <svg width="40" height="40" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="10" fill="#14305a"/><circle cx="24" cy="24" r="12" fill="#ffb200"/><path d="M12 30c6-8 18-8 24 0" stroke="#1a8a9a" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
     <div><p class="t">South Africa Business Hub</p><p class="s">Local Businesses · Stronger Communities</p></div>
+    <a class="login" href="https://app.1biz.online" target="_self">Login</a>
   </header>
 
   <main>
@@ -99,6 +102,7 @@ details p{margin:.5rem 0 0;color:var(--muted)}
     <button type="button" id="aboutTab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v.01M11 12h1v5h1"/></svg><span>About</span></button>
     <a href="https://wa.me/27689124033?text=Hi%2C%20I%27d%20like%20to%20register%20my%20business%20on%20the%20South%20Africa%20Business%20Hub.%20Please%20get%20me%20started%20now." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Register</span></a>
     <a href="https://wa.me/27689124033" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 01-13.3 7.9L3 21l1.2-4.5A9 9 0 1121 12z"/></svg><span>WhatsApp</span></a>
+  <a href="https://app.1biz.online" target="_self"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg><span>Login</span></a>
   </nav>
 </div>
 
