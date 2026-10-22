@@ -1,0 +1,398 @@
+
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#ff90e8">
+  <meta name="color-scheme" content="light">
+  <title>1Biz Lightning Growth Blueprint | Customer tutorial and starting guide</title>
+  <meta name="description" content="A practical starting guide for South African business owners: score your business against the 5 biggest killers, follow the 3 steps the top 5% take, and work through a 90-day plan.">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root{--bg:#f4f4f0;--panel:#fff;--muted:#55554f;--pink:#ff90e8;--pink-h:#ffa8ee;--yellow:#ffc900;--teal:#23a094;--red:#dc341e;--font:'Mabry Pro','DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;color-scheme:light}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;scroll-padding-top:calc(5rem + env(safe-area-inset-top,0px))}
+    body{font-family:var(--font);background:var(--bg);color:#000;line-height:1.55;-webkit-font-smoothing:antialiased;padding-bottom:env(safe-area-inset-bottom,0px)}
+    h1,h2,h3{letter-spacing:-.025em;line-height:1.1;font-weight:800}
+    :focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+    .wrap{max-width:900px;margin:0 auto;padding:0 1.25rem}
+    section{padding:3.5rem 0;border-bottom:1px solid #000}
+    .h2{font-size:clamp(1.7rem,5vw,2.6rem);margin-bottom:.7rem}
+    .lead{font-size:1.05rem;color:var(--muted);max-width:40rem;margin-bottom:1.5rem}
+    .kicker{display:inline-block;background:var(--yellow);border:1px solid #000;border-radius:999px;font-size:.8rem;font-weight:700;padding:.2rem .8rem;margin-bottom:.9rem}
+    .mark{background:var(--pink);padding:0 .15em}
+
+    header{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid #000;padding-top:env(safe-area-inset-top,0px)}
+    .nav{display:flex;align-items:center;justify-content:space-between;height:4rem;max-width:900px;margin:0 auto;padding:0 1.25rem}
+    .logo{font-size:1.4rem;font-weight:800;letter-spacing:-.03em;text-decoration:none;color:#000}
+    .logo span{background:var(--pink);padding:0 .2em;margin-left:.05em}
+    .nav a.link{font-size:.9rem;font-weight:600;color:#000;text-decoration:none;margin-right:1.2rem}
+    .nav a.link:hover{text-decoration:underline;text-underline-offset:4px}
+    @media(max-width:720px){.nav a.link{display:none}}
+
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;font:700 1rem var(--font);color:#000;background:var(--pink);border:1px solid #000;border-radius:.25rem;padding:.9rem 1.4rem;cursor:pointer;text-decoration:none;transition:transform .12s,box-shadow .12s,background .12s}
+    .btn:hover{background:var(--pink-h);transform:translate(-4px,-4px);box-shadow:4px 4px 0 #000}
+    .btn:active{transform:none;box-shadow:none}
+    .btn.sm{padding:.55rem 1rem;font-size:.9rem}
+    .btn.alt{background:var(--panel)}
+    .btn.alt:hover{background:var(--yellow)}
+    .btn.dark{background:#000;color:#fff}
+    .btn.dark:hover{background:#222}
+
+    .hero{background:var(--pink);padding:4rem 0 3.5rem}
+    .hero h1{font-size:clamp(2.3rem,7vw,4.4rem);margin-bottom:1rem}
+    .hero p{font-size:1.15rem;max-width:36rem;margin-bottom:1.5rem}
+    .box{background:var(--panel);border:1px solid #000;border-radius:.25rem;padding:1.4rem}
+    .gets{display:grid;gap:.8rem;list-style:none}
+    @media(min-width:700px){.gets{grid-template-columns:1fr 1fr}}
+    .gets li{display:flex;gap:.7rem;font-weight:600}
+    .gets i{width:1.5rem;height:1.5rem;flex:none;border-radius:50%;border:1px solid #000;background:var(--teal);font-size:.7rem;display:flex;align-items:center;justify-content:center}
+
+    /* killers + audit */
+    .killer{background:var(--panel);border:1px solid #000;border-radius:.25rem;padding:1.3rem;margin-bottom:1rem}
+    .killer .top{display:flex;gap:.8rem;align-items:flex-start}
+    .num{flex:none;width:2.1rem;height:2.1rem;border-radius:50%;border:1px solid #000;background:var(--yellow);display:flex;align-items:center;justify-content:center;font-weight:800}
+    .killer h3{font-size:1.15rem;margin-bottom:.3rem}
+    .killer p{font-size:.93rem;color:var(--muted)}
+    .score{display:flex;align-items:center;gap:1rem;margin-top:1rem;padding-top:.9rem;border-top:1px solid #000}
+    .score label{font-size:.8rem;font-weight:700;white-space:nowrap}
+    .score input[type=range]{flex:1;accent-color:#000;height:1.5rem;cursor:pointer}
+    .score output{flex:none;width:2.4rem;height:2.4rem;border:1px solid #000;border-radius:.25rem;display:flex;align-items:center;justify-content:center;font-weight:800;background:var(--teal)}
+    .score output.mid{background:var(--yellow)}
+    .score output.hi{background:var(--red);color:#fff}
+    .scale{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin:.5rem 0 0}
+    .result{background:#000;color:#fff;border-radius:.25rem;box-shadow:8px 8px 0 var(--yellow);padding:1.5rem;margin-top:1.5rem}
+    .result h3{font-size:1.3rem;margin-bottom:.6rem;color:var(--yellow)}
+    .result ol{padding-left:1.3rem;display:grid;gap:.5rem;margin-bottom:1.1rem}
+    .result a{color:var(--yellow);font-weight:700}
+
+    /* steps */
+    .stepbg{background:var(--yellow)}
+    .step{background:var(--panel);border:1px solid #000;border-radius:.25rem;box-shadow:6px 6px 0 #000;padding:1.6rem;margin-bottom:1.6rem}
+    .step .lbl{display:inline-block;font-weight:700;font-size:.82rem;background:var(--teal);border:1px solid #000;border-radius:999px;padding:.1rem .75rem;margin-bottom:.6rem}
+    .step h3{font-size:1.5rem;margin-bottom:.5rem}
+    .step h4{font-size:.95rem;font-weight:800;margin:1.1rem 0 .4rem}
+    .step p{font-size:.96rem}
+    .step ul{list-style:none;display:grid;gap:.4rem;font-size:.94rem}
+    .step li{display:flex;gap:.6rem}
+    .step li i{margin-top:.35rem;font-size:.7rem;color:var(--teal)}
+    .help{background:var(--pink);border:1px solid #000;border-radius:.25rem;padding:1rem 1.1rem;margin-top:1.2rem}
+    .help h4{margin:0 0 .4rem}
+    .help li i{color:#000}
+    .impact{margin-top:.8rem;font-weight:700;font-size:.92rem}
+
+    /* plan */
+    .progress{height:1.1rem;border:1px solid #000;border-radius:999px;background:var(--panel);overflow:hidden;margin:.5rem 0 1.6rem}
+    .progress div{height:100%;width:0;background:var(--teal);border-right:1px solid #000;transition:width .25s}
+    .phase{background:var(--panel);border:1px solid #000;border-radius:.25rem;margin-bottom:1rem;overflow:hidden}
+    .phase h3{font-size:1.1rem;padding:.9rem 1.2rem;border-bottom:1px solid #000}
+    .phase:nth-of-type(1) h3{background:var(--pink)}
+    .phase:nth-of-type(2) h3{background:var(--yellow)}
+    .phase:nth-of-type(3) h3{background:var(--teal)}
+    .phase ul{list-style:none}
+    .phase li label{display:flex;gap:.8rem;align-items:flex-start;padding:.75rem 1.2rem;cursor:pointer;font-size:.95rem;border-bottom:1px solid #e3e3dc}
+    .phase li:last-child label{border-bottom:0}
+    .phase li label:hover{background:var(--bg)}
+    .phase input{flex:none;width:1.2rem;height:1.2rem;margin-top:.2rem;accent-color:#000;cursor:pointer}
+    .phase input:checked+span{text-decoration:line-through;color:var(--muted)}
+
+    /* audit CTA */
+    .cta{background:var(--pink)}
+    .ctabox{background:var(--panel);border:1px solid #000;border-radius:.25rem;box-shadow:8px 8px 0 #000;padding:1.8rem}
+    .ctabox ul{list-style:none;display:grid;gap:.5rem;margin:1rem 0 1.4rem}
+    .ctabox li{display:flex;gap:.7rem}
+    .ctabox li i{margin-top:.35rem;color:var(--teal)}
+    .btns{display:flex;flex-wrap:wrap;gap:.8rem}
+    .sig{text-align:center;padding:3rem 0 1rem}
+    .sig p{font-size:1.15rem;max-width:34rem;margin:0 auto .8rem}
+    .sig .big{font-size:clamp(1.6rem,5vw,2.4rem);font-weight:800;letter-spacing:-.025em}
+    footer{padding:1.5rem 0 3rem;text-align:center;font-size:.82rem;color:var(--muted)}
+    footer a{color:#000;font-weight:600;text-underline-offset:3px}
+    footer a:hover{background:var(--pink);text-decoration:none}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+    @media print{header,.btns,.progress{display:none}.step,.box,.killer{box-shadow:none}}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="#top" class="logo">1biz<span>.online</span></a>
+    <nav>
+      <a class="link" href="#part1">1 · Reality</a>
+      <a class="link" href="#part2">2 · The 3 steps</a>
+      <a class="link" href="#part3">3 · 90-day plan</a>
+      <a class="btn sm" href="#part4">Book free audit</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <span class="kicker">Customer tutorial and starting guide</span>
+      <h1>1Biz Lightning Growth Blueprint</h1>
+      <p>Your first step into fixing the real reasons most South African businesses fail, and installing the exact systems the top 5% use to grow at lightning speed.</p>
+      <a class="btn dark" href="#part1"><i class="fas fa-bolt"></i> Start the tutorial</a>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2 class="h2">Welcome</h2>
+      <p class="lead">This is not theory. It’s a practical, no-fluff starting point for South African business owners who are tired of working harder while the business stays stuck, or slowly dies.</p>
+      <div class="box">
+        <h3 style="font-size:1.15rem;margin-bottom:1rem">By the end of this tutorial you will:</h3>
+        <ul class="gets">
+          <li><i class="fas fa-check"></i> Understand the 5 biggest killers of SA businesses right now</li>
+          <li><i class="fas fa-check"></i> Know where your business is most vulnerable</li>
+          <li><i class="fas fa-check"></i> Have a simple, prioritised 90-day action plan</li>
+          <li><i class="fas fa-check"></i> See how bots and software fix the root problems</li>
+          <li><i class="fas fa-check"></i> Be ready for your next practical step with 1Biz</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PART 1 -->
+  <section id="part1">
+    <div class="wrap">
+      <span class="kicker">Part 1</span>
+      <h2 class="h2">The harsh reality: why 75–80% of South African businesses fail</h2>
+      <p class="lead">Research from the University of the Western Cape, the Absa/SACCI/BMR Small Business Growth Index (2025) and Stats SA consistently shows the same picture: most small and medium businesses don’t survive five years. These are the 5 main reasons, ranked by how deadly they are right now.</p>
+
+      <article class="killer"><div class="top"><span class="num">1</span><div><h3>Cash-flow mismanagement and liquidity crises</h3><p>Even profitable businesses die when cash runs out. Slow-paying customers, rising costs, no real-time visibility and poor forecasting are the silent killers. Over 60% of SMEs report weak or critical cash flow.</p></div></div></article>
+      <article class="killer"><div class="top"><span class="num">2</span><div><h3>Exploding operational costs with zero efficiency gains</h3><p>Electricity (loadshedding and tariffs), fuel, transport, raw materials and labour keep rising. Most owners absorb the pain or raise prices, which kills demand. The top 5% redesign how the business operates so costs rise slower than productivity.</p></div></div></article>
+      <article class="killer"><div class="top"><span class="num">3</span><div><h3>Ineffective marketing and an unpredictable customer pipeline</h3><p>In a tough economy, word-of-mouth and random social posts aren’t enough. When consumer spending tightens, the pipeline dries up and the business starves.</p></div></div></article>
+      <article class="killer"><div class="top"><span class="num">4</span><div><h3>Manual systems, zero automation and technology lag</h3><p>Spreadsheets, WhatsApp chaos, paper processes and “the owner is the system” create errors, slow everything down, burn out the founder and make the business impossible to scale or sell.</p></div></div></article>
+      <article class="killer"><div class="top"><span class="num">5</span><div><h3>Founder dependence and no scalable processes</h3><p>If the business only works when the owner is present and working 14-hour days, it’s already on life support. One illness, burnout or holiday and everything collapses.</p></div></div></article>
+
+      <div class="box" style="background:var(--yellow);margin:2.2rem 0 1rem">
+        <h3 style="font-size:1.4rem;margin-bottom:.4rem"><i class="fas fa-clipboard-check"></i> Quick self-audit (5 minutes)</h3>
+        <p>Score your business honestly from 1 to 10 on each reason below, where 1 is no problem and 10 is critical. Your highest scores are your priority areas.</p>
+      </div>
+
+      <form id="audit" class="box" onsubmit="return false" aria-label="Self-audit">
+        <div class="score"><label for="s1">1 · Cash flow</label><input type="range" id="s1" min="1" max="10" value="5"><output for="s1">5</output></div>
+        <div class="score"><label for="s2">2 · Costs</label><input type="range" id="s2" min="1" max="10" value="5"><output for="s2">5</output></div>
+        <div class="score"><label for="s3">3 · Pipeline</label><input type="range" id="s3" min="1" max="10" value="5"><output for="s3">5</output></div>
+        <div class="score"><label for="s4">4 · Manual systems</label><input type="range" id="s4" min="1" max="10" value="5"><output for="s4">5</output></div>
+        <div class="score"><label for="s5">5 · Founder reliance</label><input type="range" id="s5" min="1" max="10" value="5"><output for="s5">5</output></div>
+        <div class="scale"><span>1 = no problem</span><span>10 = critical</span></div>
+      </form>
+
+      <div class="result" id="result" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- PART 2 -->
+  <section id="part2" class="stepbg">
+    <div class="wrap">
+      <span class="kicker" style="background:var(--panel)">Part 2</span>
+      <h2 class="h2">The 3 simple steps the top 5% actually take</h2>
+      <p class="lead" style="color:#000">The businesses growing in this environment do three things extremely well. None of them are complicated. They’re disciplined and systematic.</p>
+
+      <article class="step" id="step1">
+        <span class="lbl">Step 1</span>
+        <h3>Automate and systemise: stop being the bottleneck</h3>
+        <p><strong>What the top 5% do:</strong> they remove the founder from daily repetitive work by installing systems and intelligent bots.</p>
+        <h4>Start immediately</h4>
+        <ul>
+          <li><i class="fas fa-arrow-right"></i> List every repetitive task you or your team do more than twice a week (lead follow-up, quoting, invoicing, customer questions, stock checks, appointment reminders).</li>
+          <li><i class="fas fa-arrow-right"></i> Pick the top 3 that waste the most time or cause the most errors.</li>
+          <li><i class="fas fa-arrow-right"></i> Decide which can be handled by a simple bot or automated workflow.</li>
+        </ul>
+        <div class="help"><h4>How 1Biz helps</h4>
+          <p style="margin-bottom:.5rem">We install WhatsApp and website bots that:</p>
+          <ul><li><i class="fas fa-check"></i> Capture and qualify leads 24/7</li><li><i class="fas fa-check"></i> Answer common customer questions instantly</li><li><i class="fas fa-check"></i> Send automatic follow-ups and reminders</li><li><i class="fas fa-check"></i> Push real-time alerts to your phone</li></ul>
+        </div>
+        <p class="impact">This alone usually frees 10–20 hours per week within the first 30 days.</p>
+      </article>
+
+      <article class="step" id="step2">
+        <span class="lbl">Step 2</span>
+        <h3>Master cash flow with live visibility</h3>
+        <p><strong>What the top 5% do:</strong> they know their numbers daily, not once a month when the accountant sends a report.</p>
+        <h4>Start immediately</h4>
+        <ul>
+          <li><i class="fas fa-arrow-right"></i> Calculate your cash runway: how many weeks or months you survive if no new money comes in.</li>
+          <li><i class="fas fa-arrow-right"></i> Identify your three biggest cash leaks (slow debtors, high energy costs, overstocking).</li>
+          <li><i class="fas fa-arrow-right"></i> Track your cash position every single day, even on a simple spreadsheet for now.</li>
+        </ul>
+        <div class="help"><h4>How 1Biz helps</h4>
+          <p style="margin-bottom:.5rem">We connect simple dashboards and automated alerts that show:</p>
+          <ul><li><i class="fas fa-check"></i> Live cash position</li><li><i class="fas fa-check"></i> Outstanding invoices and ageing</li><li><i class="fas fa-check"></i> Daily and weekly revenue vs expenses</li><li><i class="fas fa-check"></i> Early warning signals before cash gets tight</li></ul>
+        </div>
+        <p class="impact">You stop guessing and start controlling.</p>
+      </article>
+
+      <article class="step" id="step3">
+        <span class="lbl">Step 3</span>
+        <h3>Build a predictable customer pipeline</h3>
+        <p><strong>What the top 5% do:</strong> they never rely on hope or random marketing. They own a consistent system that brings in leads and converts them.</p>
+        <h4>Start immediately</h4>
+        <ul>
+          <li><i class="fas fa-arrow-right"></i> Write down every current source of customers and how many leads each produces per month.</li>
+          <li><i class="fas fa-arrow-right"></i> Calculate your real conversion rate from lead to paying customer.</li>
+          <li><i class="fas fa-arrow-right"></i> Choose one primary channel to dominate for the next 90 days (WhatsApp, Google, referrals, content).</li>
+        </ul>
+        <div class="help"><h4>How 1Biz helps</h4>
+          <p style="margin-bottom:.5rem">We build complete lead engines:</p>
+          <ul><li><i class="fas fa-check"></i> Website and WhatsApp bots that capture and qualify leads automatically</li><li><i class="fas fa-check"></i> Automated nurturing sequences</li><li><i class="fas fa-check"></i> Instant notifications so no lead is left waiting</li><li><i class="fas fa-check"></i> Simple follow-up systems that turn enquiries into paying customers</li></ul>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- PART 3 -->
+  <section id="part3">
+    <div class="wrap">
+      <span class="kicker">Part 3</span>
+      <h2 class="h2">Your 90-day lightning action plan</h2>
+      <p class="lead">Deliberately simple, so you actually do it. Tick items off as you go. Your progress is saved on this device.</p>
+      <div style="display:flex;justify-content:space-between;font-weight:700;font-size:.9rem"><span>Plan progress</span><span id="pct">0%</span></div>
+      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="bar"><div></div></div>
+
+      <div class="phase">
+        <h3>Days 1–14: Diagnosis and quick wins</h3>
+        <ul>
+          <li><label><input type="checkbox" data-k="a1"><span>Complete the self-audit above</span></label></li>
+          <li><label><input type="checkbox" data-k="a2"><span>List your top 5 time-wasting or error-prone processes</span></label></li>
+          <li><label><input type="checkbox" data-k="a3"><span>Calculate your current cash runway</span></label></li>
+          <li><label><input type="checkbox" data-k="a4"><span>List all current lead sources and conversion rates</span></label></li>
+          <li><label><input type="checkbox" data-k="a5"><span>Book your free 1Biz Bot &amp; Systems Audit</span></label></li>
+        </ul>
+      </div>
+      <div class="phase">
+        <h3>Days 15–45: Install the foundation</h3>
+        <ul>
+          <li><label><input type="checkbox" data-k="b1"><span>Automate your single biggest time-waster (usually lead response or follow-up)</span></label></li>
+          <li><label><input type="checkbox" data-k="b2"><span>Set up basic daily cash visibility</span></label></li>
+          <li><label><input type="checkbox" data-k="b3"><span>Fix one major cash leak</span></label></li>
+          <li><label><input type="checkbox" data-k="b4"><span>Launch or improve one primary lead channel with automation</span></label></li>
+        </ul>
+      </div>
+      <div class="phase">
+        <h3>Days 46–90: Scale and optimise</h3>
+        <ul>
+          <li><label><input type="checkbox" data-k="c1"><span>Automate the next two processes</span></label></li>
+          <li><label><input type="checkbox" data-k="c2"><span>Tighten conversion rates</span></label></li>
+          <li><label><input type="checkbox" data-k="c3"><span>Create a simple weekly scorecard (cash, leads, conversion, profit)</span></label></li>
+          <li><label><input type="checkbox" data-k="c4"><span>Measure hours saved and revenue impact</span></label></li>
+          <li><label><input type="checkbox" data-k="c5"><span>Decide on the next layer of systems</span></label></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PART 4 -->
+  <section id="part4" class="cta">
+    <div class="wrap">
+      <span class="kicker" style="background:var(--panel)">Part 4</span>
+      <h2 class="h2">Your next practical step</h2>
+      <p class="lead" style="color:#000">You now understand the problem and the solution. The fastest way from knowledge to results is a focused diagnostic.</p>
+      <div class="ctabox">
+        <h3 style="font-size:1.6rem">Free 1Biz Bot &amp; Systems Audit <span class="mark">45 minutes</span></h3>
+        <p style="margin-top:.8rem">In this session we will:</p>
+        <ul>
+          <li><i class="fas fa-check"></i> Review your self-audit scores</li>
+          <li><i class="fas fa-check"></i> Identify the highest-ROI processes to automate first</li>
+          <li><i class="fas fa-check"></i> Show you what a tailored bot and systems setup would look like for your business</li>
+          <li><i class="fas fa-check"></i> Give you a clear 90-day roadmap and investment options, including current promotional packages</li>
+        </ul>
+        <p style="font-weight:700;margin-bottom:1.2rem">There is no hard sell. You leave with clarity whether you work with us or not.</p>
+        <div class="btns">
+          <a class="btn" id="auditBtn" href="#" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp us “AUDIT”</a>
+          <a class="btn alt" href="https://wa.me/27689124033" target="_blank" rel="noopener"><i class="fas fa-phone"></i> 068 912 4033</a>
+        </div>
+      </div>
+
+      <div class="sig">
+        <p class="big">You now have the map.</p>
+        <p>Most South African business owners stay stuck because they keep working harder inside a broken system. The top 5% change the system. The next step is simply to take action.</p>
+        <p>We built 1Biz specifically to help South African businesses install the systems and bots that let them join the 5% who grow while others struggle. When you’re ready, we’re ready.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>1Biz</strong> · Software Solutions · Bot Integrations · Grow at Lightning Speed</p>
+    <p style="margin-top:.5rem"><a href="landing.html">Why businesses fail</a> · <a href="activate.html">Activate your bot</a> · <a href="#" onclick="window.print();return false">Print this guide</a></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const WHATSAPP_PHONE = '27689124033'; // 068 912 4033 in international format
+  const wa = t => 'https://wa.me/' + WHATSAPP_PHONE + '?text=' + encodeURIComponent(t);
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  };
+
+  // ---------- Self-audit ----------
+  const killers = [
+    { n: 'Cash-flow mismanagement', step: 'step2', stepName: 'Step 2: master cash flow', tip: 'Calculate your runway and start tracking cash daily.' },
+    { n: 'Operational costs', step: 'step1', stepName: 'Step 1: automate and systemise', tip: 'Redesign work so costs rise slower than productivity.' },
+    { n: 'Customer pipeline', step: 'step3', stepName: 'Step 3: build a predictable pipeline', tip: 'Pick one channel to dominate and capture every lead.' },
+    { n: 'Manual systems', step: 'step1', stepName: 'Step 1: automate and systemise', tip: 'Automate your top 3 repetitive tasks.' },
+    { n: 'Founder dependence', step: 'step1', stepName: 'Step 1: automate and systemise', tip: 'Document and automate so the business runs without you.' }
+  ];
+  const sliders = [1, 2, 3, 4, 5].map(i => document.getElementById('s' + i));
+  const result = document.getElementById('result');
+  const auditBtn = document.getElementById('auditBtn');
+
+  function render() {
+    const scores = sliders.map(s => +s.value);
+    sliders.forEach(s => {
+      const o = s.nextElementSibling, v = +s.value;
+      o.textContent = v;
+      o.className = v >= 8 ? 'hi' : v >= 5 ? 'mid' : '';
+    });
+    const ranked = scores.map((v, i) => ({ v, i })).sort((a, b) => b.v - a.v || a.i - b.i);
+    const top = ranked.slice(0, 3);
+    const avg = scores.reduce((a, b) => a + b, 0) / 5;
+    const verdict = avg >= 7.5 ? 'Your business is under serious pressure. Act now.' : avg >= 5 ? 'There are real vulnerabilities to fix before they become crises.' : 'You’re in a stronger position than most. Protect it with systems.';
+    result.innerHTML = '<h3>Your priority areas</h3><p style="margin-bottom:.8rem">' + verdict + ' Average score: <strong>' + avg.toFixed(1) + '/10</strong>.</p><ol>' +
+      top.map(t => '<li><strong>' + killers[t.i].n + ' (' + t.v + '/10).</strong> ' + killers[t.i].tip + ' See <a href="#' + killers[t.i].step + '">' + killers[t.i].stepName + '</a>.</li>').join('') +
+      '</ol><p style="font-size:.85rem;color:#c9c9c2">Tip: write these scores down. You’ll review them in your free audit.</p>';
+    const msg = 'AUDIT\nHello 1Biz, I completed the self-audit.\n' +
+      killers.map((k, i) => k.n + ': ' + scores[i] + '/10').join('\n') + '\nAverage: ' + avg.toFixed(1) + '/10\nPlease book my free Bot & Systems Audit.';
+    auditBtn.href = wa(msg);
+    store.set('1biz_scores', JSON.stringify(scores));
+  }
+  try {
+    const saved = JSON.parse(store.get('1biz_scores') || 'null');
+    if (Array.isArray(saved) && saved.length === 5) sliders.forEach((s, i) => { const n = +saved[i]; if (n >= 1 && n <= 10) s.value = n; });
+  } catch (e) {}
+  sliders.forEach(s => s.addEventListener('input', render));
+  render();
+
+  // ---------- 90-day plan checklist ----------
+  const boxes = [...document.querySelectorAll('.phase input[type=checkbox]')];
+  const bar = document.getElementById('bar'), pct = document.getElementById('pct');
+  let done = {};
+  try { done = JSON.parse(store.get('1biz_plan') || '{}') || {}; } catch (e) {}
+  function update() {
+    const n = boxes.filter(b => b.checked).length;
+    const p = Math.round(n / boxes.length * 100);
+    bar.firstElementChild.style.width = p + '%';
+    bar.setAttribute('aria-valuenow', p);
+    pct.textContent = p + '% (' + n + ' of ' + boxes.length + ')';
+  }
+  boxes.forEach(b => {
+    b.checked = !!done[b.dataset.k];
+    b.addEventListener('change', () => { done[b.dataset.k] = b.checked; store.set('1biz_plan', JSON.stringify(done)); update(); });
+  });
+  update();
+})();
+</script>
+</body>
+</html>
