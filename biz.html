@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#ff90e8">
+  <meta name="color-scheme" content="light">
+  <title>Why South African businesses fail, and what the top 5% do differently | 1biz.online</title>
+  <meta name="description" content="52.8% of South African small businesses are at risk of closure. Learn the 5 reasons SMEs fail and the 3 steps the top 5% take, with WhatsApp bots and software from 1biz.online.">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root{--bg:#f4f4f0;--panel:#fff;--ink:#000;--muted:#55554f;--pink:#ff90e8;--pink-h:#ffa8ee;--yellow:#ffc900;--teal:#23a094;--red:#dc341e;--font:'Mabry Pro','DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;color-scheme:light}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;scroll-padding-top:calc(5rem + env(safe-area-inset-top,0px))}
+    body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;padding-bottom:env(safe-area-inset-bottom,0px)}
+    h1,h2,h3{letter-spacing:-.025em;line-height:1.08;font-weight:800}
+    :focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+    .wrap{max-width:1080px;margin:0 auto;padding:0 1.25rem}
+    section{padding:4rem 0;border-bottom:1px solid var(--ink)}
+    .h2{font-size:clamp(1.8rem,5vw,2.9rem);margin-bottom:.75rem}
+    .lead{font-size:1.05rem;color:var(--muted);max-width:42rem}
+    .mark{background:var(--pink);padding:0 .15em}
+
+    /* nav */
+    header{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--ink);padding-top:env(safe-area-inset-top,0px)}
+    .nav{display:flex;align-items:center;justify-content:space-between;height:4rem}
+    .logo{font-size:1.4rem;font-weight:800;letter-spacing:-.03em;text-decoration:none;color:var(--ink)}
+    .logo span{background:var(--pink);padding:0 .2em;margin-left:.05em}
+    .nav a.link{font-size:.9rem;font-weight:600;color:var(--ink);text-decoration:none;margin-right:1.4rem}
+    .nav a.link:hover{text-decoration:underline;text-underline-offset:4px}
+    @media(max-width:700px){.nav a.link{display:none}}
+
+    /* buttons */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;font:700 1rem var(--font);color:#000;background:var(--pink);border:1px solid #000;border-radius:.25rem;padding:.9rem 1.4rem;cursor:pointer;text-decoration:none;transition:transform .12s,box-shadow .12s,background .12s}
+    .btn:hover{background:var(--pink-h);transform:translate(-4px,-4px);box-shadow:4px 4px 0 #000}
+    .btn:active{transform:none;box-shadow:none}
+    .btn.sm{padding:.55rem 1rem;font-size:.9rem}
+    .btn.alt{background:var(--panel)}
+    .btn.alt:hover{background:var(--yellow)}
+    .btn.wide{width:100%}
+
+    /* hero */
+    .hero{padding:4.5rem 0 4rem;background:var(--pink)}
+    .hero h1{font-size:clamp(2.4rem,7.5vw,4.9rem);margin-bottom:1.25rem;max-width:15ch}
+    .hero p{font-size:1.15rem;max-width:36rem;margin-bottom:1.75rem}
+    .hero .ctas{display:flex;flex-wrap:wrap;gap:.9rem}
+    .hero .btn:not(.alt){background:var(--ink);color:#fff}
+    .hero .btn:not(.alt):hover{background:#222}
+    .tag{display:inline-block;background:var(--yellow);border:1px solid #000;border-radius:999px;font-size:.8rem;font-weight:700;padding:.25rem .8rem;margin-bottom:1.25rem}
+
+    /* stat strip */
+    .stats{display:grid;grid-template-columns:repeat(2,1fr);background:var(--panel);border-bottom:1px solid #000}
+    @media(min-width:760px){.stats{grid-template-columns:repeat(4,1fr)}}
+    .stat{padding:1.5rem 1.25rem;border-right:1px solid #000;border-top:1px solid #000}
+    .stat:nth-child(2n){border-right:0}
+    @media(min-width:760px){.stat{border-top:0}.stat:nth-child(2n){border-right:1px solid #000}.stat:last-child{border-right:0}}
+    .stat b{display:block;font-size:clamp(2rem,6vw,3rem);font-weight:800;letter-spacing:-.03em;line-height:1}
+    .stat span{font-size:.85rem;color:var(--muted)}
+
+    /* reasons */
+    .reasons{display:grid;gap:1.1rem;margin-top:2.25rem}
+    @media(min-width:800px){.reasons{grid-template-columns:repeat(6,1fr)}.reasons .card{grid-column:span 2}.reasons .card:nth-child(4),.reasons .card:nth-child(5){grid-column:span 3}}
+    .card{background:var(--panel);border:1px solid #000;border-radius:.25rem;padding:1.4rem;display:flex;flex-direction:column;gap:.6rem;transition:transform .12s,box-shadow .12s}
+    .card:hover{transform:translate(-4px,-4px);box-shadow:4px 4px 0 #000}
+    .card .num{width:2.25rem;height:2.25rem;border-radius:50%;border:1px solid #000;background:var(--yellow);display:flex;align-items:center;justify-content:center;font-weight:800}
+    .card h3{font-size:1.2rem;line-height:1.2}
+    .card p{font-size:.93rem;color:var(--muted)}
+    .chip{margin-top:auto;align-self:flex-start;font-size:.78rem;font-weight:700;background:var(--bg);border:1px solid #000;border-radius:999px;padding:.2rem .7rem}
+    .card.hl{background:var(--pink)}
+    .card.hl p{color:#000}
+
+    .result{margin-top:2rem;background:#000;color:#fff;border:1px solid #000;border-radius:.25rem;box-shadow:8px 8px 0 var(--yellow);padding:1.75rem;display:grid;gap:1rem;align-items:center}
+    @media(min-width:760px){.result{grid-template-columns:auto 1fr;gap:2rem}}
+    .result .big{font-size:clamp(3.5rem,12vw,6rem);font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--yellow)}
+    .result p{font-size:1.05rem}
+
+    /* steps */
+    .steps-bg{background:var(--yellow)}
+    .steps{display:grid;gap:1.25rem;margin-top:2.25rem}
+    @media(min-width:860px){.steps{grid-template-columns:repeat(3,1fr)}}
+    .step{background:var(--panel);border:1px solid #000;border-radius:.25rem;box-shadow:6px 6px 0 #000;padding:1.5rem;display:flex;flex-direction:column;gap:.7rem}
+    .step .lbl{font-weight:700;font-size:.85rem;background:var(--teal);border:1px solid #000;border-radius:999px;padding:.15rem .75rem;align-self:flex-start}
+    .step h3{font-size:1.3rem}
+    .step p{font-size:.95rem;color:var(--muted)}
+    .step ul{list-style:none;font-size:.9rem;display:grid;gap:.35rem}
+    .step li::before{content:"\f00c";font-family:"Font Awesome 6 Free";font-weight:900;font-size:.65rem;margin-right:.55rem;background:var(--pink);border:1px solid #000;border-radius:50%;width:1.1rem;height:1.1rem;display:inline-flex;align-items:center;justify-content:center}
+    .flow{margin-top:2rem;display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;font-weight:700;font-size:.92rem}
+    .flow span{background:var(--panel);border:1px solid #000;border-radius:999px;padding:.35rem .9rem}
+    .flow i{font-size:.8rem}
+
+    /* solutions */
+    .sol{display:grid;gap:1rem;margin-top:2.25rem}
+    @media(min-width:700px){.sol{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:1000px){.sol{grid-template-columns:repeat(3,1fr)}}
+    .sol .card{flex-direction:row;gap:1rem;align-items:flex-start}
+    .ico{flex:none;width:2.75rem;height:2.75rem;border-radius:50%;border:1px solid #000;background:var(--pink);display:flex;align-items:center;justify-content:center;font-size:1.05rem}
+    .sol h3{font-size:1.05rem;margin-bottom:.2rem}
+    .sol .map{display:block;margin-top:.4rem;font-size:.75rem;font-weight:700;color:#000}
+
+    /* form */
+    .formwrap{display:grid;gap:2.25rem;align-items:start}
+    @media(min-width:900px){.formwrap{grid-template-columns:1fr 1fr}}
+    .form{background:var(--panel);border:1px solid #000;border-radius:.25rem;box-shadow:8px 8px 0 var(--pink);padding:1.6rem}
+    .field{margin-bottom:1rem}
+    .field label{display:block;font-size:.85rem;font-weight:700;margin-bottom:.35rem}
+    .field input,.field select{width:100%;font:500 1rem var(--font);color:#000;background:var(--panel);border:1px solid #000;border-radius:.25rem;padding:.75rem .9rem;outline:none;transition:box-shadow .12s}
+    .field input:focus,.field select:focus{box-shadow:4px 4px 0 var(--pink)}
+    .field.err input,.field.err select{border-color:var(--red);box-shadow:4px 4px 0 var(--red)}
+    .field small{display:none;color:var(--red);font-size:.78rem;margin-top:.3rem;font-weight:600}
+    .field.err small{display:block}
+    .note{font-size:.78rem;color:var(--muted);margin-top:.8rem;text-align:center}
+    .checks{list-style:none;display:grid;gap:.7rem;margin-top:1.4rem}
+    .checks li{display:flex;gap:.7rem;font-weight:500}
+    .checks i{color:var(--teal);margin-top:.3rem}
+
+    footer{padding:2.5rem 0 3rem;font-size:.82rem;color:var(--muted)}
+    footer a{color:#000;font-weight:600;text-underline-offset:3px}
+    footer a:hover{background:var(--pink);text-decoration:none}
+    footer p+p{margin-top:.6rem;max-width:52rem}
+    .float-wa{position:fixed;right:1rem;bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:60;width:3.5rem;height:3.5rem;border-radius:50%;background:var(--teal);color:#000;border:1px solid #000;box-shadow:4px 4px 0 #000;display:flex;align-items:center;justify-content:center;font-size:1.7rem;text-decoration:none}
+    .float-wa:hover{background:var(--yellow)}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="logo">1biz<span>.online</span></a>
+    <nav>
+      <a class="link" href="#why">Why businesses fail</a>
+      <a class="link" href="#top5">The top 5%</a>
+      <a class="link" href="#solutions">Solutions</a>
+      <a class="btn sm" href="#start">Get your plan</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <span class="tag"><i class="fas fa-triangle-exclamation"></i> South African SME reality check</span>
+      <h1>Over half of small businesses may not survive another 12 months.</h1>
+      <p>Yours doesn’t have to be one of them. See exactly why South African companies fail, what the thriving 5% do differently, and how WhatsApp bots and software put those steps in place fast.</p>
+      <div class="ctas">
+        <a class="btn" href="#start"><i class="fab fa-whatsapp"></i> Get my free business health check</a>
+        <a class="btn alt" href="#why">See the 5 reasons</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="stats" aria-label="Key figures">
+    <div class="stat"><b>52.8%</b><span>of small businesses contracting, struggling or at risk of closure</span></div>
+    <div class="stat"><b>70–80%</b><span>of SMMEs fail within 5 years</span></div>
+    <div class="stat"><b>60%</b><span>report weak or critical cash flow</span></div>
+    <div class="stat"><b>10–20+</b><span>hours a week freed by automation</span></div>
+  </div>
+
+  <!-- 5 REASONS -->
+  <section id="why">
+    <div class="wrap">
+      <h2 class="h2">The 5 main reasons South African companies are failing</h2>
+      <p class="lead">Drawn from the Absa/SACCI/BMR Small Business Growth Index, University of the Western Cape research, Stats SA liquidations and multiple 2025 reports (2024–2026).</p>
+
+      <div class="reasons">
+        <article class="card hl">
+          <span class="num">1</span>
+          <h3>Cash-flow mismanagement and chronic liquidity crises</h3>
+          <p>The single biggest killer. Businesses look profitable on paper but run out of cash. Rising costs, slow-paying customers and no real-time visibility is a deadly mix.</p>
+          <span class="chip">60% report weak or critical cash flow</span>
+        </article>
+        <article class="card">
+          <span class="num">2</span>
+          <h3>Exploding cost of doing business, with no efficiency offset</h3>
+          <p>Loadshedding, electricity tariffs, fuel and transport, input inflation and infrastructure failures. Most owners absorb the pain or raise prices, which kills demand. Only top performers redesign costs and productivity.</p>
+          <span class="chip">66%+ of SMEs hit hardest by fuel and transport</span>
+        </article>
+        <article class="card">
+          <span class="num">3</span>
+          <h3>Weak customer acquisition in a shrinking market</h3>
+          <p>Lower consumer spending and more competition. Many SMEs rely on word-of-mouth or random social posts, with no consistent, measurable lead engine. When the economy tightens, the pipeline dries up.</p>
+          <span class="chip">No lead engine = no pipeline</span>
+        </article>
+        <article class="card">
+          <span class="num">4</span>
+          <h3>Manual systems, zero automation and technology lag</h3>
+          <p>A top endogenous failure factor. Spreadsheets, WhatsApp chaos, paper invoices and the founder as the system. It causes errors, slows everything down, burns out the owner and makes the business impossible to scale or sell.</p>
+          <span class="chip">Painful work also hurts talent attraction</span>
+        </article>
+        <article class="card">
+          <span class="num">5</span>
+          <h3>Founder dependence and no scalable processes</h3>
+          <p>The business dies when the founder steps away or burns out. No systems, no delegation, no succession readiness. Add skills shortages and regulatory drag, and the company can’t survive shocks.</p>
+          <span class="chip">3 in 5 failures happen despite reported profits</span>
+        </article>
+      </div>
+
+      <div class="result">
+        <div class="big">52.8%</div>
+        <p><strong>The result:</strong> more than half of small businesses are currently contracting, trading with difficulty or at risk of closure. Over half may not survive another 12 months under current pressures.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOP 5% -->
+  <section id="top5" class="steps-bg">
+    <div class="wrap">
+      <h2 class="h2">The 3 simple steps the top 5% are taking</h2>
+      <p class="lead" style="color:#000">They treat a harsh environment as a filter that kills the weak and rewards the disciplined. They build internal leverage instead of waiting for the economy to improve, and that’s why they accelerate at the speed of lightning.</p>
+
+      <div class="steps">
+        <article class="step">
+          <span class="lbl">Step 1</span>
+          <h3>Install real-time systems and intelligent automation</h3>
+          <p>Bots and software run the business so it works without the founder. They stop being the bottleneck.</p>
+          <ul>
+            <li>Cash-flow dashboards</li>
+            <li>Automated invoicing and follow-ups</li>
+            <li>24/7 WhatsApp lead capture and qualification</li>
+            <li>Customer service bots and inventory alerts</li>
+          </ul>
+          <p><strong>Frees 10–20+ hours a week, cuts errors and builds institutional knowledge.</strong></p>
+        </article>
+        <article class="step">
+          <span class="lbl">Step 2</span>
+          <h3>Master cash flow and unit economics with data, not hope</h3>
+          <p>They know their numbers daily. They forecast, control working capital and make pricing and productivity decisions from live data.</p>
+          <p><strong>Technology turns “I think we’re okay” into “I know exactly where the money is and where the leaks are.”</strong></p>
+        </article>
+        <article class="step">
+          <span class="lbl">Step 3</span>
+          <h3>Build a predictable, automated acquisition and retention engine</h3>
+          <p>They never rely on random marketing again.</p>
+          <ul>
+            <li>Consistent lead generation via bots</li>
+            <li>Automated nurturing</li>
+            <li>Personalised follow-up</li>
+            <li>Loyalty systems</li>
+          </ul>
+          <p><strong>They grow even when the market is flat, because they own their pipeline.</strong></p>
+        </article>
+      </div>
+
+      <div class="flow" aria-label="How the steps compound">
+        <span>Automation</span><i class="fas fa-arrow-right"></i>
+        <span>Clearer cash visibility</span><i class="fas fa-arrow-right"></i>
+        <span>More capacity to acquire and serve</span><i class="fas fa-arrow-right"></i>
+        <span>Faster growth, lower stress</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUTIONS -->
+  <section id="solutions">
+    <div class="wrap">
+      <h2 class="h2">The fastest, most practical way to do all three: <span class="mark">1Biz</span></h2>
+      <p class="lead">Bot integrations and software built for South African SMEs. Each one answers a reason you’re at risk and a step the top 5% take.</p>
+
+      <div class="sol">
+        <article class="card"><span class="ico"><i class="fab fa-whatsapp"></i></span><div><h3>WhatsApp lead capture bot</h3><p>Captures, qualifies and scores leads around the clock, and hands hot ones to you.</p><span class="map">Fixes reason 3 · Step 3</span></div></article>
+        <article class="card"><span class="ico"><i class="fas fa-file-invoice-dollar"></i></span><div><h3>Automated invoicing and follow-ups</h3><p>Invoices go out on time and slow payers get nudged without you chasing.</p><span class="map">Fixes reason 1 · Step 1</span></div></article>
+        <article class="card"><span class="ico"><i class="fas fa-chart-pie"></i></span><div><h3>Live cash-flow dashboard</h3><p>See your numbers daily and spot leaks before they become a crisis.</p><span class="map">Fixes reasons 1 and 2 · Step 2</span></div></article>
+        <article class="card"><span class="ico"><i class="fas fa-headset"></i></span><div><h3>Customer service bot</h3><p>Answers common questions 24/7 and escalates to a human with full context.</p><span class="map">Fixes reasons 4 and 5 · Step 1</span></div></article>
+        <article class="card"><span class="ico"><i class="fas fa-boxes-stacking"></i></span><div><h3>Inventory alerts and workflows</h3><p>Triggers, reminders and CRM updates so nothing depends on memory.</p><span class="map">Fixes reasons 2 and 4 · Step 1</span></div></article>
+        <article class="card"><span class="ico"><i class="fas fa-heart"></i></span><div><h3>Nurture and loyalty automation</h3><p>Personalised follow-up and repeat-business campaigns that run themselves.</p><span class="map">Fixes reason 3 · Step 3</span></div></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEAD FORM -->
+  <section id="start" style="background:var(--pink)">
+    <div class="wrap formwrap">
+      <div>
+        <h2 class="h2">Find out where your business is leaking</h2>
+        <p class="lead" style="color:#000">Tell us a little about your business. We’ll message you on WhatsApp with a free health check and the quickest automations to start with.</p>
+        <ul class="checks">
+          <li><i class="fas fa-circle-check"></i> Free, with no obligation</li>
+          <li><i class="fas fa-circle-check"></i> Mapped to the 5 failure risks above</li>
+          <li><i class="fas fa-circle-check"></i> A practical 3-step plan for your business</li>
+        </ul>
+      </div>
+
+      <form class="form" id="leadForm" novalidate>
+        <div class="field"><label for="fName">Your name</label><input id="fName" name="name" type="text" autocomplete="name" placeholder="Thabo Mokoena" required><small>Please enter your name.</small></div>
+        <div class="field"><label for="fBiz">Business name</label><input id="fBiz" name="business" type="text" autocomplete="organization" placeholder="Mokoena Logistics" required><small>Please enter your business name.</small></div>
+        <div class="field"><label for="fRole">Your role</label>
+          <select id="fRole" name="role" required>
+            <option value="">Choose one</option><option>Owner</option><option>Founder</option><option>Manager</option><option>Other</option>
+          </select><small>Please choose your role.</small></div>
+        <div class="field"><label for="fPain">Your biggest challenge right now</label>
+          <select id="fPain" name="pain" required>
+            <option value="">Choose one</option>
+            <option>Cash flow and late payments</option>
+            <option>Rising costs</option>
+            <option>Not enough leads or customers</option>
+            <option>Manual admin and slow systems</option>
+            <option>Everything depends on me</option>
+          </select><small>Please choose a challenge.</small></div>
+        <div class="field"><label for="fPhone">WhatsApp number</label><input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="082 123 4567" required><small>Enter a valid South African number.</small></div>
+        <button class="btn wide" type="submit"><i class="fab fa-whatsapp"></i> Send my details on WhatsApp</button>
+        <p class="note">This opens WhatsApp with your details pre-filled. Nothing is sent until you tap send.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><a class="logo" href="#top" style="font-size:1.1rem">1biz<span>.online</span></a> · <a href="https://wa.me/27689124033" target="_blank" rel="noopener">WhatsApp 068 912 4033</a> · <a href="activate.html">Activate your bot</a></p>
+    <p>Figures are synthesised from the Absa/SACCI/BMR Small Business Growth Index, University of the Western Cape research, Stats SA liquidation data and 2025 industry reports. They are indicative and not a guarantee of results.</p>
+    <p>© <span id="yr">2026</span> 1biz.online. All rights reserved.</p>
+  </div>
+</footer>
+
+<a class="float-wa" href="https://wa.me/27689124033?text=Hi%201biz%2C%20I%27d%20like%20to%20know%20more." target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+
+<script>
+(function () {
+  const WHATSAPP_PHONE = '27689124033'; // 068 912 4033 in international format
+  const form = document.getElementById('leadForm');
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // Accepts 0XXXXXXXXX, +27XXXXXXXXX or 27XXXXXXXXX
+  const validPhone = v => /^(?:\+?27|0)[1-9]\d{8}$/.test(v.replace(/[\s()-]/g, ''));
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const f = form.elements;
+    const checks = [
+      ['name', f.name.value.trim().length > 1],
+      ['business', f.business.value.trim().length > 1],
+      ['role', !!f.role.value],
+      ['pain', !!f.pain.value],
+      ['phone', validPhone(f.phone.value)]
+    ];
+    let firstBad = null;
+    checks.forEach(([k, ok]) => {
+      const field = f[k].closest('.field');
+      field.classList.toggle('err', !ok);
+      if (!ok && !firstBad) firstBad = f[k];
+    });
+    if (firstBad) { firstBad.focus(); return; }
+
+    const msg = [
+      'Hello 1biz team, I’d like a free business health check.',
+      'Name: ' + f.name.value.trim(),
+      'Business: ' + f.business.value.trim(),
+      'Role: ' + f.role.value,
+      'Biggest challenge: ' + f.pain.value,
+      'My WhatsApp: ' + f.phone.value.trim()
+    ].join('\n');
+    window.open('https://wa.me/' + WHATSAPP_PHONE + '?text=' + encodeURIComponent(msg), '_blank', 'noopener,noreferrer');
+  });
+
+  form.addEventListener('input', e => e.target.closest('.field')?.classList.remove('err'));
+})();
+</script>
+</body>
+</html>
