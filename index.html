@@ -24,6 +24,11 @@ main{flex:1;min-height:0;width:100%;max-width:40rem;margin:0 auto;padding:.75rem
 .hero{background:linear-gradient(90deg,#1a6fb8,#2bc0d0 35%,#f6f3d0 55%,#ffb200 78%,#f07a5a);border-radius:1.5rem;padding:1rem;text-align:center;box-shadow:0 10px 24px rgba(12,26,43,.18)}
 .logo{display:grid;place-items:center;width:clamp(72px,16vh,120px);height:clamp(72px,16vh,120px);margin:0 auto;border:3px solid rgba(255,255,255,.95);border-radius:1.6rem;background:linear-gradient(145deg,#14305a,#1a8a9a 62%,#ffb200);box-shadow:0 8px 18px rgba(12,26,43,.28)}
 .logo svg{width:60%;height:60%}
+.logo{position:relative;overflow:hidden;isolation:isolate;animation:logoFloat 3.5s ease-in-out infinite}
+.logo::before{content:"";position:absolute;inset:-55%;z-index:-1;background:linear-gradient(110deg,transparent 38%,rgba(255,255,255,.35) 49%,transparent 60%);transform:translateX(-70%) rotate(12deg);animation:logoShine 4s ease-in-out infinite}
+@keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes logoShine{0%,55%{transform:translateX(-80%) rotate(12deg)}85%,100%{transform:translateX(80%) rotate(12deg)}}
+@media(prefers-reduced-motion:reduce){.logo,.logo::before{animation:none}}
 h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(1.5rem,5vh,2.25rem);line-height:1.1;color:#0c1a2b;margin:.6rem 0 0}
 .sub{font-size:clamp(.8rem,2vh,.95rem);font-weight:600;color:#0c1a2b;margin:.4rem auto 0;max-width:26rem}
 .btn{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:.7rem 1.5rem;font:700 1rem Archivo,system-ui,sans-serif;background:#14305a;color:#fff;text-decoration:none;border:0;cursor:pointer;box-shadow:0 4px 10px rgba(12,26,43,.25);transition:transform .15s}
