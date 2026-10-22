@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14305a">
+<title>South Africa Business Hub – Local Business Directory</title>
+<meta name="description" content="Discover, support and shop local. Explore food, drink, services and experiences across South Africa.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#14305a;--teal:#1a8a9a;--sun:#ffb200;--ink:#0c1a2b;--paper:#fff;--mist:#e8f4f6;--line:#d5e3e7;--bg:#eef2ea;--muted:#51647a;--bar:rgba(255,255,255,.9);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--navy:#8db6ee;--teal:#4fc3d3;--ink:#e9f0f7;--paper:#13233a;--mist:#1a3149;--line:#2a4560;--bg:#0b1626;--muted:#9fb3c8;--bar:rgba(11,22,38,.92)}}
+:root[data-theme="dark"]{--navy:#8db6ee;--teal:#4fc3d3;--ink:#e9f0f7;--paper:#13233a;--mist:#1a3149;--line:#2a4560;--bg:#0b1626;--muted:#9fb3c8;--bar:rgba(11,22,38,.92)}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0;overflow:hidden}
+body{background:var(--bg);color:var(--ink);font-family:Archivo,system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+.page{height:100%;display:flex;flex-direction:column}
+header{display:flex;align-items:center;gap:.75rem;padding:.5rem 1rem;border-bottom:1px solid var(--line);background:var(--bar);backdrop-filter:blur(8px);flex:none}
+header .t{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;color:var(--navy);line-height:1.1;margin:0}
+header .s{font-size:11px;color:var(--muted);margin:0}
+main{flex:1;min-height:0;width:100%;max-width:40rem;margin:0 auto;padding:.75rem 1rem;display:flex;flex-direction:column;justify-content:center;gap:.75rem}
+.hero{background:linear-gradient(90deg,#1a6fb8,#2bc0d0 35%,#f6f3d0 55%,#ffb200 78%,#f07a5a);border-radius:1.5rem;padding:1rem;text-align:center;box-shadow:0 10px 24px rgba(12,26,43,.18)}
+.logo{display:grid;place-items:center;width:clamp(72px,16vh,120px);height:clamp(72px,16vh,120px);margin:0 auto;border:3px solid rgba(255,255,255,.95);border-radius:1.6rem;background:linear-gradient(145deg,#14305a,#1a8a9a 62%,#ffb200);box-shadow:0 8px 18px rgba(12,26,43,.28)}
+.logo svg{width:60%;height:60%}
+h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(1.5rem,5vh,2.25rem);line-height:1.1;color:#0c1a2b;margin:.6rem 0 0}
+.sub{font-size:clamp(.8rem,2vh,.95rem);font-weight:600;color:#0c1a2b;margin:.4rem auto 0;max-width:26rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:.7rem 1.5rem;font:700 1rem Archivo,system-ui,sans-serif;background:#14305a;color:#fff;text-decoration:none;border:0;cursor:pointer;box-shadow:0 4px 10px rgba(12,26,43,.25);transition:transform .15s}
+.btn:active{transform:scale(.96)}
+.hero .btn{margin-top:.8rem}
+.about{display:flex;width:100%;align-items:center;justify-content:space-between;gap:.75rem;padding:.8rem 1rem;border:2px solid var(--teal);border-radius:1rem;background:var(--paper);color:var(--ink);text-align:left;cursor:pointer;font-family:inherit}
+.about b{display:block;font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;color:var(--navy);font-size:1.05rem}
+.about small{color:var(--muted);font-size:.75rem}
+.about i{display:grid;place-items:center;width:2.25rem;height:2.25rem;flex:none;border-radius:50%;background:var(--sun);color:#0c1a2b;font-style:normal;font-weight:800}
+.reg{border:2px solid var(--sun);border-radius:1.5rem;background:var(--paper);padding:.9rem 1rem;text-align:center}
+.reg h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;color:var(--navy);font-size:1.25rem;margin:0}
+.reg p{color:var(--muted);font-size:.85rem;margin:.25rem 0 .7rem}
+.reg .btn{width:100%}
+footer{text-align:center;font-size:11px;color:var(--muted);flex:none;padding:.15rem 0 .35rem}
+nav{flex:none;display:flex;border-top:1px solid var(--line);background:var(--bar);backdrop-filter:blur(8px)}
+nav a,nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:.45rem 0;font:600 11px Archivo,system-ui,sans-serif;color:var(--muted);text-decoration:none;background:none;border:0;cursor:pointer}
+nav svg{width:24px;height:24px}
+nav .on{color:var(--navy)}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+dialog{width:min(92vw,40rem);max-height:85vh;padding:0;border:2px solid var(--line);border-radius:1.5rem;background:var(--paper);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.35);margin:auto;overflow:hidden}
+dialog::backdrop{background:rgba(12,26,43,.6);backdrop-filter:blur(2px)}
+dialog[open]{display:flex;flex-direction:column}
+.am-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:1rem 1.25rem;border-bottom:1px solid var(--line);background:var(--mist)}
+.am-head h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;color:var(--navy);font-size:1.25rem;margin:0}
+.x{width:2.25rem;height:2.25rem;border-radius:50%;border:2px solid var(--line);background:none;color:var(--navy);font-size:1rem;cursor:pointer}
+.am-body{overflow-y:auto;padding:1.25rem;-webkit-overflow-scrolling:touch}
+.am-body h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;color:var(--navy);font-size:1.1rem;margin:1.1rem 0 .4rem}
+.am-body h3:first-child{margin-top:0}
+.am-body p,.am-body li{font-size:.92rem;line-height:1.55}
+.am-body ul{padding-left:1.1rem;list-style:disc}
+details{border:1px solid var(--line);border-radius:.9rem;padding:.7rem .9rem;margin-top:.5rem}
+summary{cursor:pointer;font-weight:700;color:var(--navy);font-size:.92rem}
+details[open]{background:var(--mist)}
+details p{margin:.5rem 0 0;color:var(--muted)}
+.am-body .btn{display:flex;margin-top:1.25rem}
+@media (max-height:620px){.sub,footer{display:none}.reg p{display:none}main{gap:.5rem}}
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <svg width="40" height="40" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="10" fill="#14305a"/><circle cx="24" cy="24" r="12" fill="#ffb200"/><path d="M12 30c6-8 18-8 24 0" stroke="#1a8a9a" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
+    <div><p class="t">South Africa Business Hub</p><p class="s">Local Businesses · Stronger Communities</p></div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <!-- Replace this placeholder with your original logo: <img src="..." alt="South Africa Business Hub logo"> -->
+      <div class="logo" role="img" aria-label="South Africa Business Hub logo">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="14" fill="#ffb200"/><path d="M10 29c7-10 21-10 28 0" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
+      </div>
+      <h1>Discover. Support.<br>Shop local.</h1>
+      <p class="sub">Your trusted partner for business support, growth and opportunities.</p>
+      <a class="btn" href="https://wa.me/27689124033?text=Hi%2C%20I%27d%20like%20to%20register%20my%20business%20on%20the%20South%20Africa%20Business%20Hub.%20Please%20get%20me%20started%20now." target="_blank" rel="noopener">Get listed today</a>
+    </section>
+
+    <button type="button" class="about" id="aboutBtn" aria-haspopup="dialog" aria-controls="aboutModal">
+      <span><b>Who we are &amp; how we help</b><small>FAQ · What we are · Why work with us</small></span>
+      <i aria-hidden="true">i</i>
+    </button>
+
+    <section class="reg" aria-labelledby="rt">
+      <h2 id="rt">Get your business listed</h2>
+      <p>Local businesses grow stronger together. Register once and be found by customers across South Africa.</p>
+      <a class="btn" href="https://wa.me/27689124033?text=Hi%2C%20I%27d%20like%20to%20register%20my%20business%20on%20the%20South%20Africa%20Business%20Hub.%20Please%20get%20me%20started%20now." target="_blank" rel="noopener">Register</a>
+    </section>
+  </main>
+
+  <footer>© 2026 South Africa Business Hub. All rights reserved.</footer>
+
+  <nav aria-label="Main">
+    <a href="#" class="on" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span>Home</span></a>
+    <button type="button" id="aboutTab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v.01M11 12h1v5h1"/></svg><span>About</span></button>
+    <a href="https://wa.me/27689124033?text=Hi%2C%20I%27d%20like%20to%20register%20my%20business%20on%20the%20South%20Africa%20Business%20Hub.%20Please%20get%20me%20started%20now." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Register</span></a>
+    <a href="https://wa.me/27689124033" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 01-13.3 7.9L3 21l1.2-4.5A9 9 0 1121 12z"/></svg><span>WhatsApp</span></a>
+  </nav>
+</div>
+
+<dialog id="aboutModal" aria-labelledby="amTitle">
+  <div class="am-head">
+    <h2 id="amTitle">About South Africa Business Hub</h2>
+    <button type="button" class="x" id="aboutClose" aria-label="Close">✕</button>
+  </div>
+  <div class="am-body">
+    <h3>What we are</h3>
+    <p>South Africa Business Hub is a local business directory built to help people discover, support and shop local. We bring local businesses together in one easy-to-use place, so customers can find them and communities can grow stronger.</p>
+    <h3>Why we can help your business</h3>
+    <ul>
+      <li><strong>Get found:</strong> be listed where customers are already searching for local products and services.</li>
+      <li><strong>Local reach:</strong> your listing helps people nearby discover your products and services.</li>
+      <li><strong>Simple to join:</strong> register in minutes through WhatsApp, with real people to guide you.</li>
+      <li><strong>Stronger together:</strong> a growing network of local businesses supporting one another.</li>
+      <li><strong>Mobile-first:</strong> built to work quickly on any phone, even on slower connections.</li>
+    </ul>
+    <h3>Frequently asked questions</h3>
+    <details><summary>What is the South Africa Business Hub?</summary><p>It’s an online directory of local South African businesses, making it easy for people to find and support them.</p></details>
+    <details><summary>How do I get my business listed?</summary><p>Tap “Register”. It opens WhatsApp with a ready-made message, so you only need to press send and we’ll get you started.</p></details>
+    <details><summary>How do customers find me?</summary><p>Customers browse categories and discover businesses that match what they need, helping your listing reach people looking locally.</p></details>
+    <details><summary>What information do I need to register?</summary><p>Just the basics: your business name, what you offer, your location and how customers can contact you. We’ll guide you through the rest on WhatsApp.</p></details>
+    <details><summary>Who do I contact if I need help?</summary><p>Use the WhatsApp tab at the bottom of the screen and our team will respond as soon as they can.</p></details>
+    <a class="btn" href="https://wa.me/27689124033?text=Hi%2C%20I%27d%20like%20to%20register%20my%20business%20on%20the%20South%20Africa%20Business%20Hub.%20Please%20get%20me%20started%20now." target="_blank" rel="noopener">Register my business</a>
+  </div>
+</dialog>
+
+<script>
+(()=>{
+  const m=document.getElementById('aboutModal');
+  const open=()=>{ if(m.showModal){m.showModal()}else{m.setAttribute('open','')} };
+  document.getElementById('aboutBtn').addEventListener('click',open);
+  document.getElementById('aboutTab').addEventListener('click',open);
+  document.getElementById('aboutClose').addEventListener('click',()=>{ if(m.close){m.close()}else{m.removeAttribute('open')} });
+  m.addEventListener('click',e=>{ if(e.target===m) m.close(); });
+})();
+</script>
+</body>
+</html>
