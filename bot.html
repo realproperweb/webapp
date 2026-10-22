@@ -4,324 +4,280 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#0b141a">
-  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#ff90e8">
+  <meta name="color-scheme" content="light dark">
   <title>1biz.online · Activate your business bot</title>
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <!-- Google Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
+    /* Gumroad theme: cream canvas, pink primary, hard black borders, offset shadows */
     :root {
-      --bg: #0b141a;
-      --panel: #111b21;
-      --raised: #1a262d;
-      --raised-2: #202c33;
-      --line: #2a3942;
-      --text: #e9edef;
-      --muted: #8696a0;
-      --green: #25d366;
-      --teal: #00a884;
-      --bubble: #005c4b;
-      --amber: #ffd166;
-      --danger: #f15c6d;
+      --bg: #f4f4f0;
+      --panel: #ffffff;
+      --raised: #ffffff;
+      --raised-2: #f4f4f0;
+      --line: #000000;
+      --text: #000000;
+      --muted: #5c5c57;
+      --pink: #ff90e8;
+      --pink-hover: #ffa8ee;
+      --yellow: #ffc900;
+      --teal: #23a094;
+      --danger: #dc341e;
+      --shadow: #000000;
+      --on-accent: #000000;
+      --font: 'Mabry Pro', 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #000000;
+        --panel: #1f1f1f;
+        --raised: #2b2b2b;
+        --raised-2: #242424;
+        --line: #f4f4f0;
+        --text: #f4f4f0;
+        --muted: #b0b0a8;
+        --shadow: #f4f4f0;
+        --danger: #ff6b57;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #000000; --panel: #1f1f1f; --raised: #2b2b2b; --raised-2: #242424;
+      --line: #f4f4f0; --text: #f4f4f0; --muted: #b0b0a8; --shadow: #f4f4f0; --danger: #ff6b57;
       color-scheme: dark;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-padding-top: env(safe-area-inset-top, 0px); }
     body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background:
-        radial-gradient(900px 500px at 85% -10%, rgba(0,168,132,.18), transparent 60%),
-        radial-gradient(700px 420px at -10% 110%, rgba(37,211,102,.10), transparent 60%),
-        var(--bg);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: calc(1.5rem + env(safe-area-inset-top, 0px)) 1rem calc(2rem + env(safe-area-inset-bottom, 0px));
+      font-family: var(--font);
+      background: var(--bg);
       color: var(--text);
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: calc(1.5rem + env(safe-area-inset-top, 0px)) 1rem calc(2rem + env(safe-area-inset-bottom, 0px));
       -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
     }
-    h1, h2, h3 { font-family: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif; }
-    :focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+    h1, h2, h3 { font-family: var(--font); letter-spacing: -.02em; }
+    :focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
+    .hidden { display: none !important; }
 
     .mosaic-bar {
-      width: 100%;
-      max-width: 720px;
-      height: 3px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, transparent, var(--teal), var(--green), var(--teal), transparent);
+      width: 100%; max-width: 720px; height: 12px;
+      border: 1px solid var(--line); border-radius: 4px;
+      background: repeating-linear-gradient(90deg, var(--pink) 0 40px, var(--yellow) 40px 80px, var(--teal) 80px 120px);
       margin-bottom: 1.25rem;
-      opacity: .85;
     }
     .bot-card {
       background: var(--panel);
-      border-radius: 1.75rem;
-      box-shadow: 0 30px 60px -20px rgba(0,0,0,.7), 0 0 0 1px var(--line);
+      border: 1px solid var(--line);
+      border-radius: .25rem;
+      box-shadow: 8px 8px 0 var(--shadow);
       padding: 2rem 1.5rem;
-      width: 100%;
-      max-width: 720px;
+      width: 100%; max-width: 720px;
     }
     @media (min-width: 640px) { .bot-card { padding: 2.5rem; } }
 
     .logo-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 64px;
-      height: 64px;
-      background: linear-gradient(145deg, var(--teal), var(--green));
-      border-radius: 50%;
-      color: #04130c;
-      font-size: 1.9rem;
-      box-shadow: 0 0 0 5px rgba(37,211,102,.14), 0 12px 28px -10px rgba(37,211,102,.6);
-      margin-bottom: 1rem;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 64px; height: 64px;
+      background: var(--pink); color: #000;
+      border: 1px solid var(--line); border-radius: .25rem;
+      box-shadow: 4px 4px 0 var(--shadow);
+      font-size: 1.8rem; margin-bottom: 1.25rem;
     }
     .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      font-size: .8rem;
-      font-weight: 600;
-      padding: .35rem .9rem;
-      border-radius: 999px;
-      background: var(--raised-2);
-      color: var(--muted);
-      border: 1px solid var(--line);
-      transition: background .2s, color .2s, border-color .2s;
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: .8rem; font-weight: 600;
+      padding: .3rem .8rem;
+      border: 1px solid var(--line); border-radius: 999px;
+      background: var(--raised-2); color: var(--text);
     }
-    .status-badge i { font-size: .55rem; color: var(--muted); }
-    .status-badge.live { background: rgba(37,211,102,.1); color: var(--green); border-color: rgba(37,211,102,.28); }
-    .status-badge.live i { color: var(--green); animation: pulse 2s ease-in-out infinite; }
+    .status-badge i { font-size: .55rem; color: var(--danger); }
+    .status-badge.live { background: var(--teal); color: #000; }
+    .status-badge.live i { color: #000; animation: pulse 2s ease-in-out infinite; }
     @keyframes pulse { 50% { opacity: .35; } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spin { animation: spin 1s linear infinite; }
 
     /* incoming chat bubble */
     .bot-message {
-      background: var(--raised-2);
-      padding: .85rem 1.1rem;
-      border-radius: .25rem 1.1rem 1.1rem 1.1rem;
-      font-size: .92rem;
-      color: var(--text);
-      line-height: 1.55;
-      margin: 1.2rem 0;
-      max-width: 34rem;
+      background: var(--yellow); color: #000;
+      border: 1px solid var(--line); border-radius: .25rem;
+      box-shadow: 4px 4px 0 var(--shadow);
+      padding: .9rem 1.1rem;
+      font-size: .95rem; line-height: 1.55;
+      margin: 1.4rem 0; max-width: 34rem;
     }
-    .bot-message i { color: var(--green); margin-right: 6px; }
-    .bot-message strong { color: var(--green); font-weight: 600; }
+    .bot-message i { margin-right: 6px; }
+    .bot-message strong { font-weight: 700; }
 
-    .footnote { font-size: .72rem; color: var(--muted); text-align: center; margin-top: 1.5rem; }
-    .footnote a { color: var(--green); text-decoration: none; font-weight: 500; }
-    .footnote a:hover { text-decoration: underline; }
-    .hidden { display: none !important; }
+    .footnote { font-size: .78rem; color: var(--muted); text-align: center; margin-top: 1.75rem; }
+    .footnote a { color: var(--text); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+    .footnote a:hover { background: var(--pink); color: #000; text-decoration: none; }
 
-    /* ---- CTA (outgoing bubble style) ---- */
+    /* ---- Step sections ---- */
     .cta-section {
-      margin-top: 1.8rem;
-      padding: 1.5rem 1.25rem;
-      background: linear-gradient(160deg, rgba(0,92,75,.55), rgba(0,92,75,.22));
-      border-radius: 1.5rem;
-      border: 1px solid rgba(37,211,102,.35);
+      margin-top: 1.8rem; padding: 1.5rem 1.25rem;
+      background: var(--raised);
+      border: 1px solid var(--line); border-radius: .25rem;
       text-align: center;
     }
-    .cta-section h2 { font-size: 1.25rem; font-weight: 800; color: var(--text); margin-bottom: .3rem; letter-spacing: -.01em; }
+    .cta-section h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: .35rem; }
     .cta-section p {
-      font-size: .85rem;
-      color: #b6c8c2;
-      margin-bottom: 1.1rem;
-      line-height: 1.5;
-      max-width: 28rem;
-      margin-left: auto;
-      margin-right: auto;
+      font-size: .9rem; color: var(--muted); margin: 0 auto 1.1rem;
+      max-width: 28rem; line-height: 1.5;
     }
     .phone-highlight {
-      font-weight: 700;
-      color: var(--text);
-      background: rgba(0,0,0,.3);
-      padding: .25rem .8rem;
-      border-radius: 999px;
-      display: inline-block;
-      font-size: .9rem;
-      border: 1px solid rgba(37,211,102,.3);
-      margin-bottom: .5rem;
-      letter-spacing: .02em;
+      display: inline-block; font-weight: 700; font-size: .9rem;
+      color: #000; background: var(--pink);
+      border: 1px solid var(--line); border-radius: 999px;
+      padding: .25rem .9rem; margin-bottom: .5rem; letter-spacing: .02em;
     }
 
     /* ---- Buttons ---- */
     .wa-btn, .primary-btn {
-      color: #04130c;
-      font-weight: 700;
-      padding: 1rem 1.5rem;
-      border-radius: 999px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-      border: none;
-      cursor: pointer;
-      width: 100%;
-      max-width: 26rem;
-      font-size: 1rem;
-      margin-top: .75rem;
-      font-family: inherit;
+      color: #000; font-weight: 700; font-family: inherit; font-size: 1rem;
+      padding: 1rem 1.5rem; width: 100%; max-width: 26rem; margin-top: .75rem;
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      border: 1px solid var(--line); border-radius: .25rem; cursor: pointer;
+      background: var(--pink);
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
     }
-    .wa-btn { background: var(--green); box-shadow: 0 12px 28px -10px rgba(37,211,102,.65); }
-    .wa-btn:hover { background: #3be07c; transform: translateY(-2px); box-shadow: 0 18px 32px -10px rgba(37,211,102,.75); }
-    .primary-btn { background: var(--teal); box-shadow: 0 12px 28px -10px rgba(0,168,132,.65); }
-    .primary-btn:hover { background: #07c29a; transform: translateY(-2px); box-shadow: 0 18px 32px -10px rgba(0,168,132,.75); }
-    .wa-btn:active, .primary-btn:active { transform: translateY(1px); }
+    .wa-btn:hover, .primary-btn:hover {
+      background: var(--pink-hover);
+      transform: translate(-4px, -4px);
+      box-shadow: 4px 4px 0 var(--shadow);
+    }
+    .wa-btn:active, .primary-btn:active { transform: translate(0, 0); box-shadow: none; }
     .wa-btn i { font-size: 1.25rem; }
-    .primary-btn:disabled { opacity: .5; pointer-events: none; }
+    .primary-btn:disabled { opacity: .55; pointer-events: none; }
 
     /* ---- Step indicator ---- */
-    .step-indicator {
-      display: flex; align-items: center; justify-content: center;
-      gap: .5rem; margin-bottom: 1rem;
-      font-size: .7rem; font-weight: 600; color: var(--muted);
-    }
+    .step-indicator { display: flex; align-items: center; justify-content: center; gap: .5rem; margin-bottom: 1rem; }
     .step-dot {
       display: inline-flex; align-items: center; justify-content: center;
-      width: 26px; height: 26px; border-radius: 50%;
-      background: var(--panel);
-      border: 2px solid var(--line);
-      font-size: .7rem; font-weight: 700;
-      color: var(--muted);
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--panel); border: 1px solid var(--line);
+      font-size: .75rem; font-weight: 700; color: var(--text);
     }
-    .step-dot.active { background: var(--teal); border-color: var(--teal); color: #04130c; }
-    .step-dot.done { background: var(--green); border-color: var(--green); color: #04130c; }
-    .step-line { width: 22px; height: 2px; background: var(--line); border-radius: 2px; }
+    .step-dot.active { background: var(--yellow); color: #000; }
+    .step-dot.done { background: var(--teal); color: #000; }
+    .step-line { width: 24px; height: 1px; background: var(--line); }
 
     /* ---- Activated state ---- */
     .activated-banner {
-      background: linear-gradient(160deg, rgba(37,211,102,.18), rgba(0,168,132,.08));
-      border: 1px solid rgba(37,211,102,.5);
-      border-radius: 1.5rem;
-      padding: 1.5rem 1.25rem;
-      text-align: center;
-      margin-top: 1.8rem;
-      box-shadow: 0 0 40px -10px rgba(37,211,102,.35);
+      background: var(--teal); color: #000;
+      border: 1px solid var(--line); border-radius: .25rem;
+      box-shadow: 6px 6px 0 var(--shadow);
+      padding: 1.5rem 1.25rem; text-align: center; margin-top: 1.8rem;
     }
-    .activated-banner i.fa-check-circle { font-size: 2.2rem; color: var(--green); margin-bottom: .5rem; display: block; }
-    .activated-banner h2 { font-size: 1.3rem; font-weight: 800; color: var(--text); margin-bottom: .3rem; }
-    .activated-banner p { font-size: .88rem; color: #b6c8c2; line-height: 1.5; }
-    .activated-banner .phone-highlight { margin-top: .6rem; margin-bottom: 0; }
+    .activated-banner i.fa-check-circle { font-size: 2.2rem; margin-bottom: .5rem; display: block; }
+    .activated-banner h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: .3rem; }
+    .activated-banner p { font-size: .92rem; line-height: 1.5; }
+    .activated-banner .phone-highlight { margin-top: .75rem; margin-bottom: 0; background: var(--panel); }
 
     /* ---- Capability tiles ---- */
-    .cap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; margin-top: 1rem; }
+    .cap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; margin-top: 1rem; }
     @media (min-width: 560px) { .cap-grid { grid-template-columns: 1fr 1fr 1fr; } }
     .cap-btn {
       display: flex; flex-direction: column; align-items: flex-start;
-      padding: .9rem .85rem .8rem;
-      background: var(--raised);
-      border: 1px solid var(--line);
-      border-radius: 1.1rem;
-      transition: border-color .15s ease, background .15s ease, transform .15s ease;
-      cursor: pointer; text-align: left; position: relative;
-      color: var(--text); font-family: inherit;
+      padding: .9rem .85rem .8rem; position: relative;
+      background: var(--raised); color: var(--text);
+      border: 1px solid var(--line); border-radius: .25rem;
+      font-family: inherit; text-align: left; cursor: pointer;
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
     }
-    .cap-btn:hover { border-color: var(--teal); background: var(--raised-2); transform: translateY(-2px); }
-    .cap-btn:active { transform: translateY(0); }
+    .cap-btn:hover { transform: translate(-4px, -4px); box-shadow: 4px 4px 0 var(--shadow); background: var(--raised-2); }
+    .cap-btn:active { transform: translate(0, 0); box-shadow: none; }
     .cap-btn .cap-icon {
       width: 36px; height: 36px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      background: rgba(37,211,102,.12); color: var(--green);
-      font-size: 1rem; margin-bottom: .55rem;
+      background: var(--pink); color: #000; border: 1px solid var(--line);
+      font-size: .95rem; margin-bottom: .6rem;
     }
-    .cap-btn .cap-label { font-size: .8rem; font-weight: 600; color: var(--text); line-height: 1.2; }
-    .cap-btn .cap-meta { font-size: .68rem; font-weight: 400; color: var(--muted); margin-top: .15rem; }
+    .cap-btn .cap-label { font-size: .85rem; font-weight: 700; line-height: 1.2; }
+    .cap-btn .cap-meta { font-size: .72rem; color: var(--muted); margin-top: .15rem; }
     .cap-btn .cap-badge {
       position: absolute; top: 8px; right: 8px;
-      font-size: .6rem; background: var(--amber); color: #1b1400;
-      padding: .1rem .5rem; border-radius: 999px; font-weight: 700;
+      font-size: .62rem; font-weight: 700; color: #000;
+      background: var(--yellow); border: 1px solid var(--line);
+      padding: .05rem .5rem; border-radius: 999px;
+    }
+    .tap-pill {
+      font-size: .68rem; font-weight: 600; color: var(--text);
+      background: var(--raised-2); border: 1px solid var(--line);
+      padding: .1rem .6rem; border-radius: 999px;
     }
 
     /* ---- Modal ---- */
     .modal-overlay {
-      position: fixed; inset: 0;
-      background: rgba(5,10,14,.72);
-      backdrop-filter: blur(6px);
-      display: flex; align-items: center; justify-content: center;
-      padding: 1rem; z-index: 1000;
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,.6);
+      display: flex; align-items: center; justify-content: center; padding: 1rem;
       opacity: 0; visibility: hidden;
       transition: opacity .2s ease, visibility .2s ease;
     }
     .modal-overlay.active { opacity: 1; visibility: visible; }
     .modal-content {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 1.75rem;
-      max-width: 520px; width: 100%;
-      max-height: 85vh; overflow-y: auto;
+      position: relative; width: 100%; max-width: 520px; max-height: 85vh; overflow-y: auto;
+      background: var(--panel); border: 1px solid var(--line); border-radius: .25rem;
+      box-shadow: 8px 8px 0 var(--pink);
       padding: 1.8rem 1.5rem 1.5rem;
-      box-shadow: 0 40px 80px -20px rgba(0,0,0,.8);
-      transform: scale(.95);
-      transition: transform .2s ease;
-      position: relative;
+      transform: scale(.96); transition: transform .2s ease;
     }
     .modal-overlay.active .modal-content { transform: scale(1); }
     .modal-close {
-      position: absolute; top: 1rem; right: 1rem;
-      width: 36px; height: 36px; border-radius: 50%;
-      background: var(--raised-2); border: none; color: var(--text);
-      font-size: 1.1rem;
+      position: absolute; top: 1rem; right: 1rem; width: 36px; height: 36px;
       display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: background .15s;
+      background: var(--panel); color: var(--text);
+      border: 1px solid var(--line); border-radius: .25rem; font-size: 1rem; cursor: pointer;
     }
-    .modal-close:hover { background: var(--line); }
+    .modal-close:hover { background: var(--yellow); color: #000; }
     .modal-icon-large {
       width: 56px; height: 56px; border-radius: 50%;
-      background: rgba(37,211,102,.12); color: var(--green);
+      background: var(--pink); color: #000; border: 1px solid var(--line);
       display: flex; align-items: center; justify-content: center;
       font-size: 1.5rem; margin-bottom: 1rem;
     }
-    .modal-content h3 { font-size: 1.4rem; font-weight: 800; color: var(--text); margin-bottom: .4rem; line-height: 1.2; }
-    .modal-content .modal-sub { font-size: .9rem; color: var(--muted); margin-bottom: 1.2rem; line-height: 1.55; }
-    .modal-content .modal-detail { font-size: .9rem; color: var(--text); line-height: 1.6; padding: 1rem 0 .5rem; border-top: 1px solid var(--line); }
+    .modal-content h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: .4rem; line-height: 1.2; padding-right: 2.5rem; }
+    .modal-content .modal-sub { font-size: .92rem; color: var(--muted); margin-bottom: 1.2rem; line-height: 1.55; }
+    .modal-content .modal-detail { font-size: .92rem; line-height: 1.6; padding: 1rem 0 .5rem; border-top: 1px solid var(--line); }
     .modal-content .modal-detail ul { list-style: none; margin-top: .5rem; }
-    .modal-content .modal-detail li { margin-bottom: .5rem; font-size: .9rem; color: #c5d0d5; padding-left: 1.6rem; position: relative; }
+    .modal-content .modal-detail li { margin-bottom: .5rem; padding-left: 1.7rem; position: relative; }
     .modal-content .modal-detail li::before {
-      content: "\f00c";
-      font-family: "Font Awesome 6 Free"; font-weight: 900;
-      position: absolute; left: 0; top: .1rem;
-      font-size: .7rem; color: var(--green);
+      content: "\f00c"; font-family: "Font Awesome 6 Free"; font-weight: 900;
+      position: absolute; left: 0; top: .1rem; font-size: .7rem;
+      width: 1.1rem; height: 1.1rem; display: flex; align-items: center; justify-content: center;
+      background: var(--teal); color: #000; border: 1px solid var(--line); border-radius: 50%;
     }
-    .modal-content .modal-footnote { font-size: .72rem; color: var(--muted); margin-top: 1.2rem; border-top: 1px solid var(--line); padding-top: .8rem; }
-    .modal-content::-webkit-scrollbar { width: 6px; }
-    .modal-content::-webkit-scrollbar-track { background: var(--panel); }
-    .modal-content::-webkit-scrollbar-thumb { background: var(--line); border-radius: 10px; }
+    .modal-content .modal-footnote { font-size: .75rem; color: var(--muted); margin-top: 1.2rem; border-top: 1px solid var(--line); padding-top: .8rem; }
 
     /* ---- Form ---- */
     .form-group { margin: 1.2rem 0 .5rem; }
-    .form-group label { display: block; font-size: .82rem; font-weight: 600; color: var(--text); margin-bottom: .4rem; }
+    .form-group label { display: block; font-size: .85rem; font-weight: 700; margin-bottom: .4rem; }
     .form-group input {
-      width: 100%;
-      max-width: 26rem;
-      padding: .85rem 1rem;
-      border: 2px solid var(--line);
-      border-radius: 1rem;
-      font-size: 1.2rem;
-      font-family: 'Inter', monospace;
-      letter-spacing: .3em;
-      text-align: center;
-      color: var(--text);
-      font-weight: 600;
-      background: var(--bg);
-      transition: border-color .15s, box-shadow .15s;
-      outline: none;
+      width: 100%; max-width: 26rem; padding: .85rem 1rem;
+      border: 1px solid var(--line); border-radius: .25rem;
+      font-size: 1.3rem; font-family: var(--font); font-weight: 700;
+      letter-spacing: .3em; text-align: center;
+      color: var(--text); background: var(--panel); outline: none;
+      transition: box-shadow .12s ease;
     }
-    .form-group input:focus { border-color: var(--green); box-shadow: 0 0 0 4px rgba(37,211,102,.18); }
+    .form-group input:focus { box-shadow: 4px 4px 0 var(--pink); }
     .form-group input:disabled { opacity: .6; }
-    .form-group input::placeholder { letter-spacing: .1em; font-weight: 400; color: #4b5c66; }
-    .form-hint { font-size: .72rem; color: #9fb0b8; margin-top: .35rem; text-align: center; }
+    .form-group input::placeholder { letter-spacing: .1em; font-weight: 400; color: var(--muted); opacity: .6; }
+    .form-hint { font-size: .75rem; color: var(--muted); margin-top: .4rem; text-align: center; }
 
     @media (prefers-reduced-motion: reduce) {
       * { animation: none !important; transition: none !important; }
-      .spin { animation: none !important; }
     }
   </style>
 </head>
@@ -335,14 +291,14 @@
     </div>
 
     <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
-      <h1 class="text-3xl sm:text-4xl font-extrabold text-[#e9edef] tracking-tight">
-        1biz<span class="text-[#25d366]">.online</span>
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+        1biz<span style="background:var(--pink);color:#000;padding:0 .2em;margin-left:.05em;">.online</span>
       </h1>
       <span id="statusBadge" class="status-badge">
         <i class="fas fa-circle"></i> <span id="statusText">bot offline</span>
       </span>
     </div>
-    <p class="text-sm text-[#8696a0] mb-4 font-medium">
+    <p class="text-sm mb-4 font-medium" style="color:var(--muted)">
       Activate your AI business assistant — ready to engage, qualify and convert.
     </p>
 
@@ -359,10 +315,10 @@
         <span class="step-line"></span>
         <span class="step-dot" id="stepDot2">2</span>
       </div>
-      <h2><i class="fab fa-whatsapp mr-1.5" style="color:#25D366;"></i> Request your security code</h2>
+      <h2><i class="fab fa-whatsapp mr-1.5"></i> Request your security code</h2>
       <p>Tap the button below. It will open WhatsApp with a pre-filled message to request your bot security code.</p>
       <div class="phone-highlight">
-        <i class="fab fa-whatsapp mr-1" style="color:#25D366;"></i> 068 912 4033
+        <i class="fab fa-whatsapp mr-1"></i> 068 912 4033
       </div>
       <div>
         <button id="requestCodeBtn" class="wa-btn">
@@ -378,7 +334,7 @@
         <span class="step-line"></span>
         <span class="step-dot active" id="stepDot2Active">2</span>
       </div>
-      <h2><i class="fas fa-key mr-1.5" style="color:#25d366;"></i> Enter your security code</h2>
+      <h2><i class="fas fa-key mr-1.5"></i> Enter your security code</h2>
       <p>Check WhatsApp for the security code we sent you. Enter it below to activate your bot.</p>
 
       <form id="activateForm" autocomplete="off">
@@ -411,17 +367,17 @@
       <h2>Bot activated!</h2>
       <p>Your business bot is now live and ready to engage, qualify and convert. You can close this page.</p>
       <div class="phone-highlight">
-        <i class="fab fa-whatsapp mr-1" style="color:#25D366;"></i> 068 912 4033
+        <i class="fab fa-whatsapp mr-1"></i> 068 912 4033
       </div>
     </div>
 
     <!-- CORE CAPABILITIES GRID -->
     <div class="mt-8" id="capabilitiesSection">
       <div class="flex items-center justify-between mb-2">
-        <h2 class="text-base font-bold text-[#e9edef]">
-          <i class="fas fa-cube mr-1.5 text-[#25d366]"></i> Core capabilities
+        <h2 class="text-base font-bold">
+          <i class="fas fa-cube mr-1.5"></i> Core capabilities
         </h2>
-        <span class="text-[0.65rem] font-medium text-[#8696a0] bg-[#1a262d] border border-[#2a3942] px-2 py-0.5 rounded-full">tap to explore</span>
+        <span class="tap-pill">tap to explore</span>
       </div>
 
       <div class="cap-grid" id="capabilityGrid">
@@ -452,7 +408,7 @@
           <span class="cap-meta">bookings & demos</span>
         </button>
         <button class="cap-btn" data-capability="handoff" aria-label="Human handoff with context">
-          <span class="cap-icon"><i class="fas fa-user-headset"></i></span>
+          <span class="cap-icon"><i class="fas fa-headset"></i></span>
           <span class="cap-label">Human handoff</span>
           <span class="cap-meta">full context</span>
         </button>
@@ -509,7 +465,7 @@
     </div>
   </main>
 
-  <div class="text-center text-[0.68rem] text-[#8696a0] mt-4 tracking-wide">
+  <div class="text-center text-[0.72rem] mt-5 tracking-wide" style="color:var(--muted)">
     <i class="fas fa-robot mr-1"></i> 1biz.online · business bot activation
   </div>
 
@@ -576,7 +532,7 @@
         if (!codeRequested) {
           codeRequested = true;
 
-          // Show step 2, hide step 1 highlight
+          // Show step 2
           step2Section.classList.remove('hidden');
 
           // Update step dots
@@ -584,11 +540,10 @@
           document.getElementById('stepDot1').classList.add('done');
           document.getElementById('stepDot1').textContent = '✓';
           document.getElementById('stepDot2').classList.add('active');
-          document.getElementById('stepDot2').classList.remove('hidden');
 
           // Update main message
           mainMessage.innerHTML =
-            '<i class="fas fa-check-circle" style="color:#25d366;"></i> <strong>Step 1 complete.</strong> Check WhatsApp for your security code, then enter it in step 2 below to activate your bot.';
+            '<i class="fas fa-check-circle"></i> <strong>Step 1 complete.</strong> Check WhatsApp for your security code, then enter it in step 2 below to activate your bot.';
 
           // Scroll step 2 into view
           setTimeout(() => {
@@ -598,7 +553,7 @@
         } else {
           // If already requested, just remind them
           mainMessage.innerHTML =
-            '<i class="fas fa-info-circle" style="color:#25d366;"></i> <strong>Code already requested.</strong> Check WhatsApp (068 912 4033) for your security code, then enter it below.';
+            '<i class="fas fa-info-circle"></i> <strong>Code already requested.</strong> Check WhatsApp (068 912 4033) for your security code, then enter it below.';
         }
       });
 
@@ -609,8 +564,8 @@
 
         // Validate exactly 6 digits
         if (!/^\d{6}$/.test(code)) {
-          securityCodeInput.style.borderColor = '#f15c6d';
-          securityCodeInput.style.boxShadow = '0 0 0 4px rgba(241, 92, 109, 0.2)';
+          securityCodeInput.style.borderColor = '#dc341e';
+          securityCodeInput.style.boxShadow = '4px 4px 0 #dc341e';
           securityCodeInput.focus();
           return;
         }
@@ -641,7 +596,7 @@
 
           // Update main message
           mainMessage.innerHTML =
-            '<i class="fas fa-check-circle" style="color:#25d366;"></i> <strong>Success!</strong> Your bot is now activated and ready to engage customers.';
+            '<i class="fas fa-check-circle"></i> <strong>Success!</strong> Your bot is now activated and ready to engage customers.';
 
           // Scroll banner into view
           setTimeout(() => {
@@ -729,7 +684,7 @@
           </ul>`
         },
         'handoff': {
-          icon: 'fa-user-headset',
+          icon: 'fa-headset',
           title: 'Human handoff / escalation',
           sub: 'Escalate complex issues to human agents with full conversation context.',
           detail: `<ul>
@@ -842,6 +797,7 @@
 
         modalOverlay.classList.add('active');
         document.body.style.overflow = 'hidden';
+        modalCloseBtn.focus();
       }
 
       function closeCapabilityModal() {
@@ -867,14 +823,6 @@
           closeCapabilityModal();
         }
       });
-
-      // Add spin animation (reuse from previous version)
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .spin { animation: spin 1s linear infinite; }
-      `;
-      document.head.appendChild(style);
     })();
   </script>
 </body>
