@@ -42,10 +42,10 @@ h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-s
 .reg p{color:var(--muted);font-size:.85rem;margin:.25rem 0 .7rem}
 .reg .btn{width:100%}
 footer{text-align:center;font-size:11px;color:var(--muted);flex:none;padding:.15rem 0 .35rem}
-nav{flex:none;display:flex;border-top:1px solid var(--line);background:var(--bar);backdrop-filter:blur(8px)}
-nav a,nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:.45rem 0;font:600 11px Archivo,system-ui,sans-serif;color:var(--muted);text-decoration:none;background:none;border:0;cursor:pointer}
+nav{flex:none;display:flex;border-top:3px solid #c98a00;background:conic-gradient(rgba(255,255,255,.28) 25%,transparent 0 50%,rgba(255,255,255,.28) 0 75%,transparent 0) 0 0/8px 8px,linear-gradient(180deg,#ffe27a,#ffb200 55%,#f59a00);image-rendering:pixelated}
+nav a,nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:.45rem 0;font:600 11px Archivo,system-ui,sans-serif;color:#3a2a00;text-decoration:none;background:none;border:0;cursor:pointer}
 nav svg{width:24px;height:24px}
-nav .on{color:var(--navy)}
+nav .on{color:#0c1a2b;font-weight:800}
 .login{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:.35rem;padding:.45rem 1rem;border-radius:999px;background:var(--sun);color:#0c1a2b;font:700 .9rem Archivo,system-ui,sans-serif;text-decoration:none;box-shadow:0 3px 8px rgba(12,26,43,.2)}
 .login:active{transform:scale(.96)}
 :focus-visible{outline:3px solid var(--sun);outline-offset:2px}
@@ -123,7 +123,9 @@ details p{margin:.5rem 0 0 2.65rem;color:var(--muted)}
       <i aria-hidden="true">i</i>
     </button>
 
-    
+    <section class="reg" aria-label="Register your business">
+      <a class="btn" href="https://wa.me/27689124033?text=Hi%2C%20I%27d%20like%20to%20register%20my%20business%20on%20the%20South%20Africa%20Business%20Hub.%20Please%20get%20me%20started%20now." target="_blank" rel="noopener">Register</a>
+    </section>
   </main>
 
   <footer>© 2026 South Africa Business Hub. All rights reserved.</footer>
